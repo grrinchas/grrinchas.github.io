@@ -4,7 +4,7 @@ title: Learning Journal
 category: Portfolio
 comments: true
 tags:
-    - Web Development
+    - web-development
 quote:
     quote: Associate with people who are likely to improve you.
     author: Seneca
@@ -20,20 +20,7 @@ Simple blog type website created from scratch using only <abbr title="Hyper Text
 2. [Contact form](http://grrinchas.github.io/learning-journal/contact_me.html) - for entering contact information.
 3. [A guide page](http://grrinchas.github.io/learning-journal/guide.html) - shows most popular hotels and restaurants in Eastbourne.
 
-
-##Task
-
-To build a static blog type website.
-
-##Requirements
-
-- Has to have three pages(main, contact and guide).
-- Only use <abbr title="Cascade Style Sheet">CSS3</abbr> and <abbr title="Hyper Text Markup Language">HTML5</abbr>.
-- Document all the progress.
-- Do not use any pre made template (Wordpress etc.).
-- Do not use any JavaScript.
-
-##Reflection
+## Reflection
 
 It is impossible to create a website if you know nothing about what a `tag` or an `attribute` are. The
 best introductory book which I found was <a rel="nofollow" href="http://www.amazon.co.uk/gp/product/1118008189/ref=as_li_tl?ie=UTF8&camp=1634&creative=6738&creativeASIN=1118008189&linkCode=as2&tag=dennisgrinch-21">HTML & CSS: Design and Build Web Sites</a>. I really encourage to read this one to everyone who
@@ -53,6 +40,4 @@ Later on I finished project with a [guide page](http://grrinchas.github.io/learn
 ![Learning Journal Guide Page]({{ site.baseurl }}/resources/images/learning-journal-guide.jpg)
 
 
-##Conclusion
-
-In the end I accomplished a task by 100%. Fully working project can be found via [Learning Journal](http://grrinchas.github.io/learning-journal/).
+Fully working project can be found via [Learning Journal](http://grrinchas.github.io/learning-journal/).

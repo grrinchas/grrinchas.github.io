@@ -4,8 +4,8 @@ title: Squash
 category: Portfolio
 comments: true
 tags:
-    - Java
-    - ECS
+    - java
+    - ecs
 quote:
     quote: There is no mistakes or failures, only lessons.
     author: Denis Waitley
@@ -19,19 +19,7 @@ Component System pattern. This was a coursework for programming module and my fi
 the source code can be found on [GitHub](https://github.com/grrinchas/squash). Just `clone` or `fork` to get a copy, then build and run
 with [gradle](http://gradle.org/).
 
-
-##Task
-
-Very simple - make breakout clone in Java. Everything else was left for my own interpretation.
-
-##Requirements
-
-- Destroy brick when it is hit by ball
-- Bounce ball from bat
-- Bat can not move out of the screen
-- Bricks may have resistance
-
-##Reflection
+## Reflection
 
 When I started this project I knew only basic things (java syntax, conditional statements, loops, methods and inheritance). But I had to start
 somewhere and came across with <a rel="nofollow" href="http://www.amazon.co.uk/gp/product/1484204166/ref=as_li_tl?ie=UTF8&camp=1634&creative=6738&creativeASIN=1484204166&linkCode=as2&tag=dennisgrinch-21">Beginning Java 8 Games Development</a> book. Which gave me pretty good insight to JavaFX. How to setup game loop, timers, asset management etc.
@@ -43,7 +31,7 @@ I redesigned the project from ground up mostly by decreasing coupling and ended 
 After redesigning again, and by redesigning I mean copying all the project files to new folder, then modifying them, I realized that this is too laborious and
 has to be better solution to control all the versions. And this is where I realized importance of [Git](https://en.wikipedia.org/wiki/Entity_component_system) and [GitHub](https://github.com). Of course to learn about it, had to read [Pro Git](https://git-scm.com/book/en/v2) book which was free.
 
-##Conclusion
+### Installation
 
-In the end I had fully working and extensible breakout clone with just one lv. To download source code go to [GitHub](https://github.com/grrinchas/squash)
+To download source code go to [GitHub](https://github.com/grrinchas/squash)
 or run `git clone https://github.com/grrinchas/squash` from your favorite command line tool.
