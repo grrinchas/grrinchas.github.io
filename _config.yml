@@ -4,30 +4,30 @@
 ##########################################
 
 # Set this for Copyright in the footer
-owner: Name Surname
+owner: Dennis Grinch
 
 # Optional quote in the footer
 # To disable set enable to false
 quote:
   enable: true
-  quote: Some fancy quote
-  author: John Doe
+  quote: A problem is nothing more than a wrong perspective.
+  author: Dennis Grinch
 
 # Set this to your main site title. If page doesn't have its own title,
 # then this title will be used.
-title: Aliquam Theme
+title: Dennis Grinch Blog - Programming tutorials for beginners
 
 
 # Following needed for disqus integration
 # Set your 'disqus' account name
-disqus:
+disqus: grrinchas
 
 # Uncomment if deployed locally
 #url: https://localhost:4000
 
 # Set your host if deployed not locally
 # For example "https://yourGitHub.github.io"
-url:
+url: https://grrinchas.github.io
 
 # Change this to your base URL starting with forward slash if site is in gh-pages branch
 # For example /branchName
@@ -35,10 +35,10 @@ url:
 baseurl:
 
 # Change this to your google analytics ID
-google_analytics:
+google_analytics: UA-78379987-1
 
 # Contact form pupublic key
-contact_PK:
+contact_PK: ef1dcbc3b8a3c2deda24a2efe9a5f65f
 
 ##########################################
 #          Optional variables
