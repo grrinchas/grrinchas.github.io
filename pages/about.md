@@ -4,7 +4,8 @@ title: About
 description: More information about me and this website.
 ---
 
-I am ...
+
+Hey, my name is Dennis Grinch. I am CS student at University of Brighton. 
 
 ## Contact form
 
