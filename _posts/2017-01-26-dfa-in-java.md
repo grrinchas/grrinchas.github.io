@@ -68,8 +68,8 @@ sequence of states $$r_0, r_1,\dots , r_n$$ in $$Q$$ exists with three condition
 
 1. $$r_0 = q_0$$,
 2. $$δ(r_i, w_{i+1}) = r_{i+1}$$, for $$i = 0,\dots , n − 1$$, and
-3. $$r_n ∈ F$$
-$$\;$$
+3. $$r_n ∈ F$$ $$\;$$
+
 </div>
 {::options parse_block_html="false" /}
 
@@ -118,8 +118,8 @@ A **deterministic finite automata** $$M$$ is a 5-tuple $$(Q, Σ, δ, q_0, F )$$,
 2. $$Σ$$ is a finite set called the **alphabet**,
 3. $$δ : Q × Σ → Q$$ is the **transition function**,
 4. $$q_0 ∈ Q$$ is the **start state**, and
-5. $$F ⊆ Q$$ is the set of **accept states**.
-$$\;$$
+5. $$F ⊆ Q$$ is the set of **accept states**. 
+
 </div>
 {::options parse_block_html="false" /}
 
