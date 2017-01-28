@@ -50,6 +50,8 @@ paginate: 5
 # Set permalink
 permalink: /:categories/:title
 
+math: true
+
 ##########################################
 #          Do not change these variables
 ##########################################
