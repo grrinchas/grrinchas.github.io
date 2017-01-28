@@ -21,8 +21,17 @@ code let's refresh our knowledge about them.
 State diagrams are very nice way of defining and visually representing finite automatas. Unfortunately, these diagrams
 tend to be very messy if DFA's have many states. Nevertheless, for simple ones is a perfect choice. For example, 
 
+{::options parse_block_html="true" /}
+
+<figure>
 <a name="figure 1"></a>
 ![Automata](/resources/images/automata.svg)
+<figcaption>
+**Figure 1:** Shows state diagram of DFA which recognises language of smiley and sad faces.
+</figcaption>
+</figure>
+
+{::options parse_block_html="false" /}
 
 
 Circles represents states, while arrows - transitions from one state to another. Transitions are based on input symbols near arrow.
@@ -47,7 +56,7 @@ called **dead** state ($$q_4$$).
 
 {::options parse_block_html="true" /}
 
-<div class="info alert"> 
+<div class="success alert"> 
 **NOTE:** While it is not necessary, I color coded states in the state diagram. Thus, orange stands for start, green - accept and
 red for dead states.
 </div>
@@ -76,7 +85,17 @@ sequence of states $$r_0, r_1,\dots , r_n$$ in $$Q$$ exists with three condition
 
 {::options parse_block_html="false" /}
 
-Please see [Definition 1.3](#definition 1.3) for definition of $$M = (Q, Σ, δ, q_0, F)$$. Condition 1 says that automata starts at start state. Condition 2 says that it goes from one state to another according
+
+{::options parse_block_html="true" /}
+
+<div class="success alert">
+**NOTE:** For the meaning of $$M = (Q, Σ, δ, q_0, F)$$ please see [Definition 1.3](#definition 1.3). 
+</div>
+
+{::options parse_block_html="false" /}
+
+
+Condition 1 says that automata starts at start state. Condition 2 says that it goes from one state to another according
 transition function. Condition 3 says that machine accepts its input if it ends up in accept state.
 We say that $$M$$ **recognizes** language $$A$$ if $$M$$ accepts all the strings in the language. In addition, 
 
@@ -172,9 +191,9 @@ $$q_2$$ state in left column, then `)` in the top row, and check which state is 
 ## DFA implementation in JAVA
 
 Given all the information about DFA, it should not be hard to implement it. From the formal definition we see, that our automata 
-has 4 states: $$q_0$$, $$q_1$$, $$q_2$$, $$q_3$$, $$q_4$$, which are known in advance. Thus, we can create `enum States` 
+has 4 states: $$q_0$$, $$q_1$$, $$q_2$$, $$q_3$$, $$q_4$$, which are known in advance. Thus, we can create `private enum States {...}` 
 to represent them. Nice thing about JAVA enum, is that you can define methods and instance variables in them. For example, 
-to differentiate accept and non accept states, we can introduce instance variable `boolean accept` for each state. 
+to differentiate accept and non accept states, we can introduce instance variable `final boolean accept;` for each state. 
 
 <div class="env-header">DFA states</div>
 {% highlight java linenos%}
@@ -198,14 +217,14 @@ Just like that, we defined automata's states $$Q$$ and a subset of accepting sta
 transition table. Probably your first thought is "We can use two dimensional array or a map or a hashtable". All these 
 solutions are good, and they would work. Unfortunately they are not very object oriented. Think of a state as being 
 an object, to which you can send some messages for enquiry or making them to do something for you. For example, we can 
-ask it, if it is an accept state or not? By introducing a method `boolean isAccept()` which would return it's
-instance variable `boolean accept`. But in our case, it is not necessary, because `enum States` will be a private class 
-inside `class DFA` and it can access any variable from `States` directly. 
+ask it, if it is an accept state or not? By introducing a method `boolean isAccept() {...}` which would return it's
+instance variable `accept`. But in our case, it is not necessary, because `private enum States {...}` will be a member of
+`public class DFA {...}`, thus all its variables will be accessible.
 
 
 Similarly, given a character from the alphabet, we can ask a state to transit to another. So, instead of writing 
-transition table and then passing it to some kind of function, we will define method `State transition(char ch)` inside 
-`enum State` to get next state. For that we will have to introduce additional instance variables in the enum.
+transition table and then passing it to some kind of function, we will define method `States transition(char ch) {...}` inside 
+`private enum States {...}` to get next state. For that we will have to introduce additional instance variables in the enum.
 Each variable will contain a reference to the state. I think, to show is much easier than to explain.
 
 
@@ -249,11 +268,11 @@ private enum States {
 {% endhighlight %}
 
 First few lines are nothing new. On the Line 5, like I said, we are introducing some instance variables. There are four 
-symbols in the alphabet, thus each state will have four transitions. For example `States eyes` represents a state, to which
+symbols in the alphabet, thus each state will have four transitions. For example `States eyes;` represents a state, to which
 current state would transit if input symbol would be `:`.
  
-Given these extra variables, we need to assign values to them. We do this in `static` block. You may ask "Why can't we pass 
-values as arguments to the constructor, like we did for `accept` variable". For two reasons: 
+Given these extra variables, we need to assign values to them. We do this in `static {...}` block. You may ask "Why can't we pass 
+values as arguments to the constructor, like we did for `final boolean accept;` variable. For two reasons: 
 
 1. **Forward referencing**. When we are trying to assign a state to the variable, some of the states are not have been 
 initialised. For example, to assign
@@ -261,20 +280,25 @@ initialised. For example, to assign
 2. **Circular referencing**. It is similar to forward referencing. We are trying to pass non existing state to the constructor.
  The difference is, that constructor belongs to the state itself. For example, passing `Q4` to `Q4` constructor.
 
-On the other hand, in `static` block all the states are initialised and available to use. For convenience, I arranged assignments of variables, so that 
-they would resemble transition table. Also, lets not forget about `transition` method which checks what kind of 
-character is passed, and based on that returns next state. We could have transition function in `DFA` class, it would
+On the other hand, in `static {...}` block all the states are initialised and available to use. For convenience, I arranged assignments of variables, so that 
+they would resemble transition table. Also, lets not forget about `States transition(char ch) {...}` method which checks what kind of 
+character is passed, and based on that returns next state. We could have transition function in `public class DFA {...}` class, it would
 make no difference.
 
-<div class="note alert"> <strong>IMPORTANT:</strong>
-Contrary to formal definition of DFA, in my implementation, transition function is not total, but partial. Because it maps
+{::options parse_block_html="true" /}
+
+<div class="note alert"> 
+**IMPORTANT:** Contrary to formal definition of DFA, in my implementation, transition function is not total, but partial. Because it maps
 only four characters from the alphabet (Unidocde). If input character is not one of the four, then exception is
-thrown. In theory, it should not happen. To fix that, I could create <code>enum Alphabet</code> with four characters and change
-transition signature to <code>States transition(Alphabet symbol)</code>. This way would be impossible to pass non
-existing characters of the alphabet.
+thrown. In theory, it should not happen. To fix that, I could create `private enum Alphabet {...}` with four members
+representing four charachters and change
+transition signature to `States transition(Alphabet symbol) {...}`. This way would be impossible to pass non
+existing characters of the alphabet to transition method.
 </div>
 
-The only thing what is left is to create `class DFA` with the method `boolean accept(String string)` which checks
+{::options parse_block_html="false" /}
+
+The only thing what is left is to create `public class DFA {...}` with the method `public boolean accept(String string) {...}` which checks
 if a string belongs to the language.
 
 <div class="env-header">DFA accept</div>
