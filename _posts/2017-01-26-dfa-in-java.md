@@ -65,6 +65,7 @@ and a sequence - **string**. But what does it mean, when we say "accepting"?
 Let $$M = (Q, Σ, δ, q_0, F)$$ be a finite automata and let $$w = w_1w_2\dots w_n$$ be
 a string where each $$w_i$$ is a member of the alphabet $$Σ$$. Then $$M$$ **accepts** $$w$$ if a
 sequence of states $$r_0, r_1,\dots , r_n$$ in $$Q$$ exists with three conditions:
+
 1. $$r_0 = q_0$$,
 2. $$δ(r_i, w_{i+1}) = r_{i+1}$$, for $$i = 0,\dots , n − 1$$, and
 3. $$r_n ∈ F$$
