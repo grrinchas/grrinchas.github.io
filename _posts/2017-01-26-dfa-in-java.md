@@ -60,7 +60,9 @@ The main job of automata is to recognise a language by accepting or rejecting se
 and a sequence - **string**. But what does it mean, when we say "accepting"?
 
 <div class="env-header">Definition 1.0<a name="definition 1.0"></a> </div>
+
 {::options parse_block_html="true" /}
+
 <div class="definition alert">
 Let $$M = (Q, Σ, δ, q_0, F)$$ be a finite automata and let $$w = w_1w_2\dots w_n$$ be
 a string where each $$w_i$$ is a member of the alphabet $$Σ$$. Then $$M$$ **accepts** $$w$$ if a
@@ -68,9 +70,10 @@ sequence of states $$r_0, r_1,\dots , r_n$$ in $$Q$$ exists with three condition
 
 1. $$r_0 = q_0$$,
 2. $$δ(r_i, w_{i+1}) = r_{i+1}$$, for $$i = 0,\dots , n − 1$$, and
-3. $$r_n ∈ F$$ $$\;$$
+3. $$r_n ∈ F$$.
 
 </div>
+
 {::options parse_block_html="false" /}
 
 Please see [Definition 1.3](#definition 1.3) for definition of $$M = (Q, Σ, δ, q_0, F)$$. Condition 1 says that automata starts at start state. Condition 2 says that it goes from one state to another according
@@ -121,6 +124,7 @@ A **deterministic finite automata** $$M$$ is a 5-tuple $$(Q, Σ, δ, q_0, F )$$,
 5. $$F ⊆ Q$$ is the set of **accept states**. 
 
 </div>
+
 {::options parse_block_html="false" /}
 
 
