@@ -9,16 +9,21 @@ tags:
 quote:
     quote: There is no mistakes or failures, only lessons.
     author: Denis Waitley
-description: DFA (Deterministic Finite Automata) implementation using JAVA.
+description: DFA (Deterministic Finite Automaton) implementation using JAVA.
 ---
 
-**DFA (Deterministic Finite Automata)** sometimes called **DFSM (Deterministic Finite State Machine)** is a a finite state 
+**DFA (Deterministic Finite Automaton)** sometimes called **DFSM (Deterministic Finite State Machine)** is a a finite state 
 machine which given sequence of symbols accepts them or not. 
 
+{::options parse_block_html="true" /}
+<div class="success alert"> 
+**NOTE:** The difference betwen **automaton** (singular) and **automata** (plurar) terms.
+</div>
+{::options parse_block_html="false" /}
 
 ## Why DFA?
 
-<a name="task 1"></a>Lets, say you are given a task to write a program which accepts strings with following conditions: 
+<a name="task-1"></a>Lets, say you are given a task to write a program which accepts strings with following conditions: 
 
 1. It must contain only `:`, `)`, `(`, and `_` characters.
 2. `:` has to be followed by `)` or `(`.
@@ -27,7 +32,7 @@ machine which given sequence of symbols accepts them or not.
 5. Each string can start or end with zero or more `_` characters.
 
 Of course, this task can be easily accomplished using regular expressions. But for the sake of argument, let's say we 
-can't use them. In fact, behind the scenes, all regular expressions are transformed into automata anyway. 
+can't use them. In fact, behind the scenes, all regular expressions are transformed into automaton anyway. 
 
 One way to accomplish this task is to create method with a `for` loop and deeply nested `if` statements in it. Loop
 will go through each character and checks if it is acceptable, based on previous characters. The problem is that, there
@@ -51,20 +56,27 @@ While we could create DFA using the reasoning presented earlier. There are some 
 "can it have more than one start state? and so on. All these questions can be answered by looking at the definition of 
 DFA.
 
-<div class="env-header">Definition 1.0 <a name="definition 1.0"></a> </div>
+
+{% for def in site.definitions %}
+{% if def.number == 1.0 %}
+
 {::options parse_block_html="true" /}
-<div class="definition alert">
-A **deterministic finite automata** $$M$$ is a 5-tuple $$(Q, Σ, δ, q_0, F)$$, where
-
-1. $$Q$$ is a finite set called the **states**,
-2. $$Σ$$ is a finite set called the **alphabet**,
-3. $$δ : Q × Σ → Q$$ is the **transition function**,
-4. $$q_0 ∈ Q$$ is the **start state**, and
-5. $$F ⊆ Q$$ is the set of **accept states**. 
-
+<a name="definition-{{ def.number }}"></a> 
+{: .bottomless }
+<div class="env-header">
+Definition {{ def.number }}
 </div>
-
+<div class="definition alert">
+{{ def.content }}
+</div>
 {::options parse_block_html="false" /}
+
+{% endif %}
+{% endfor %}
+
+
+
+
 
 The first thing what we should notice is that DFA is defined as 5-tuple. Meaning that it has five elements and order
 of the elements matter, thus $$(Q, Σ, δ, q_0, F) \neq (Σ, Q, δ, q_0, F)$$. First element $$Q$$ represents all the states 
@@ -73,7 +85,7 @@ which DFA has. In general, when we are talking about finite state machine, term 
 Second element is an alphabet $$Σ$$ (read as "sigma"). It represents all the symbols which are allowed to go into machine. 
 For example, if $$Σ = \{0, 1, 2\}$$, then only characters $$1$$, $$2$$, and $$3$$ are allowed. But what if we have more 
 symbols? In that case we have to modify DFA to support them. Remember that we are dealing with **deterministic** finite
-automata, meaning that it's next state is determined by input symbol, thus unrecognised symbols are not allowed. 
+automaton, meaning that it's next state is determined by input symbol, thus unrecognised symbols are not allowed. 
 Also, in alphabet symbols do not need to be one letter characters. For example, $$Σ = \{health, stamina, shield\}$$ 
 is perfectly valid alphabet for game AI.
 
@@ -96,58 +108,57 @@ that DFA can have zero accept states.
 ## State Diagram
 
 While formal definition is a nice way of defining DFA, it does not help us to visualise it.
-On the other hand, state diagrams can be used to define and to visually representing finite automatas. 
+On the other hand, state diagrams can be used to define and to visually representing finite automaton. 
 The only downside of them, is that state diagrams tend to be very messy if DFA's have many states. 
 Nevertheless, for simple ones is a perfect choice.
 
+{% for def in site.definitions %}
+{% if def.number == 1.1 %}
 
-<div class="env-header">Definition 1.1<a name="definition 1.1"></a> </div>
 {::options parse_block_html="true" /}
-<div class="definition alert">
-A **state diagram** for DFA $$M = (Q, Σ, δ, q_0, F)$$ is graph defined as follows:
-
-* For each state $$q$$ in $$Q$$ there is a node.
-* For each state $$q$$ in $$Q$$ and each input symbol $$a$$ in Σ, let $$δ(q,a) = p$$. Then the state diagram has an arc
-(arrow) from node $$q$$ to node $$p$$, labeled $$a$$. If there are several input symbols that cause transitions from 
-$$q$$ to $$p$$, then the state diagram can have one arc, labeled by the list of these symbols.
-* There is an arrow into the start state $$q_0$$ which does not originate at any node.
-* Nodes corresponding to accepting states (those in $$F$$) are marked by double circle. States not in $$F$$ have a 
-single circle.
-
+<a name="definition-{{ def.number }}"></a> 
+{: .bottomless }
+<div class="env-header">
+Definition {{ def.number }}
 </div>
-
+<div class="definition alert">
+{{ def.content }}
+</div>
 {::options parse_block_html="false" /}
 
-For example, lets draw a state diagram for [Task 1](#task 1).
+{% endif %}
+{% endfor %}
+
+For example, lets draw a state diagram for [Task 1](#task-1).
+
+
 
 {::options parse_block_html="true" /}
-
 <figure>
-<a name="figure 1"></a>
-![Automata](/resources/images/automata.svg)
+<a name="figure-1"></a>
+![Automaton](/resources/images/automata.svg)
 <figcaption>
 **Figure 1:** Shows state diagram of DFA which recognises language of smiley and sad faces.
 </figcaption>
 </figure>
-
 {::options parse_block_html="false" /}
 
+
+
 We can see that nodes represents states, while arcs - transitions from one state to another. Transitions are based on 
-current state and input symbol. For example, if automata's current state is $$q_0$$ and the input symbol is `:`, 
+current state and input symbol. For example, if automaton's current state is $$q_0$$ and the input symbol is `:`, 
 then it goes to $$q_1$$. If the input symbol is `_`, then it transitions to its current state ($$q_0$$). Notice that one 
-arrow pointing to $$q_0$$ does not originate from any node, thus by of [Definition 1.1](#definition 1.1) $$q_0$$ is a start state.
+arrow pointing to $$q_0$$ does not originate from any node, thus by of [Definition 1.1](#definition-1.1) $$q_0$$ is a start state.
 And nodes with double circle $$q_2$$ and $$q_3$$ represent accept states. One special type of non accepting states are those which has
 only arrows pointing to it but has no arrows pointing to other states. Thus, if any transition
 leads to that kind of state, then it is dead end because it is impossible to reach an accepting state, 
 these states are called **dead states**. For example, $$q_4$$.
 
 {::options parse_block_html="true" /}
-
 <div class="success alert"> 
 **NOTE:** While it is not necessary, I color coded states in the state diagram. Thus, orange stands for start, green - accept and
 red for dead states.
 </div>
-
 {::options parse_block_html="false" /}
 
 
@@ -162,27 +173,26 @@ from the alphabet $$Σ$$ but a string consisting of symbols from the alphabet $$
 given a string, $$δ^*$$ will return a state, which we would get after following sequence of state transitions. Maybe
 formal definition will be more understandable.
 
-<div class="env-header">Definition 1.2<a name="definition 1.2"></a> </div>
+
+
+{% for def in site.definitions %}
+{% if def.number == 1.2 %}
 
 {::options parse_block_html="true" /}
-
-<div class="definition alert">
-Let $$M = (Q, Σ, δ, q_0, F)$$ be a deterministic finite automata. We define the **extended
-transition function**
-{: style="padding-bottom: 0"}
-
-$$ δ^* : Q × Σ^* → Q $$
-                    
-as follows:
-
-1. For every $$q ∈ Q$$, $$δ^∗(q, ε) = q$$
-2. For every $$q ∈ Q$$, every $$y ∈ Σ^*$$, and every $$a ∈ Σ$$, 
-
-$$δ^∗(q, ya ) = δ(δ^∗(q, y), a )$$
-
+<a name="definition-{{ def.number }}"></a> 
+{: .bottomless }
+<div class="env-header">
+Definition {{ def.number }}
 </div>
-
+<div class="definition alert">
+{{ def.content }}
+</div>
 {::options parse_block_html="false" /}
+
+{% endif %}
+{% endfor %}
+
+
 
 Or maybe not :). The problem is that, $$δ^*$$ is defined recursively. We have a base case (**1.**) and then we define it
 recursively (**2.**). Anyway, if you look more closely, then you would see a main difference between 
@@ -193,7 +203,7 @@ function's domain $$Q × Σ^*$$ is a cartesian product of set of states $$Q$$ an
 
 If $$Σ = \{aa, b\}$$, then $$Σ^* = \{ε, aa, b, aab, baa, aaaa, bb, aaaab, \dots \}$$
 
-You may ask "why do wee need it"? Remember when I said, that automata accepts strings where each symbol is in alphabet $$Σ$$. 
+You may ask "why do wee need it"? Remember when I said, that automaton accepts strings where each symbol is in alphabet $$Σ$$. 
 So Kleene closure is a nice way of representing all those strings. 
 
 After defining $$δ^∗$$ signature, we need to define how it functions. We start with the base case, which says that 
@@ -217,8 +227,8 @@ following state diagram,
 {::options parse_block_html="true" /}
 
 <figure>
-<a name="figure 1"></a>
-![Automata](/resources/images/automata_2.svg)
+<a name="figure-2"></a>
+![Automaton](/resources/images/automata_2.svg)
 </figure>
 
 {::options parse_block_html="false" /}
@@ -237,74 +247,110 @@ $$
 \end{align}
 $$
 
-which is correct.
 
 ## Regular languages
 
-The main job of automata is to recognise a language by accepting or rejecting sequence of symbols, lets call them **characters**, 
-and a sequence - **string**. But what does it mean, when we say "accepting"?
+Using [Definition 1.2](#definition-1.2) of extended transition function $$δ^∗$$ we can precisely define what it means for
+DFA to **accept** or to **reject** a string.
 
-<div class="env-header">Definition 1.0<a name="definition 1.0"></a> </div>
+{% for def in site.definitions %}
+{% if def.number == 1.3 %}
 
 {::options parse_block_html="true" /}
-
-<div class="definition alert">
-Let $$M = (Q, Σ, δ, q_0, F)$$ be a finite automata and let $$w = w_1w_2\dots w_n$$ be
-a string where each $$w_i$$ is a member of the alphabet $$Σ$$. Then $$M$$ **accepts** $$w$$ if a
-sequence of states $$r_0, r_1,\dots , r_n$$ in $$Q$$ exists with three conditions:
-
-1. $$r_0 = q_0$$,
-2. $$δ(r_i, w_{i+1}) = r_{i+1}$$, for $$i = 0,\dots , n − 1$$, and
-3. $$r_n ∈ F$$.
-
+<a name="definition-{{ def.number }}"></a> 
+{: .bottomless }
+<div class="env-header">
+Definition {{ def.number }}
 </div>
-
+<div class="definition alert">
+{{ def.content }}
+</div>
 {::options parse_block_html="false" /}
 
+{% endif %}
+{% endfor %}
+
+
+Basically string $$a$$ is accepted by automaton $$M$$ if given start state $$q_0$$ and $$a$$ extended transition function
+$$δ^*$$ returns an accept state. Which makes sense. Then we can ask ourselves "how would we call all the strings 
+which automaton accepts?" Well, we can thing of strings as words, then set of words over alphabet is a language. Thus, 
+we can say that set of the strings, which automaton accepts, is a language which automaton **recognises**. Some may say
+that automaton accepts a language, but that is ambiguous with automaton accepting a string. So, to make it clear, we will
+say that automation **accepts** a string, but **recognises** a language. More formally, 
+
+{% for def in site.definitions %}
+{% if def.number == 1.4 %}
 
 {::options parse_block_html="true" /}
+<a name="definition-{{ def.number }}"></a> 
+{: .bottomless }
+<div class="env-header">
+Definition {{ def.number }}
+</div>
+<div class="definition alert">
+{{ def.content }}
+</div>
+{::options parse_block_html="false" /}
 
+{% endif %}
+{% endfor %}
+
+Notice that is not necessary for automaton to accept all the strings over alphabet $$Σ$$ to recognise a language. 
+It can accept one, two or even zero strings. In later case $$L(M) = ∅$$. We call a language **regular** if there is 
+a finite automaton which recognises it. More formally, 
+
+
+{% for def in site.definitions %}
+{% if def.number == 1.5 %}
+
+{::options parse_block_html="true" /}
+<a name="definition-{{ def.number }}"></a> 
+{: .bottomless }
+<div class="env-header">
+Definition {{ def.number }}
+</div>
+<div class="definition alert">
+{{ def.content }}
+</div>
+{::options parse_block_html="false" /}
+
+{% endif %}
+{% endfor %}
+
+
+{::options parse_block_html="true" /}
 <div class="success alert">
-**NOTE:** For the meaning of $$M = (Q, Σ, δ, q_0, F)$$ please see [Definition 1.3](#definition 1.3). 
-</div>
-
-{::options parse_block_html="false" /}
-
-
-Condition 1 says that automata starts at start state. Condition 2 says that it goes from one state to another according
-transition function. Condition 3 says that machine accepts its input if it ends up in accept state.
-We say that $$M$$ **recognizes** language $$A$$ if $$M$$ accepts all the strings in the language. In addition, 
-
-<div class="env-header">Definition 1.1 <a name="definition 1.1"></a> </div>
-{::options parse_block_html="true" /}
-<div class="definition alert">
-A language is called a **regular language**, if some finite automata recognises it. 
+**NOTE:** In [Definition 1.5](#definition-1.5) a language is called regular when **any** finite automaton regognises it.
+ Meaning that automaton can be DFA, NFA and other types of FSM.
 </div>
 {::options parse_block_html="false" /}
 
+Like I sad before, a language $$L$$ is only a subset of Kleene's closure $$Σ^*$$. And, if all the strings in
+$$L$$ is also in a language which automaton recognises $$L(M)$$ then we say, that a language $$L$$ is regular. For example, 
+{: .bottomless }
 
-For example, [Figure 1](#figure 1) shows 
-an automata which recognises a language consisting of the strings having unlimited smiley `:)` and sad `:(` faces. Where each face 
-starts and ends by zero or more `_` characters, and each face is separated by at least one `_` character. 
+$$L_1 = \{ xaaay\;|\;x, y ∈ \{a, b\}^∗\} ⊆ \{a, b\}^*$$
+
+is a regular language.
+
+Another example of regular language is [Task 1](#task-1) and [Figure 1](#figure-1) shows an automaton which recognises it. 
 Below we can see some strings which are in the language, and some which are not, 
 
 * **Is**: `:)`, `:(`, `:(_:)`, `:)___:)__:(__`, `_________:)__`.
 * **Is not**: `____`, `::)`, `:((`, `:(:()`, `:)_):)`, `(:`.
 
-So if a string `_:)__:(` is in the language then our DFA should accept it. Let's see how it does that. Initially, DFA 
+So, if a string `_:)__:(` is in the language then our DFA should accept it. Let's see how it does that.
+
+Initially, DFA 
 is in the $$q_0$$ state, then it receives 
 `_` character, the arrow with it points to the same state $$q_0$$. Next character is `:`, which points to $$q_1$$ state, 
 then following `)` DFA goes to $$q_2$$ state. From there, we have `_` to $$q_3$$, then one more `_` from $$q_3$$ to itself.
 After that, `:` character points to $$q_1$$ and following `(` DFA ends up in $$q_2$$ state. 
-As we can see, the last state is accept state, thus automata accepts string `_:)__:(`.
+As we can see, the last state is an accept state, thus automaton from [Figure 1](#figure-1) accepts string `_:)__:(`.
 
-In similar manner we can track any string consisting of these four characters (symbols) `_`, `:`, `(`, `)` and check
-if it belongs to our language. 
+## Transition Table
 
-
-
-
-Anyway. Given DFA in [Figure 1](#figure 1) its formal definition would be:
+While we could use Given DFA in [Figure 1](#figure-1) its formal definition would be:
 
 $$M = (Q, Σ, δ, q_0, F )$$, where
 
@@ -333,13 +379,13 @@ $$M = (Q, Σ, δ, q_0, F )$$, where
 {::options parse_block_html="false" /}
 
 
-If we compare DFA's state diagram [Figure 1](#figure 1) and this definition, we see that transitions are more understandable. For example, 
+If we compare DFA's state diagram [Figure 1](#figure-1) and this definition, we see that transitions are more understandable. For example, 
 if I want to know next state from current $$q_2$$ given symbol `)`, I just need to find
 $$q_2$$ state in left column, then `)` in the top row, and check which state is at their intersection ($$q_4$$).
 
 ## DFA implementation in JAVA
 
-Given all the information about DFA, it should not be hard to implement it. From the formal definition we see, that our automata 
+Given all the information about DFA, it should not be hard to implement it. From the formal definition we see, that our automaton 
 has 4 states: $$q_0$$, $$q_1$$, $$q_2$$, $$q_3$$, $$q_4$$, which are known in advance. Thus, we can create `private enum States {...}` 
 to represent them. Nice thing about JAVA enum, is that you can define methods and instance variables in them. For example, 
 to differentiate accept and non accept states, we can introduce instance variable `final boolean accept;` for each state. 
@@ -362,7 +408,7 @@ private enum States {
 }
 {% endhighlight %}
 
-Just like that, we defined automata's states $$Q$$ and a subset of accepting states $$F$$. Now, let's think how to implement 
+Just like that, we defined automaton's states $$Q$$ and a subset of accepting states $$F$$. Now, let's think how to implement 
 transition table. Probably your first thought is "We can use two dimensional array or a map or a hashtable". All these 
 solutions are good, and they would work. Unfortunately they are not very object oriented. Think of a state as being 
 an object, to which you can send some messages for enquiry or making them to do something for you. For example, we can 
@@ -475,7 +521,7 @@ Using enums we can implement any DFA. Unfortunately they are not very flexible. 
 additional state or extra character, then we would need to modify enum itself, which violates 
 [Open/Close principle](https://en.wikipedia.org/wiki/Open/closed_principle). For that we could use
 [state pattern](https://en.wikipedia.org/wiki/State_pattern). But if you are thinking about modification of DFA, then
-probably your don't need DFA in the first place. Because by definition, DFA (Deterministic Finite Automata) is **finite**, 
+probably your don't need DFA in the first place. Because by definition, DFA (Deterministic Finite Automaton) is **finite**, 
 meaning it has finite set of states, and **deterministic** - its next state is determined by input symbol.
 
 [Download](https://gist.github.com/grrinchas/534614339f786c7528a588426f08d4ef)
