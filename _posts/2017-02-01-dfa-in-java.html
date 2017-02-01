@@ -1,0 +1,373 @@
+---
+identity: POST102
+layout: post
+title: DFA in JAVA
+category: Portfolio
+comments: true
+tags:
+    - java
+    - automata-theory
+quote:
+    quote: If one does not know to which port one is sailing, no wind is favorable.
+    author: Lucius Annaeus Seneca
+description: DFA (Deterministic Finite Automaton) implementation in JAVA
+headers:
+    - id: H0
+      name: DFA as 5-tuple
+    - id: H1
+      name: Implementing states
+    - id: H2
+      name: Implementing transitions
+    - id: H4
+      name: Implementing $$δ^*$$
+    - id: H5
+      name: Additional notes
+tables:
+    - id: TB100
+      caption: Transition table.
+code:
+    - SC100
+    - SC101
+    - SC102
+posts:
+    - POST100
+---
+
+{% for post in site.posts %}
+    {% if post.identity == page.posts[0] %}
+        {% assign POST100 = post %}
+    {% endif %}
+{% endfor %}
+
+{%  capture LINK_TASK_1 %}
+<a href="#task-1">Task 1</a>
+{% endcapture %}
+
+{%  capture POST100_LINK_IMG100 %}
+<a href="{{ POST100.url }}#{{ POST100.images[0] }}">Image {{ POST100.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST100_LINK_DEF100 %}
+<a href="{{ POST100.url }}#{{ POST100.definitions[0] }}">Definition {{ POST100.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST100_LINK_DEF102 %}
+<a href="{{ POST100.url }}#{{ POST100.definitions[2] }}">Definition {{ POST100.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_SC100 %}
+<a href="#{{ page.code[0] }}">Source code {{ page.code[0] | remove: "SC" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_SC101 %}
+<a href="#{{ page.code[1] }}">Source code {{ page.code[1] | remove: "SC" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+<p>
+    In this tutorial I will show you how to implement any deterministic finite automaton (DFA) in JAVA.
+    Before we start, would be good thing to refresh our knowledge about them (see
+    <a href="{{ POST100.url }}">{{ POST100.title }}</a>).
+</p>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+<p>For implementation, I will use DFA given in {{ POST100_LINK_IMG100 }}.
+While state diagrams are fun to look at, they are not as useful as {{ POST100_LINK_DEF100 }}. It will be much
+    easier for us to implement DFA looking at it as 5-tuple rather using state diagram. Thus, DFA given in
+     {{ POST100_LINK_IMG100 }} is described as
+</p>
+
+<p>
+    $$M = (Q, Σ, δ, q_0, F )$$, where
+</p>
+
+<ol>
+    <li>$$Q = \{q_0, q_1, q_2, q_3, q_4\}$$,</li>
+    <li>$$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
+                class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\}$$
+    </li>
+    <li>$$q_0 = q_0$$,</li>
+    <li>$$F = \{q_2, q_3\}$$.</li>
+    <li>$$δ$$ is described as a <strong>transition table</strong></li>
+</ol>
+
+<a name="{{ page.tables[0].id }}"></a>
+<figure class="table">
+
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>$$:$$ </th>
+            <th>$$)$$ </th>
+            <th>$$($$ </th>
+            <th>$$\_$$ </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>$$q_0$$ </th>
+            <td>$$q_1$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_0$$ </td>
+        </tr>
+        <tr>
+            <th>$$q_1$$ </th>
+            <td>$$q_4$$ </td>
+            <td>$$q_2$$ </td>
+            <td>$$q_2$$ </td>
+            <td>$$q_4$$ </td>
+        </tr>
+        <tr>
+            <th>$$q_2$$ </th>
+            <td>$$q_4$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_3$$ </td>
+        </tr>
+        <tr>
+            <th>$$q_3$$ </th>
+            <td>$$q_1$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_3$$ </td>
+        </tr>
+        <tr>
+            <th>$$q_4$$ </th>
+            <td>$$q_4$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_4$$ </td>
+            <td>$$q_4$$ </td>
+        </tr>
+        </tbody>
+        <tbody></tbody>
+    </table>
+    <figcaption>
+        <strong>Table {{ page.tables[0].id | remove: "TB"  | split: "" | join: "." }}:</strong>
+        {{ page.tables[0].caption }}
+    </figcaption>
+</figure>
+
+
+<h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
+
+<p>
+Given all this information, we can start coding. We see that automaton
+has 4 states: $$q_0$$, $$q_1$$, $$q_2$$, $$q_3$$, $$q_4$$. All of them are known in advance. Thus, we can create
+<code class="d-code"> private enum States {...}</code>
+to represent them. Nice thing about JAVA enum, is that you can define methods and instance variables in them. For example,
+to differentiate accept and non accept states, we can introduce instance variable
+<code class="d-code">final boolean accept;</code>  for each state.
+</p>
+
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[0] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+private enum States {
+
+  Q0(false), Q1(false), Q2(true), Q3(true), Q4(false);
+
+  final boolean accept;
+
+  // Constructor for sate.
+  // Every state is either accepting or not.
+  States(boolean accept) {
+    this.accept = accept;
+  }
+
+//...
+}
+{% endhighlight %}
+
+Nothing fancy going on in {{ LINK_SC100 }}. Line 1 declares enum. Notice, because it will be inside of
+another class, enum has <code class="d-code">private</code> access modifier. Line 3 creates all four states and represents $$Q$$ from definition. $$F$$ is
+represented as an instance variable inside enum. We could create set consisting of all accept states as per definition. But
+remember, JAVA is object oriented, thus better treat states as objects, rather as data structures, in this case <i>sets</i>.
+Lastly, on Line 9 we are passing <code class="d-code">boolean</code> value to the constructor. Line 13 indicates that this
+class is not finished.
+
+
+<h2><a name="{{ page.headers[2].id }}"></a>{{ page.headers[2].name }}</h2>
+
+<p>
+Just like that, we defined automaton's states $$Q$$ and a subset of accepting states $$F$$. Now, let's think how to implement
+transitions. Probably your first thought is: <i>we can use two dimensional array or a map or a hashtable</i>. All these
+solutions are good, and they would work. Unfortunately they are not very object oriented. Think of a state as being
+an object, to which you can send some messages for enquiry or making them to do something for you. For example, we can
+ask it if it is an accept state or not? By introducing a method
+    <code class="d-code">boolean isAccept() {...}</code> which would return it's
+instance variable <code class="d-code">accept</code>. But in our case, it is not necessary, because
+    <code class="d-code"> private enum States {...}</code> will be a member of
+    <code class="d-code">public class DFA {...}</code>, thus all its variables will be accessible to outer class.
+</p>
+
+<p>
+Similarly, given a character from the alphabet, we can ask a state to transit to another. So, instead of writing
+    transition table and then passing it to some kind of function, we will define method
+    <code class="d-code">States transition(char ch) {...}</code> inside
+    <code class="d-code">private enum States {...}</code> to get next state. For that we will have to introduce additional instance variables in the enum.
+Each variable will contain a reference to the state. I think, to show is much easier than to explain.
+</p>
+
+
+
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[1] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+private enum States {
+
+  Q0(false), Q1(false), Q2(true), Q3(true), Q4(false);
+
+  States eyes;
+  States smile;
+  States sad;
+  States space;
+
+  static {
+    Q0.eyes = Q1; Q0.smile = Q4; Q0.sad = Q4; Q0.space = Q0;
+    Q1.eyes = Q4; Q1.smile = Q2; Q1.sad = Q2; Q1.space = Q4;
+    Q2.eyes = Q4; Q2.smile = Q4; Q2.sad = Q4; Q2.space = Q3;
+    Q3.eyes = Q1; Q3.smile = Q4; Q3.sad = Q4; Q3.space = Q3;
+    Q4.eyes = Q4; Q4.smile = Q4; Q4.sad = Q4; Q4.space = Q4;
+}
+
+  States transition(char ch) {
+    switch (ch) {
+      case ':':
+        return this.eyes;
+      case ')':
+        return this.smile;
+      case '(':
+        return this.sad;
+      case '_':
+        return this.space;
+      default:
+        throw new RuntimeException("Symbol is " +
+           "not in the alphabet");
+  }
+}
+
+//...
+}
+{% endhighlight %}
+
+<p>
+First few lines are nothing new. On the Line 5, like I said, we are introducing some instance variables. There are four
+symbols in the alphabet, thus each state will have four transitions. For example
+    <code class="d-code">States eyes;</code> represents a state, to which
+current state would transit if input symbol would be <code class="d-code">:</code>.
+ </p>
+
+<p>
+Given these extra variables, we need to assign values to them. We do this in
+    <code class="d-code">static {...}</code> block. You may ask <i>Why can't we pass
+        values as arguments to the constructor</i>, like we did for <code class="d-code">final boolean accept;</code> variable. For two reasons:
+</p>
+
+<ol>
+<li><strong>Forward referencing</strong>. When we are trying to assign a state to the variable, some of the states are not have been
+initialised. For example, to assign
+<code class="d-code">Q1</code> to <code class="d-code">eyes</code> in <code class="d-code">Q0</code>
+we need reference of <code class="d-code">Q1</code>, but it is not initialised yet, so we get an error.</li>
+<li><strong>Circular referencing</strong>. It is similar to forward referencing. We are trying to pass non existing state to the constructor.
+The difference is, that constructor belongs to the state itself. For example, passing
+<code class="d-code">Q4</code> to <code class="d-code">Q4</code> constructor.</li>
+</ol>
+
+<p>
+    On the other hand, in <code class="d-code">static {...}</code> block all the states are initialised and available to use.
+    For convenience I arranged assignments of variables, so that
+they would resemble transition table. Also, lets not forget about
+    <code class="d-code">States transition(char ch) {...}</code> method which checks what kind of
+character is passed, and based on that returns next state. We could have transition function in
+    <code class="d-code"> public class DFA {...}</code> class, it would
+make no difference.
+ </p>
+
+
+{% comment %}
+<div class="note alert">
+    <strong>IMPORTANT:</strong> At this moment you should notice one thing: transition method
+    <code class="d-code">States transition(char ch) {...}</code> breaks formal definition of
+    dfa. Because it accepts more than four symbols of our alphabet. In fact, it accepts any Unicode character.
+    Given $$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
+            class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\} \neq Unicode $$,
+
+    thrown. In theory, it should not happen. To fix that, I could create `private enum Alphabet {...}` with four members
+    representing four charachters and change
+    transition signature to `States transition(Alphabet symbol) {...}`. This way would be impossible to pass non
+    existing characters of the alphabet to transition method.
+</div>
+
+{% endcomment %}
+
+<h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
+
+<p>
+The only thing what left is to implement extended transition function $$δ^*$$ (see {{ POST100_LINK_DEF102 }}). We will
+    do this by creating
+    <code class="d-code">public boolean accept(String string) {...}</code> method
+    in <code class="d-code">public class DFA {...}</code>
+    which checks if automaton accepts string.
+</p>
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[2] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+public class DFA {
+
+  private enum States {
+    //...
+  }
+
+  public boolean accept(String string) {
+    States state = States.Q0;
+
+    for (int i = 0; i < string.length(); i++) {
+      state = state.transition(string.charAt(i));
+    }
+    return state.accept;
+  }
+}
+{% endhighlight %}
+
+<h2><a name="{{ page.headers[4].id }}"></a>{{ page.headers[4].name }}</h2>
+
+<p>
+Using enums we can implement any DFA. Unfortunately they are not very flexible. Meaning, that if we would like to introduce
+additional state or extra character, then we would need to modify enum itself, which violates
+<a href="https://en.wikipedia.org/wiki/Open/closed_principle">Open/Close principle</a>.
+For that we could use
+<a href="https://en.wikipedia.org/wiki/State_pattern">state pattern</a>. But if you are thinking about modification of DFA, then
+probably your don't need DFA in the first place. Because by definition, DFA (Deterministic Finite Automaton) is
+<strong>finite</strong>,
+meaning it has finite set of states and <strong>deterministic</strong> - its next state is determined by input symbol.
+</p>
+
+<p>
+<a href="https://gist.github.com/grrinchas/534614339f786c7528a588426f08d4ef">Download</a>
+    </p>

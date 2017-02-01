@@ -53,7 +53,6 @@ permalink: /:categories/:title
 math: true
 
 collections:
-  - codes
   - definitions
 
 ##########################################

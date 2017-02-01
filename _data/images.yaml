@@ -1,0 +1,8 @@
+- id: IMG100
+  alt: State diagram of DFA.
+  src: /resources/images/automata.svg
+  caption: State diagram of DFA.
+
+- id: IMG101
+  alt: State diagram of DFA
+  src: /resources/images/automata_2.svg

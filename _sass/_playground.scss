@@ -3,7 +3,10 @@
   width: 300px;
 }
 
-.highlighter-rouge {
+.d-code {
   white-space: nowrap;
 }
 
+footer > blockquote p:first-child {
+  padding-bottom: $l-h-baseline-double;
+}

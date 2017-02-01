@@ -1,0 +1,524 @@
+---
+identity: POST100
+layout: post
+title: Theory of DFA
+category: Tutorial
+comments: true
+tags:
+    - automata-theory
+quote:
+quote: There is no mistakes or failures, only lessons.
+author: Denis Grinch
+description: Formal definition. State diagrams. Transitions and more.
+definitions:
+    - DEF100
+    - DEF101
+    - DEF102
+    - DEF103
+    - DEF104
+    - DEF105
+headers:
+    - id: H0
+      name: Why do we need DFA?
+    - id: H1
+      name: Formal definition of DFA
+    - id: H2
+      name: State (transition) diagram
+    - id: H3
+      name: Extended transition function
+    - id: H4
+      name: Regular languages
+    - id: H5
+      name: Transition table
+images:
+    - IMG100
+    - IMG101
+tables:
+    - TB100
+---
+
+{%  capture LINK_TASK_1 %}
+<a href="#task-1">Task 1</a>
+{% endcapture %}
+
+{%  capture LINK_IMG100 %}
+<a href="#{{ page.images[0] }}">Image {{ page.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_DEF101 %}
+<a href="#{{ page.definitions[1] }}">Definition {{ page.definitions[1] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_DEF102 %}
+<a href="#{{ page.definitions[2] }}">Definition {{ page.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_TB100 %}
+<a href="#{{ page.tables[0] }}">Table {{ page.tables[0] | remove: "TB"  | split: "" | join: "." }}</a>
+{% endcapture %}
+
+<p>
+    <strong>DFA (Deterministic Finite Automaton)</strong> sometimes called
+    <strong>DFSM (Deterministic Finite State Machine)</strong>
+    is a a finite state machine which given sequence of symbols accepts them or not.
+</p>
+
+<div class="success alert">
+    <strong>NOTE:</strong> The difference between <strong>automaton</strong> (singular) and
+        <strong>automata</strong> (plural)
+        terms.
+</div>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+<p>
+    <a name="task-1"></a> Lets say you are given a task to write a program which accepts strings with following conditions:
+</p>
+
+<ol>
+    <li>It must contain only
+        <code class="d-code">:</code>,
+        <code class="d-code">)</code>,
+        <code class="d-code">(</code>, and
+        <code class="d-code">_</code> characters.
+    </li>
+    <li>
+        <code class="d-code">:</code>has to be followed by<code class="d-code">)</code> or <code class="d-code">(</code>.
+    </li>
+    <li>Has to have at least one smiley <code class="d-code">:)</code> or sad <code class="d-code">:(</code>face.</li>
+    <li>If string has more than one face, then all of them have to be separated by at least one <code
+                class="d-code">_</code> character.
+    </li>
+    <li>Each string can start and end with zero or more <code class="d-code">_</code> characters.</li>
+</ol>
+
+<p>
+    Of course, this task can be easily accomplished using regular expressions. But for the sake of argument, let's say
+    we can't use them. In fact, behind the scenes all regular expressions are transformed into automaton anyway.
+</p>
+
+<p>
+    One way to accomplish this task is to create a method with <code class="d-code">for</code> loop and deeply nested
+    <code class="d-code">if</code> statements in it. Loop
+    will iterate through each character in the string and based on previous characters will check if it is acceptable or not.
+    If there are lots of cases to consider, then this approach is error prone.
+</p>
+
+<p>
+    Another way of thinking about it, is to imagine that a program (DFA) has finite set of states. For example, a state
+    when it
+    begins reading characters, a state after last character, and intermediate states which it visits between
+    start and finish. A transition between states are based on two things:
+</p>
+
+<ol>
+    <li>Current state.</li>
+    <li>Read in character.</li>
+</ol>
+
+<p>
+    There can be a situation when different characters lead to the same state. For example, after reading
+    <code class="d-code">:)</code> there are only one
+    acceptable character <code class="d-code">_</code>, all other characters
+    <code class="d-code">:</code>, <code class="d-code">)</code>, <code class="d-code">(</code> will lead to not
+    acceptable state. Also, some characters will lead to the same (current) state. For example, if the first character
+    was <code class="d-code">_</code>, then no matter how many of <code class="d-code">_</code>
+    program will read in, all states <code class="d-code">_</code>, <code class="d-code">__</code>,
+    <code class="d-code">_______</code> will not impact transition to the next state,
+    thus current state will stay the same. If the DFA after reading last character will end up in state which
+    is acceptable, then a string is considered accepted.
+</p>
+
+<h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
+
+<p>
+    While we could create DFA using the reasoning presented earlier. There are some questions which begs an answer:
+    <i>What exactly are start and accept states?</i> <i>Can it have zero accept states?</i>
+    <i>Can it have more than one start state?</i> and so on. All these questions can be answered by looking at the
+    formal definition of DFA.
+</p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[0] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+Notice that DFA is defined as 5-tuple. Meaning,  it has five elements and order
+of the elements matter, thus $$(Q, Σ, δ, q_0, F) \neq (Σ, Q, δ, q_0, F)$$. First element $$Q$$ represents all the states
+    in hte DFA. In general, when we are talking about finite state machine, term <i>finite state</i> is analogous to $$Q$$.
+</p>
+
+<p>
+Second element is an alphabet $$Σ$$ (read as <i>sigma</i>). It represents all the symbols which are allowed to go into machine.
+For example, if $$Σ = \{0, 1, 2\}$$, then only characters $$1$$, $$2$$, and $$3$$ are allowed. But what if we have more
+symbols? In that case we have to modify DFA to support them. Remember, we are dealing with <strong>deterministic</strong> finite
+automaton, meaning that it's next state is determined by input symbol, thus unrecognised symbols are not allowed.
+Also, in alphabet symbols do not need to be one letter characters. For example, $$Σ = \{health, stamina, shield\}$$
+is perfectly valid alphabet for game AI.
+</p>
+
+<p>
+Third element is a function $$δ$$ (read as <i>delta</i>) where $$δ : Q × Σ → Q$$. It represents a transition from one state
+to another. $$Q × Σ$$ is a domain of the function. From the set theory, we know that if we have two sets $$Q$$ and $$Σ$$,
+    then their <strong>cartesian product</strong> $$Q × Σ$$ is a set of all the pairs $$(a, b)$$ where $$a ∈ Q$$ and $$b ∈ Σ$$. Codomain
+of $$δ$$ is $$Q$$. In plain english function $$δ : Q × Σ → Q$$ says: <i>give me any sate and any symbol and I will return
+a state</i>. Notice, it does not say that a <i>returned</i> state has to be different, thus it can be the same state as <i>given</i>.
+</p>
+
+<p>
+Fourth element $$q_0$$ represents a start state which has to be one of the states in $$Q$$. Also, by definition of the
+start state, we can answer a question: <i>can it have more than one state?</i> No, it can't. Every DFA has to have only one
+start state.
+</p>
+
+<p>
+Lastly, fifth element $$F$$ represents set of accept states which is a subset of $$Q$$. Notice, the difference between $$∈$$
+    and $$⊆$$. $$∈$$ means <strong>member of</strong>, thus start state $$q_0$$ is a member of $$Q$$. While $$⊆$$ means <strong>subset of</strong>, thus
+$$F$$ is a subset of $$Q$$. We know that every set has empty set $$∅$$ as it's subset. Therefore, $$F$$ can be $$∅$$, meaning
+that DFAs with no accept states does exist.
+</p>
+
+<h2><a name="{{ page.headers[2].id }}"></a>{{ page.headers[2].name }}</h2>
+
+<p>
+While formal definition is a nice way of defining DFA, it does not help us to visualise it.
+    On the other hand, <strong>state diagrams</strong> can be used to define and to visually represent finite automaton.
+The only downside of them is that state diagrams tend to be very messy if DFA's have many states.
+Nevertheless, for simple ones is a perfect choice.
+</p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[1] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header"> Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }} </div>
+        <div class="definition alert"> {{ def.content }} </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+For example, {{ LINK_IMG100 }} represents DFA for {{ LINK_TASK_1 }}.
+</p>
+
+<figure>
+    {% for member in site.data.images %}
+        {% if member.id == page.images[0] %}
+            {% assign img = member %}
+        {% endif %}
+    {% endfor %}
+	<a name="{{ img.id }}"></a>
+	<img src="{{ img.src }}" alt="{{ img.alt }}"/>
+	<figcaption>
+		<strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+	</figcaption>
+</figure>
+
+<p>
+We see nodes representing states and arcs - transitions from one state to another. Transitions are based on
+current state and input symbol. For example, if automaton's current state is $$q_0$$ and the input symbol is <code class="d-code">:</code>,
+then it goes to $$q_1$$. If the input symbol is <code class="d-code">_</code>, then it transitions to its current state ($$q_0$$). Notice that one
+arrow pointing to $$q_0$$ does not originate from any node, thus by {{ LINK_DEF101 }}
+of $$q_0$$ is a start state. And nodes with double circle $$q_2$$ and $$q_3$$ represent accept states.
+One special type of non accepting states are those which has
+only arrows pointing to it but has no arrows pointing to other states. Thus, if any transition
+leads to that kind of state, then it is dead end because it is impossible to reach an accepting state,
+    these states are called <strong>dead states</strong>. For example, $$q_4$$.
+</p>
+
+<div class="success alert">
+<strong>NOTE:</strong> While it is not necessary, I color coded states in the state diagram. Thus, orange stands for start, green
+- accept and red for dead states.
+</div>
+
+
+<h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
+
+<p>
+At this point we only talked about transitions as a separate functions. That is, given current state and an input symbol
+DFA transitions to next state or current. Then, that state becomes an input for the next transition function,
+and so on. This cycle repeats until there are no more input symbols, producing a sequence of state transitions. This
+    sequence can be expressed by <strong>extended transition function</strong> denoted by $$δ^*$$. This function is very similar to $$δ$$,
+they both take state as an input and return state as an output. But contrary to $$δ$$, function $$δ^*$$ takes not a symbol
+from the alphabet $$Σ$$ but a string, consisting of symbols from the alphabet $$Σ$$. So, if the input state is a start state $$q_0$$, then
+given a string, $$δ^*$$ will return a state which we would get after sequence of state transitions. Maybe
+formal definition will be more understandable.
+    </p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[2] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header"> Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }} </div>
+        <div class="definition alert"> {{ def.content }} </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+Or maybe not :). $$δ^*$$ is defined recursively. We have a base case (1) and then we define it
+recursively (2). The main difference between
+$$ δ^* : Q × Σ^* → Q $$ and $$ δ : Q × Σ → Q $$ is a domain. Contrary to $$δ$$'s domain $$Q × Σ$$, extended transition
+function's domain $$Q × Σ^*$$ is a cartesian product of set of states $$Q$$ and
+<a href="https://en.wikipedia.org/wiki/Kleene_star">Kleene Star</a> $$*$$ over alphabet $$Σ$$ denoted by $$Σ^*$$. Lets call it a
+    <strong>Kleene closure</strong>, which is a set of all strings over alphabet $$Σ$$, including the empty string $$ε$$. For example,
+</p>
+
+<p>
+If $$Σ = \{aa, b\}$$, then $$Σ^* = \{ε, aa, b, aab, baa, aaaa, bb, aaaab, \dots \}$$
+    </p>
+
+<p>
+    You may ask: <i>why do wee need it?</i> Remember, automaton accepts strings where each symbol is in alphabet $$Σ$$.
+So Kleene closure is a nice way of representing all those strings.
+</p>
+
+<p>
+After defining $$δ^∗$$ signature, we need to define how it functions. We start with the base case which says that
+for every $$q ∈ Q$$, $$δ^∗(q, ε) = q$$. In plain english, function $$δ^∗$$ says: <i>give me any state and empty string and
+    I will give you back the same state</i>. It may sound useless but in fact, it is very important case because, as we
+will see, it terminates a function. Empty string $$ε$$ indicates the end of the string, so it makes sense to return
+input state. Just like $$δ$$ transition would return the state after last input symbol.
+</p>
+
+<p class="bottomless">
+    Recursive case defines function for those cases when a string is not empty. $$ya$$ in $$δ^∗(q, ya)$$ means, <strong>concatenation</strong>
+    between a string $$y$$ from $$Σ^*$$ and one symbol $$a$$ from the alphabet $$Σ$$. This is just another
+    representation of
+    original string. Advantage of $$ya$$ is that we can use different parts of it to define $$δ^∗(q, ya)$$.
+</p>
+
+$$$δ^∗(q, ya ) = δ(δ^∗(q, y), a )$$$
+
+<p>
+We see that it is equal to the original transition function $$δ$$ from the definition of $$M$$. First argument of
+it is extended transition function $$δ^∗$$ with two arguments: a state and a string which is one symbol shorter than,
+$$ya$$. And the last argument of $$δ$$ is symbol $$a$$ from $$ya$$ string. For example, given
+following state diagram,
+</p>
+
+<figure>
+    {% for member in site.data.images %}
+        {% if member.id == page.images[1] %}
+            {% assign img = member %}
+        {% endif %}
+    {% endfor %}
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+</figure>
+
+<p class="bottomless">
+and the string $$abc$$, we can trace $$δ^∗(q_0, abc)$$ function,
+</p>
+
+$$$
+\begin{align} δ^∗(q_0, abc) &= δ(δ^∗(q_0, ab), c) \\
+&= δ(δ(δ^∗(q_0, a), b), c) \\
+&= δ(δ(δ(δ^∗(q_0, ε), a), b), c) \\
+&= δ(δ(δ(q_0, a), b), c) \\
+&= δ(δ(q_1, b), c) \\
+&= δ(q_2, c) \\
+&= q_3
+\end{align}
+$$$
+
+
+<h2><a name="{{ page.headers[4].id }}"></a>{{ page.headers[4].name }}</h2>
+
+<p> {{ LINK_DEF102 }} of extended transition function $$δ^∗$$ we can precisely define what it means for DFA to
+    <strong>accept</strong> or to <strong>reject</strong> a string.
+</p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[3] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+Basically string $$a$$ is accepted by automaton $$M$$ if given start state $$q_0$$ and $$a$$ extended transition function
+$$δ^*$$ returns an accept state. Which makes sense. Then we can ask ourselves: <i>how would we call all the strings
+which automaton accepts?</i> Well, we can think of strings as words, then the set of all words over alphabet is a language. Thus,
+we can say that a set of the strings which automaton accepts is a language which automaton <strong>recognises</strong>. Some may say
+that automaton accepts a language, but that is ambiguous with automaton accepting a string. So, to make it clear, we will
+say that automaton <strong>accepts</strong> a string, but <strong>recognises</strong> a language. More formally,
+</p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[4] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+Notice that is not necessary for automaton to accept all the strings over alphabet $$Σ$$ to recognise a language.
+It can accept one, two or even zero strings. In later case $$L(M) = ∅$$. Notation of $$L(M)$$ can be misleading because
+    it looks like a function $$f(x)$$. Remember, $$L(M)$$ is a set, not a function. We call a language <strong>regular</strong> if there is
+a finite automaton which recognises it. More formally,
+</p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[5] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+
+<div class="success alert">
+    <strong>NOTE:</strong> In <a href="#{{ page.definitions[5] }}">Definition {{ page.definitions[5] | remove: "DEF" | split: "" | join: "." }}</a>
+ a language is called regular when <strong>any</strong> finite automaton recognises it.
+Meaning that automaton can be DFA, NFA and other types of FSM.
+</div>
+
+<p class="bottomless">
+So, a language $$L$$ is a subset of Kleene's closure $$Σ^*$$. And, if all the strings in
+$$L$$ is also in a language which automaton recognises $$L(M)$$ then we say that a language $$L$$ is regular. For example,
+</p>
+
+$$$L_1 = \{ xaaay\;|\;x, y ∈ \{a, b\}^∗\} ⊆ \{a, b\}^*$$$
+
+<p>
+is a regular language.
+    </p>
+
+<p>
+Another example of regular language is presented in {{ LINK_TASK_1 }} and {{ LINK_IMG100 }} shows an automaton which recognises it.
+Below are some strings which are in the language and some which are not,
+</p>
+
+<ul>
+<li>
+    <strong>Is:</strong>
+    <code class="d-code">:)</code>,
+    <code class="d-code">:(</code>,
+    <code class="d-code">:(_:)</code>,
+    <code class="d-code">:)___:)__:(__</code>,
+    <code class="d-code">_________:)__</code>.
+</li>
+    <li>
+        <strong>Is not:</strong>
+        <code class="d-code">____</code>,
+        <code class="d-code">::)</code>,
+        <code class="d-code">:((</code>,
+        <code class="d-code">:(:()</code>,
+        <code class="d-code">:)_):)</code>,
+        <code class="d-code">(:</code>.
+    </li>
+</ul>
+
+<p>
+So, if a string <code class="d-code">_:)__:(</code> is in the language which DFA recognises, then it should accept it. Let's see how it does that.
+</p>
+
+<p>
+Initially, DFA is in the $$q_0$$ state, then it receives
+<code class="d-code">_</code> character, the arrow with it points to the same state $$q_0$$. Next character is <code class="d-code">:</code> which points to $$q_1$$ state,
+then following <code class="d-code">)</code> DFA goes to $$q_2$$ state. From there, we have <code class="d-code">_</code> to $$q_3$$, then one more <code class="d-code">_</code> from $$q_3$$ to itself.
+After that, <code class="d-code">:</code> character points to $$q_1$$ and following <code class="d-code">(</code> DFA ends up in $$q_2$$ state.
+The last state is an accept state, thus automaton from {{ LINK_IMG100 }} accepts <code class="d-code">_:)__:(</code>.
+</p>
+
+<h2><a name="{{ page.headers[5].id }}"></a>{{ page.headers[5].name }}</h2>
+
+<p>
+One way of representing transitions between states is a state diagram.
+    Another way - using  <strong>transition table</strong>. It looks like two dimensional array where rows represents
+    states and columns symbols from the alphabet. For example, {{ LINK_TB100 }}
+    shows all possible transitions of {{ LINK_IMG100 }}
+    Notice how intersection of row and column describes next state, given current state (row) and a symbol (column). For
+    example, if I want to know next state from $$q_2$$ given <code class="d-code">)</code>, I just need to find
+    $$q_2$$ state in a row, then <code class="d-code">)</code> in the column, and check which state is at their
+    intersection ($$q_4$$).
+</p>
+
+{% for tb in site.data.tables %}
+    {% if tb.id == page.tables[0] %}
+        <a name="{{ tb.id }}"></a>
+        <figure class="table">
+
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>$$:$$ </th>
+                    <th>$$)$$ </th>
+                    <th>$$($$ </th>
+                    <th>$$\_$$ </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>$$q_0$$ </th>
+                    <td>$$q_1$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_0$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_1$$ </th>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_2$$ </td>
+                    <td>$$q_2$$ </td>
+                    <td>$$q_4$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_2$$ </th>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_3$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_3$$ </th>
+                    <td>$$q_1$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_3$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_4$$ </th>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_4$$ </td>
+                    <td>$$q_4$$ </td>
+                </tr>
+                </tbody>
+                <tbody></tbody>
+            </table>
+            <figcaption>
+                <strong>Table {{ tb.id | remove: "TB"  | split: "" | join: "." }}:</strong> {{ tb.caption }}
+            </figcaption>
+        </figure>
+    {% endif %}
+{% endfor %}
+
+
+{% for post in site.posts %}
+    {% if post.identity == "POST102" %}
+        <p>
+            Next <a href="{{ post.url }}">tutorial</a> will show how to implement DFA shown in {{ LINK_IMG100 }}in JAVA language.
+        </p>
+    {% endif %}
+{% endfor %}
