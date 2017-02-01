@@ -53,7 +53,8 @@ permalink: /:categories/:title
 math: true
 
 collections:
-- definitions
+  - codes
+  - definitions
 
 ##########################################
 #          Do not change these variables
