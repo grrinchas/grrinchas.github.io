@@ -4,5 +4,10 @@
   caption: State diagram of DFA.
 
 - id: IMG101
-  alt: State diagram of DFA
+  alt: State diagram of DFA.
   src: /resources/images/automata_2.svg
+
+- id: IMG102
+  alt: State diagram of DFA with Unicode alphabet.
+  caption: State diagram of DFA with Unicode alphabet.
+  src: /resources/images/automata_3.svg

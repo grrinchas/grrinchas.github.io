@@ -22,6 +22,8 @@ headers:
       name: Implementing $$δ^*$$
     - id: H5
       name: Additional notes
+    - id: H6
+      name: Fixing transition method
 tables:
     - id: TB100
       caption: Transition table.
@@ -29,6 +31,10 @@ code:
     - SC100
     - SC101
     - SC102
+    - SC103
+    - SC104
+images:
+    - IMG102
 posts:
     - POST100
 ---
@@ -61,6 +67,18 @@ posts:
 
 {%  capture LINK_SC101 %}
 <a href="#{{ page.code[1] }}">Source code {{ page.code[1] | remove: "SC" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_SC104 %}
+<a href="#{{ page.code[4] }}">Source code {{ page.code[4] | remove: "SC" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_H0 %}
+<a href="#{{ page.headers[0].id }}">{{ page.headers[0].name }}</a>
+{% endcapture %}
+
+{%  capture LINK_IMG102 %}
+<a href="#{{ page.images[0] }}">Image {{ page.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 <p>
@@ -302,21 +320,136 @@ make no difference.
  </p>
 
 
-{% comment %}
-<div class="note alert">
-    <strong>IMPORTANT:</strong> At this moment you should notice one thing: transition method
-    <code class="d-code">States transition(char ch) {...}</code> breaks formal definition of
-    dfa. Because it accepts more than four symbols of our alphabet. In fact, it accepts any Unicode character.
-    Given $$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
-            class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\} \neq Unicode $$,
+<h2><a name="{{ page.headers[5].id }}"></a>{{ page.headers[5].name }}</h2>
 
-    thrown. In theory, it should not happen. To fix that, I could create `private enum Alphabet {...}` with four members
-    representing four charachters and change
-    transition signature to `States transition(Alphabet symbol) {...}`. This way would be impossible to pass non
-    existing characters of the alphabet to transition method.
-</div>
+At this moment you should notice one thing: transition method
+<code class="d-code">States transition(char ch) {...}</code> breaks definition of {{ LINK_H0 }}.
 
-{% endcomment %}
+<p>
+Because it accepts more than four symbols of our alphabet. In fact, it accepts any $$Unicode$$ character.
+Therefore, $$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
+        class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\} \neq Unicode $$. There are few ways how to fix it:
+</p>
+
+<ul>
+    <li>By encapsulating alphabet.</li>
+    <li>By changing DFA itself.</li>
+</ul>
+
+<h3>By encapsulating alphabet</h3>
+
+<p>
+To enforce $$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
+        class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\}$$ we could encapsulate it. By creating
+    <code class="d-code">private enum Alphabet {...}</code> and changing transition signature to
+    <code class="d-code">States transition(Alphabet symbol) {...}</code>.
+</p>
+
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[3] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+private enum Alphabet {
+
+  EYES, SMILE, SAD, SPACE
+}
+{% endhighlight %}
+
+<p>
+Now, would be impossible to pass non exciting character to the transition method. While this approach would solve our problem,
+it would create new one: <i>what to do with other $$Unicode$$ characters which are not in the alphabet?</i> In the original
+    {{ LINK_SC101 }} we threw an exception in the transition method. Now we could to the same, only outside DFA. Or change
+    strings to <code class="d-code">List&lt;Alphabet&gt;</code>. The fist approach would solve no problem, while latter
+    would be impractical, unless DFA would be confined in JAVA program and wouldn't interact with outside word.
+</p>
+
+<h3>By changing DFA itself</h3>
+
+<p>
+The main problem is an alphabet $$Σ$$. We want to change it from $$\{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
+        class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\}$$ to $$Unicode$$. {{ LINK_IMG102 }} shows a state
+    diagram of a new DFA.
+</p>
+
+<figure>
+    {% for member in site.data.images %}
+        {% if member.id == page.images[0] %}
+            {% assign img = member %}
+        {% endif %}
+    {% endfor %}
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    <figcaption>
+        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+    </figcaption>
+</figure>
+
+<p>
+Notice, we removed all symbols from the arrows pointing to the state $$q_4$$. An empty arrow stands for
+a transition from a state $$q_i$$, where $$i ∈ \{0, 1, 2, 3\}$$, to $$q_4$$ if and only if there are no transition from
+$$q_i$$ to $$q_i$$, given a symbol from the $$Unicode$$. For example, if current state is $$q_0$$ then given
+<code class="d-code">:</code> DFA transitions to $$q_1$$, while given <code class="d-code">^</code> to $$q_4$$.
+    {{ LINK_SC104 }} shows new implementation of <code class="d-code">private enum States {...} </code>.
+
+</p>
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[4] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+private enum States {
+
+  //...
+
+  static {
+    Q0.eyes = Q1;  Q0.space = Q0;
+    Q1.smile = Q2; Q1.sad = Q2;
+    Q2.space = Q3;
+    Q3.eyes = Q1; Q3.space = Q3;
+  }
+
+  States transition(char ch) {
+    switch (ch) {
+      case ':':
+        return this.eyes == null? Q4 : this.eyes;
+      case ')':
+        return this.smile == null? Q4: this.smile;
+      case '(':
+        return this.sad == null? Q4: this.sad;
+      case '_':
+        return this.space == null? Q4: this.space;
+      default:
+        return Q4;
+    }
+  }
+
+  //...
+}
+{% endhighlight %}
+
+<p>
+So, we removed some of the assignments of states instance variables and changed transition method. Now, before returning
+next state it checks if instance variable is <code class="d-code">null</code> or not. In case of <code class="d-code">null</code>
+and by default it returns <code class="d-code">Q4</code> state.
+</p>
+
+<p>
+Notice, even we did not define all possible transitions of the state, this DFA implementation conforms with {{ POST100_LINK_DEF100 }},
+because for every state and every symbol from the alphabet it returns some state.
+</p>
 
 <h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
 
@@ -354,6 +487,9 @@ public class DFA {
   }
 }
 {% endhighlight %}
+
+
+
 
 <h2><a name="{{ page.headers[4].id }}"></a>{{ page.headers[4].name }}</h2>
 
