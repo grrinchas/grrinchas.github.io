@@ -340,7 +340,7 @@ Therefore, $$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</
 
 <p>
 To enforce $$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
-        class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\}$$ we could encapsulate it. By creating
+        class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\}$$ we could encapsulate alphabet. By creating
     <code class="d-code">private enum Alphabet {...}</code> and changing transition signature to
     <code class="d-code">States transition(Alphabet symbol) {...}</code>.
 </p>
@@ -360,13 +360,34 @@ private enum Alphabet {
 
   EYES, SMILE, SAD, SPACE
 }
+
+private enum States {
+
+  //...
+
+  States transition(Alphabet symbol) {
+    switch (symbol) {
+      case EYES:
+        return this.eyes;
+      case SMILE:
+        return this.smile;
+      case SAD:
+        return this.sad;
+      case SPACE:
+        return this.space;
+      default:
+        throw new RuntimeException("Symbol is " +
+          "not in the alphabet");
+    }
+  }
+}
 {% endhighlight %}
 
 <p>
 Now, would be impossible to pass non exciting character to the transition method. While this approach would solve our problem,
 it would create new one: <i>what to do with other $$Unicode$$ characters which are not in the alphabet?</i> In the original
     {{ LINK_SC101 }} we threw an exception in the transition method. Now we could to the same, only outside DFA. Or change
-    strings to <code class="d-code">List&lt;Alphabet&gt;</code>. The fist approach would solve no problem, while latter
+    strings to <code class="d-code">List&lt;Alphabet&gt;</code>. The first approach would solve no problem, while latter
     would be impractical, unless DFA would be confined in JAVA program and wouldn't interact with outside word.
 </p>
 

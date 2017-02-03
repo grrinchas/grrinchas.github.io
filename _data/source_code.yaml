@@ -16,7 +16,7 @@
 - id: SC103
   source: POST101
   language: java
-  lines: 4
+  lines: 25
 
 - id: SC104
   source: POST101
