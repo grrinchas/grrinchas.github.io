@@ -11,3 +11,18 @@
   alt: State diagram of DFA with Unicode alphabet.
   caption: State diagram of DFA with Unicode alphabet.
   src: /resources/images/automata_3.svg
+
+- id: IMG103
+  alt: State diagram of NFA.
+  caption: State diagram of NFA recognising language of $$\{aa, aab\}^*\{b\}$$.
+  src: /resources/images/automata_4.svg
+
+- id: IMG104
+  alt: Computation of NFA as a tree.
+  caption: Computation of NFA as a tree.
+  src: /resources/images/tree_1.svg
+
+- id: IMG105
+  alt: State diagram of DFA equivalent to NFA.
+  caption: State diagram of DFA equivalent to NFA.
+  src: /resources/images/automata_5.svg
