@@ -387,9 +387,9 @@ a finite automaton which recognises it. More formally,
 
 
 <div class="success alert">
-    <strong>NOTE:</strong> In <a href="#{{ page.definitions[5] }}">Definition {{ page.definitions[5] | remove: "DEF" | split: "" | join: "." }}</a>
- a language is called regular when <strong>any</strong> finite automaton recognises it.
-Meaning that automaton can be DFA, NFA and other types of FSM.
+    <strong>NOTE:</strong> Both <a href="#{{ page.definitions[5] }}">Definition {{ page.definitions[5] | remove: "DEF" | split: "" | join: "." }}</a> and
+    <a href="#{{ page.definitions[4] }}">Definition {{ page.definitions[4] | remove: "DEF" | split: "" | join: "." }}</a>
+ are applicable for <strong>any</strong> finite automata, including DFA, NFA and other types of FSM.
 </div>
 
 <p class="bottomless">
@@ -516,7 +516,7 @@ One way of representing transitions between states is a state diagram.
 
 
 {% for post in site.posts %}
-    {% if post.identity == "POST102" %}
+    {% if post.identity == "POST101" %}
         <p>
             Next <a href="{{ post.url }}">tutorial</a> will show how to implement DFA shown in {{ LINK_IMG100 }}in JAVA language.
         </p>

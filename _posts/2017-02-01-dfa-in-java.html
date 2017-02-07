@@ -172,7 +172,7 @@ While state diagrams are fun to look at, they are not as useful as {{ POST100_LI
 
 <p>
 Given all this information, we can start coding. We see that automaton
-has 4 states: $$q_0$$, $$q_1$$, $$q_2$$, $$q_3$$, $$q_4$$. All of them are known in advance. Thus, we can create
+has 4states: $$q_0$$, $$q_1$$, $$q_2$$, $$q_3$$, $$q_4$$. All of them are known in advance. Thus, we can create
 <code class="d-code"> private enum States {...}</code>
 to represent them. Nice thing about JAVA enum, is that you can define methods and instance variables in them. For example,
 to differentiate accept and non accept states, we can introduce instance variable
@@ -376,8 +376,7 @@ private enum States {
       case SPACE:
         return this.space;
       default:
-        throw new RuntimeException("Symbol is " +
-          "not in the alphabet");
+        return null;
     }
   }
 }
