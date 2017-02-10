@@ -24,6 +24,12 @@ headers:
       name: Extended transition function for ε-NFA
     - id: H3
       name: ε-NFA as 5-tuple
+    - id: H4
+      name: Implementing states
+    - id: H5
+      name: Implementing $$δ^*$$
+tables:
+    - TB102
 images:
     - IMG106
     - IMG107
@@ -32,6 +38,10 @@ definitions:
     - DEF110
     - DEF111
     - DEF112
+code:
+    - SC107
+    - SC108
+    - SC109
 ---
 
 {% for post in site.posts %}
@@ -52,6 +62,14 @@ definitions:
 
 {%  capture POST102_LINK_DEF107 %}
 <a href="{{ POST102.url }}#{{ POST102.definitions[1] }}">Definition {{ POST102.definitions[1] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST102_LINK_DEF108 %}
+<a href="{{ POST102.url }}#{{ POST102.definitions[2] }}">Definition {{ POST102.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST102_LINK_SC106 %}
+<a href="{{ POST102.url }}#{{ POST102.code[1] }}">Source code {{ POST102.code[1] | remove: "SC" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 {%  capture LINK_IMG106 %}
@@ -267,7 +285,7 @@ $$$
 
 <p>
     Thus, if $$S = \{q_0\}$$, then $$F(S) = \{q_0, q_1, q_2, q_6\}$$. Notice, there are no ε-transitions from $$q_2$$
-    or $$q_6$$, therefore $$δ(q_2 \text{ or } q_6, ε) = \emptyset$$. Empty set has no elements, therefore it has no
+    or $$q_6$$, therefore $$δ(q_2 \text{ or } q_6, ε) = \emptyset$$. Empty set has no elements, thus it has no
     implication in this case. Recursive part of {{ LINK_DEF111 }} is considered finished, when all
     the elements (states) in $$F(S)$$ has been checked for ε-transitions.
 </p>
@@ -293,11 +311,263 @@ $$$
     the latter. For example, the base case changed from $$δ^∗(q, ε) = \{q\}$$ to $$δ^∗(q, ε) = E(\{q\})$$. This has an
     effect of including all the ε-transitions of set of states at the end of input string. Similarly, in recursive case
     at each pass, $$δ^*$$ returns not just set of states given a symbol, but all the states which can be reached following
-    ε-transitions as well.
+    ε-transitions as well. For definition of string acceptance see {{ POST102_LINK_DEF108 }}.
 </p>
 
 <h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
 
 <p>
-    to be continue...
+    We have all the necessary information to implement ε-NFA in JAVA. So, as always we will define a specific automaton as
+    5-tuple and then will write code for it. {{ LINK_IMG106 }} shows an ε-NFA which recognises  $$(ab ∪ a)^*$$ language,
+    its formal definition is
 </p>
+
+<p>
+    $$M = (Q, Σ, δ, q_0, F )$$, where
+</p>
+
+<ol>
+    <li>$$Q = \{q_0, q_1, q_2, q_3, q_4, q_5, q_6, q_7\}$$,</li>
+    <li>$$Σ = \{$$<code class="d-code">a</code>$$,$$<code class="d-code">b</code>$$\}$$
+    </li>
+    <li>$$q_0 = q_0$$,</li>
+    <li>$$F = \{q_0, q_5, q_7\}$$.</li>
+    <li>$$δ$$ is described as a <strong>transition table</strong></li>
+</ol>
+
+{% for tb in site.data.tables %}
+    {% if tb.id == page.tables[0] %}
+        <a name="{{ tb.id }}"></a>
+        <figure class="table">
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>$$a$$ </th>
+                    <th>$$b$$ </th>
+                    <th>$$ε$$ </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>$$q_0$$ </th>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\{q_1\}$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_1$$ </th>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\{q_2, q_6\}$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_2$$ </th>
+                    <td>$$\{q_3\}$$ </td>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\emptyset$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_3$$ </th>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\{q_4\}$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_4$$ </th>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\{q_5\}$$ </td>
+                    <td>$$\emptyset$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_5$$ </th>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\{q_1\}$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_6$$ </th>
+                    <td>$$\{q_7\}$$ </td>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\emptyset$$ </td>
+                </tr>
+                <tr>
+                    <th>$$q_6$$ </th>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\emptyset$$ </td>
+                    <td>$$\{q_1\}$$ </td>
+                </tr>
+                </tbody>
+                <tbody></tbody>
+            </table>
+            <figcaption>
+                <strong>Table {{ tb.id | remove: "TB"  | split: "" | join: "." }}:</strong>
+                {{ tb.caption }}
+            </figcaption>
+        </figure>
+    {% endif %}
+{% endfor %}
+
+<h2><a name="{{ page.headers[4].id }}"></a>{{ page.headers[4].name }}</h2>
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[0] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+private enum States {
+
+  Q0(true), Q1(false), Q2(false), Q3(false),
+  Q4(false), Q5(true), Q6(false), Q7(true);
+
+  final boolean accept;
+
+  Set<States> a;
+  Set<States> b;
+  Set<States> epsilon;
+
+  static {
+    Q0.a = Collections.EMPTY_SET;
+    Q0.b = Collections.EMPTY_SET;
+    Q0.epsilon = new HashSet<>(Arrays.asList(Q1));
+
+    Q1.a = Collections.EMPTY_SET;
+    Q1.b = Collections.EMPTY_SET;
+    Q1.epsilon = new HashSet<>(Arrays.asList(Q2, Q6));
+
+    Q2.a = new HashSet<>(Arrays.asList(Q3));
+    Q2.b = Collections.EMPTY_SET;
+    Q2.epsilon = Collections.EMPTY_SET;
+
+    Q3.a = Collections.EMPTY_SET;
+    Q3.b = Collections.EMPTY_SET;
+    Q3.epsilon = new HashSet<>(Arrays.asList(Q4));
+
+    Q4.a = Collections.EMPTY_SET;
+    Q4.b = new HashSet<>(Arrays.asList(Q5));
+    Q4.epsilon = Collections.EMPTY_SET;
+
+    Q5.a = Collections.EMPTY_SET;
+    Q5.b = Collections.EMPTY_SET;
+    Q5.epsilon = new HashSet<>(Arrays.asList(Q1));
+
+    Q6.a = new HashSet<>(Arrays.asList(Q7));
+    Q6.b = Collections.EMPTY_SET;
+    Q6.epsilon = Collections.EMPTY_SET;
+
+    Q7.a = Collections.EMPTY_SET;
+    Q7.b = Collections.EMPTY_SET;
+    Q7.epsilon = new HashSet<>(Arrays.asList(Q1));
+  }
+
+  States(boolean accept) {this.accept = accept;}
+
+  Set<States> transition(char ch) {
+
+    switch (ch) {
+      case 'a': return this.a;
+      case 'b': return this.b;
+      default: return Collections.EMPTY_SET;
+    }
+  }
+  //...
+}
+{% endhighlight %}
+
+<p>
+    As always we create <code class="d-code">private enum States {...}</code> which represents all states in the automaton.
+    Then, in <code class="d-code">static {...}</code> block we initialise transition table. Due to the fact that this is
+     ε-NFA implementation, each state has set of ε-transitions. Note, <code class="d-code">Set&lt;States&gt; epsilon;</code>
+    does not represent ε-closure, but subset of it. The actual e-closure is implemented in
+    <code class="d-code">Set&lt;States&gt; eclose() {...}</code> method.
+</p>
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[1] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+private enum States {
+
+  //...
+
+  Set<States> eClose() {
+    Set<States> states = new HashSet<>();
+    states.add(this);
+
+    for(States e: this.epsilon)
+      states.addAll(e.eClose());
+
+    return states;
+  }
+}
+{% endhighlight %}
+
+<p>
+    As you can see, <code class="d-code">Set&lt;States&gt; eclose() {...}</code> method belongs to
+    <code class="d-code">private enum States {...}</code>. Because JAVA is object oriented, it makes sense
+    to ask a state for its ε-closure. First of all, we create an empty set of states which corresponds to $$E(S)$$, then we add
+    state itself to it, this action corresponds to the base case of {{ LINK_DEF111 }}. Later we loop trough each
+    state which can be reached along ε-transitions and add them all recursively, just like in recursive case of {{ LINK_DEF111 }}.
+    The only difference, we don't call <code class="d-code">Set&lt;States&gt; transition(char ch) {...}</code> because
+    we can access ε-transitions directly through <code class="d-code">Set&lt;States&gt; epsilon;</code> instance variable.
+    The recursion is finished when all states in $$E(S)$$ has been checked.
+</p>
+
+<h2><a name="{{ page.headers[5].id }}"></a>{{ page.headers[5].name }}</h2>
+
+{% for code in site.data.source_code %}
+    {% if code.id == page.code[2] %}
+        <a name="{{ code.id }}"></a>
+        <div class="env-header">
+            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% highlight java linenos %}
+public class eNFA {
+
+  private enum States {...}
+
+  public boolean accept(String string) {
+    Set<States> currStates = new HashSet<>(States.Q0.eClose());
+
+    for (int i = 0; i < string.length(); i++)
+      currStates = union(currStates, string.charAt(i));
+
+    return currStates.stream().anyMatch(s -> s.accept);
+  }
+
+  // helper method which returns set of next states
+  private Set<States> union(Set<States> currStates, char ch) {
+    Set<States> nextStates = new HashSet<>();
+
+    for (States cState : currStates)
+      for(States s: cState.transition(ch))
+        nextStates.addAll(s.eClose());
+
+    return nextStates;
+  }
+}
+{% endhighlight %}
+
+<p>
+    The first method <code class="d-code">public boolean accept(String string) {...}</code>
+    in <code class="d-code">public class eNFA {...}</code> looks almost identical to NFA in
+    {{ POST102_LINK_SC106 }} Except that start state is ε-closed. Helper method has similar
+    modification, it returns not just next states reachable from current states given symbol, but
+    their ε-closure as well.
+</p>
+
+<p><a href="https://gist.github.com/grrinchas/411dc3c15ce223c72ced4186d02a034f">Download</a></p>

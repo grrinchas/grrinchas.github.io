@@ -32,3 +32,18 @@
   source: POST102
   language: java
   lines: 27
+
+- id: SC107
+  source: POST103
+  language: java
+  lines: 57
+
+- id: SC108
+  source: POST103
+  language: java
+  lines: 14
+
+- id: SC109
+  source: POST103
+  language: java
+  lines: 24
