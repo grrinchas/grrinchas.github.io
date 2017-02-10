@@ -1,0 +1,303 @@
+---
+identity: POST103
+layout: post
+title:  ε-NFA in JAVA
+category: Tutorial
+comments: true
+tags:
+    - java
+    - automata-theory
+quote:
+    quote: In the midst of chaos, there is also opportunity.
+    author: Sun Tzu
+description: Theory and implementation of ε-NFA in JAVA.
+posts:
+    - POST100
+    - POST101
+    - POST102
+headers:
+    - id: H0
+      name: What the heck are ε-transitions?
+    - id: H1
+      name: Formal definition of ε-NFA?
+    - id: H2
+      name: Extended transition function for ε-NFA
+    - id: H3
+      name: ε-NFA as 5-tuple
+images:
+    - IMG106
+    - IMG107
+definitions:
+    - DEF109
+    - DEF110
+    - DEF111
+    - DEF112
+---
+
+{% for post in site.posts %}
+    {% if post.identity == page.posts[0] %}
+        {% assign POST100 = post %}
+    {% endif %}
+    {% if post.identity == page.posts[1] %}
+        {% assign POST101 = post %}
+    {% endif %}
+    {% if post.identity == page.posts[2] %}
+        {% assign POST102 = post %}
+    {% endif %}
+{% endfor %}
+
+{%  capture POST100_LINK_DEF102 %}
+<a href="{{ POST100.url }}#{{ POST100.definitions[2] }}">Definition {{ POST100.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST102_LINK_DEF107 %}
+<a href="{{ POST102.url }}#{{ POST102.definitions[1] }}">Definition {{ POST102.definitions[1] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_IMG106 %}
+<a href="#{{ page.images[0] }}">Image {{ page.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_IMG107 %}
+<a href="#{{ page.images[1] }}">Image {{ page.images[1] | remove: "IMG" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST102_LINK_DEF106 %}
+<a href="{{ POST102.url }}#{{ POST102.definitions[0] }}">Definition {{ POST102.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_DEF109 %}
+<a href="#{{ page.definitions[0] }}">Definition {{ page.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+
+{%  capture LINK_DEF110 %}
+<a href="#{{ page.definitions[1] }}">Definition {{ page.definitions[1] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_DEF111 %}
+<a href="#{{ page.definitions[2] }}">Definition {{ page.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture LINK_DEF112 %}
+<a href="#{{ page.definitions[3] }}">Definition {{ page.definitions[3] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+<p>
+    In previous tutorials we talked about <a href="{{ POST101.url }}">{{ POST101.title }}</a> and
+     <a href="{{ POST102.url }}">{{ POST102.title }}</a>. Here we will focus on <strong>ε-NFA
+     (Nondeterministic Finite Automaton)</strong> which may or may not have ε(read as "epsilon")-transitions.
+</p>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+<p>
+    As you may guessed, the main difference between NFA and ε-NFA is ε-transitions. That is, ε-NFA may have one or more of
+    them. I say <i>may have</i> because some ε-NFA don't have, in that case we will call it simply NFA.
+    Thus, NFA can be seen as a special kind of ε-NFA without ε-transitions.
+
+<p>
+    We have already encountered something similar. In {{ POST100_LINK_DEF102 }} I
+    mentioned <strong>Kleene closure $$Σ^*$$ </strong>, which denotes all the strings over alphabet $$Σ$$.
+    One element of $$Σ^*$$ is an empty string, denoted by $$ε$$. It was used in the base case of $$δ^∗$$
+    function $$δ^∗(q, ε) = q$$ to indicate the end of the string.
+</p>
+
+<p>
+    Similarly, ε-transition means a state's transition to the next state when input symbol is an empty string. In other words,
+    a transition when there are no input symbol at all.
+    {{ LINK_IMG106 }} shows a state diagram of ε-NFA which recognises language of $$(ab ∪ a)^*$$.
+</p>
+
+<figure>
+    {% for member in site.data.images %}
+        {% if member.id == page.images[0] %}
+            {% assign img = member %}
+        {% endif %}
+    {% endfor %}
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    <figcaption>
+        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+    </figcaption>
+</figure>
+
+<div class="success alert">
+    <strong>NOTE:</strong> In {{ LINK_IMG106 }} the start state $$q_0$$ is also an accept state.
+</div>
+
+<p>We can see bunch of ε-transitions: from $$q_0$$ to $$q_1$$, then from $$q_1$$ to both $$q_2$$ and $$q_6$$ and so on.
+    <i>How should we interpret all those transitions?</i> Let's say automaton's current state is $$q_0$$, then without
+    any input it transitions to $$q_1$$, from there to $$q_2$$ and $$q_6$$. So actually, at the beginning of computation
+    automaton is in 4 states. Or we can think of it as 4 parallel machines computing simultaneously. {{ LINK_IMG107 }}
+    shows a computation tree for <code class="d-code">ab</code> string.
+</p>
+
+<figure>
+    {% for member in site.data.images %}
+        {% if member.id == page.images[1] %}
+            {% assign img = member %}
+        {% endif %}
+    {% endfor %}
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    <figcaption>
+        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+    </figcaption>
+</figure>
+
+<p>
+    First of all, computation begins at the start state $$q_0$$ (root node). Notice, $$q_0$$ has ε-transition to $$q_1$$, thus
+    we create new branch node with a leaf of $$q_1$$. From $$q_1$$ there are two more transitions: one to $$q_2$$, another to $$q_6$$,
+    therefore we create two more branches. Lastly, to indicate that $$q_0$$ is included in a set of current states,
+    we make a branch for it as well.
+</p>
+
+<div class="note alert">
+    <strong>IMPORTANT:</strong> When discussing about a set of all possible ε-transitions from the state, it's convenient to think
+    that there is an extra ε-transition from state to itself, even state diagrams don't show it.
+</div>
+
+<p>So, the second level of the tree shows all current states of the machine. This is interesting, because we haven't even
+    input any symbol and yet ε-NFA is already in 4 states. What is more interesting, that one of those states $$q_0$$ is an
+    accept state. Therefore, if we would give an empty string, it would accept it. Anyway, let's look at first input symbol
+    <code class="d-code">a</code>. There are no transition from $$q_0$$ and $$q_1$$, thus both machines die. On the other hand,
+    $$q_6$$ has transition to $$q_7$$, from there are four ε-transitions to other states, itself included. Also, $$q_2$$
+    has transition to $$q_3$$. From there are two ε-transitions: one to itself and another to $$q_4$$.
+</p>
+
+<p>For next symbol <code class="d-code">b</code>, there is only one transition: from $$q_4$$ to $$q_5$$. Therefore,
+all other machines die. From $$q_5$$ are four ε-transitions: to $$q_5$$, $$q_1$$, $$q_2$$, $$q_6$$. One of those
+transitions leads to $$q_5$$ state, which is an accept state. Thus, ε-NFA accepts string <code class="d-code">ab</code>.
+</p>
+
+<h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
+
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[0] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+    The main difference between {{ POST102_LINK_DEF106 }} and {{ LINK_DEF109 }} is the domain of transition function $$δ$$,
+    more particularly - an alphabet $$Σ$$. Former doesn't include an empty string $$ε$$, while latter does.
+</p>
+
+<div class="note alert">
+    <strong>IMPORTANT:</strong> An empty string $$ε$$ is not part of automaton's alphabet $$Σ$$.
+    It is only included in the domain of transition function.
+</div>
+
+<h2><a name="{{ page.headers[2].id }}"></a>{{ page.headers[2].name }}</h2>
+
+
+<p>
+    Usually, after formally defining automaton we give definition of extended transition function $$δ^*$$ following
+    of acceptance of strings. Unfortunately, ε-NFA has ε-transitions which complicate things. Thus, before we can talk
+    about $$δ^*$$ function, we have to define <strong>ε-closure</strong>. Informally, we <i>ε-close</i> a state $$q$$ by
+    following all the transitions which are labeled ε. When we get to other states, then we follow ε-transitions out of
+    those states, and so on, eventually finding every state that can be reach from $$q$$ along any path whose arrows
+    are labeled ε. More formally,
+</p>
+
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[2] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+    At first glance {{ LINK_DEF111 }} is not very intuitive. So, let's tackle this together. We take any set $$S$$ which
+    is a subset of $$Q$$. Meaning, $$S$$ represents some states from all the states in the machine $$M$$.
+    In addition, we are defining $$E(S)$$ in terms of set of states, rather just one state.
+    <i>So, if I would want to implement ε-closure as a method, I would need to pass set of states to it, rather
+    just one state.</i>Then, the base case $$S ⊆ E(S)$$ tells us that a set $$S$$ is a subset of $$F(S)$$.
+    <i>But how does it help us?</i> We still don't know what elements $$E(S)$$ has in the first place. In fact,
+    we are defining $$E(S)$$ in this very moment. But we do know definition of the <strong>subset</strong>
+</p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[3] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+    This funny looking symbol $$\forall$$ stands for <i>"for all"</i>. So, one set is a subset of another if and only if,
+    all the elements in it are elements in another. Thus, by saying that set $$S$$ is a subset of $$E(S)$$, we are saying,
+    that all elements in $$S$$ is also in $$E(S)$$, otherwise our statement would be false.
+    And that makes sense. Because, when we where considering ε-transitions, we said that a state itself is always included
+    in the resulting set.
+</p>
+
+<p class="bottomless">
+    If the base case in {{ LINK_DEF111 }} includes current states in $$F(S)$$, then the second part includes all the states which
+    can be reached following ε-transitions. Let's look at specific example of $$E(S)$$ when $$S=\{q_0\}$$,
+</p>
+
+$$$\begin{align}
+S = \{q_0\} \subseteq E(S) &\implies q_0 \in E(S) \\
+δ(q_0, ε) = \{q_1\} ⊆ E(S) &\implies q_1 \in E(S)\\
+δ(q_1, ε) = \{q_2, q_6\} ⊆ E(S) &\implies q_2,q_6 \in E(S) \\
+δ(q_2, ε) = \emptyset ⊆ E(S) \\
+δ(q_6, ε) = \emptyset ⊆ E(S) \\
+\end{align}
+$$$
+
+<p>
+    Thus, if $$S = \{q_0\}$$, then $$F(S) = \{q_0, q_1, q_2, q_6\}$$. Notice, there are no ε-transitions from $$q_2$$
+    or $$q_6$$, therefore $$δ(q_2 \text{ or } q_6, ε) = \emptyset$$. Empty set has no elements, therefore it has no
+    implication in this case. Recursive part of {{ LINK_DEF111 }} is considered finished, when all
+    the elements (states) in $$F(S)$$ has been checked for ε-transitions.
+</p>
+
+<p>
+    Now, we are ready to define extended transition function.
+</p>
+
+{% for def in site.definitions %}
+    {% if def.identity == page.definitions[1] %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+<p>
+    The main difference between NFA's {{ POST102_LINK_DEF107 }} of $$δ^*$$ and {{ LINK_DEF110 }} is ε-closure inclusion in
+    the latter. For example, the base case changed from $$δ^∗(q, ε) = \{q\}$$ to $$δ^∗(q, ε) = E(\{q\})$$. This has an
+    effect of including all the ε-transitions of set of states at the end of input string. Similarly, in recursive case
+    at each pass, $$δ^*$$ returns not just set of states given a symbol, but all the states which can be reached following
+    ε-transitions as well.
+</p>
+
+<h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
+
+<p>
+    to be continue...
+</p>

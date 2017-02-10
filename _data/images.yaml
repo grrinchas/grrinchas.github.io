@@ -26,3 +26,13 @@
   alt: State diagram of DFA equivalent to NFA.
   caption: State diagram of DFA equivalent to NFA.
   src: /resources/images/automata_5.svg
+
+- id: IMG106
+  alt: State diagram of ε-NFA.
+  caption: State diagram of ε-NFA recognising language of $$(ab ∪ a)^*$$.
+  src: /resources/images/automata_6.svg
+
+- id: IMG107
+  alt: Shows how ε-NFA accepts ab string.
+  caption: Shows how ε-NFA accepts $$ab$$ string.
+  src: /resources/images/tree_2.svg

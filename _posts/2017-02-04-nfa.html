@@ -5,6 +5,7 @@ title: NFA in JAVA
 category: Tutorial
 comments: true
 tags:
+    - java
     - automata-theory
 quote:
     quote: The difference between stupidity and genius is that genius has its limits.
@@ -117,9 +118,9 @@ code:
 
 <div class="note alert">
     <strong>IMPORTANT:</strong> In general, when someone talks about NFA, he/she means a nondeterministic finite automaton
-    which may or may not have $$ε$$-transitions. While it is convenient to make no distinction between these two types
+    which may or may not have ε-transitions. While it is convenient to make no distinction between these two types
     of automaton, it makes, however, harder to understand them. Thus, I will make a clear distinction between NFA
-    ($$ε$$-transitions are not allowed) and generalization of it - <strong>$$ε$$-NFA</strong> ($$ε$$-transition are allowed).
+    (don't have ε-transitions) and generalization of it - <strong>ε-NFA</strong> (may have ε-transition).
 </div>
 
 <h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
@@ -622,7 +623,7 @@ So we have two methods:
 
 <p>
     As I sad before, NFA computes in exponential time, while DFA in linear. Thus, I can't imagine any practical situation
-    where above NFA implementation would be more useful rather equivalent DFA.
+    where above NFA implementation would be more practical rather equivalent DFA.
     However, my goal at the moment is not to be practical but to learn and have fun.
 </p>
 
