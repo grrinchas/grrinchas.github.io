@@ -1,0 +1,64 @@
+---
+layout: post
+title: Aliquam
+category: Portfolio
+comments: true
+tags:
+    - web-development
+    - jekyll
+quote:
+    quote: A friend would not just follow another's dream... a friend would find his own reason to live...
+    author: Griffith (Berserk)
+description: Minimalistic, yet powerful Jekyll theme a your blog. With features such as SEO, google analytics, pagination, integrated form, comments and much more.
+headers:
+    - id: H0
+      name: Why Jekyll?
+images:
+    - IMG111
+---
+
+<figure>
+    {% for member in site.data.images %}
+    {% if member.id == page.images[0] %}
+    {% assign img = member %}
+    {% endif %}
+    {% endfor %}
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    <figcaption>
+        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+    </figcaption>
+</figure>
+
+<p>
+    Minimalistic, blog-aware <a href="https://jekyllrb.com/">Jekyll</a> theme. It can be used to host your blog
+    on <a href="https://github.com/">GitHub</a> for free. Just <a href="https://github.com/grrinchas/aliquam">fork it</a>,
+    change <code class="d-code">aliquam</code> repository name to
+    <code class="d-code">yourGithubName.github.io</code> and access it through
+    <code class="d-code">https://yourName.github.io</code>. Project website can be found <a href="http://grrinchas.github.io/aliquam">here</a>.
+</p>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+<p>
+To make a blog, you do not need to have deep knowledge about <code class="d-code">HTML</code> or
+    <code class="d-code">CSS</code>. Just create account with
+    <a href="https://wordpress.com/">WordPress</a> or <a href="https://www.blogger.com">Blogger</a>.
+    Choose from thousandths of templates and start to blog. But this simplicity comes with a price.
+</p>
+<p>
+    First of all it is hard to find a template which would fit your requirements 100%.
+    Second, you get thousandths lines of code with features which in most cases are unnecessary.
+    On the other hand, if you would like to add a feature you have to install plugins,
+    which are not optimized and slows down your website. Third, if you want to change something manually,
+    you will spend hours on breaking and fixing. In the end I realized that using this kind of
+    <code class="d-code">CMS</code> is not an option for me.
+</p>
+<p>
+    GitHub provides full support for static <code class="d-code">CMS</code> - <a href="https://jekyllrb.com/">Jekyll</a>
+    which is easy to learn, supports <a href="https://shopify.github.io/liquid/">Liquid</a> template engine for
+    organizing <code class="d-code">HTML</code> files,
+    <a href="http://sass-lang.com/">SASS</a> for organizing <code class="d-code">CSS</code>,
+    <a href="https://daringfireball.net/projects/markdown/">Markdown</a> for writhing posts and
+    <a href="http://rouge.jneen.net/">Rogue</a> syntax highlighter.
+</p>

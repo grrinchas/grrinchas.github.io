@@ -1,0 +1,50 @@
+---
+identity: POST104
+layout: post
+title:  ε-NFA to DFA
+category: Tutorial
+comments: true
+tags:
+    - java
+    - automata-theory
+quote:
+    quote: In the midst of chaos, there is also opportunity.
+    author: Sun Tzu
+description: Converting ε-NFA to DFA.
+posts:
+    - POST103
+headers:
+    - id: H0
+      name: Two types of nondeterminism
+tables:
+    - TB102
+images:
+    - IMG106
+definitions:
+    - DEF112
+code:
+    - SC109
+---
+
+{% for post in site.posts %}
+    {% if post.identity == page.posts[0] %}
+        {% assign POST103 = post %}
+    {% endif %}
+{% endfor %}
+
+{%  capture POST103_LINK_DEF102 %}
+<a href="{{ POST103.url }}#{{ POST103.definitions[2] }}">Definition {{ POST103.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+<p>
+    From last post <a href="{{ POST103.url }}">{{ POST103.title }}</a> we saw some nice properties of the ε-NFA.
+    Mainly involving their design simplicity. Unfortunately, ε-NFA can be much more slower
+    compared to the equivalent DFA. In this post we will discuss few different ways of converting ε-NFA to DFA. In
+    other words, we will remove nondeterminism from ε-NFA.
+</p>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+<p>
+
+</p>

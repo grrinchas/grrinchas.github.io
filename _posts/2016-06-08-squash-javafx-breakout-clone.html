@@ -1,0 +1,76 @@
+---
+layout: post
+title: Squash 
+category: Portfolio
+comments: true
+tags:
+    - java
+    - ecs
+quote:
+    quote: There is no mistakes or failures, only lessons.
+    author: Denis Waitley
+description: JavaFX breakout clone, using ECS pattern.
+headers:
+    - id: H0
+      name: Reflection
+    - id: H1
+      name: Installation
+images:
+    - IMG108
+---
+
+<figure>
+    {% for member in site.data.images %}
+    {% if member.id == page.images[0] %}
+    {% assign img = member %}
+    {% endif %}
+    {% endfor %}
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    <figcaption>
+        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+    </figcaption>
+</figure>
+
+<p>
+    Break out clone written in
+    <a href="http://docs.oracle.com/javase/8/javase-clienttechnologies.htm">JavaFX</a> using
+    <a href="http://www.gamedev.net/page/resources/_/technical/game-programming/understanding-component-entity-systems-r3013">ECS</a>
+    - Entity Component System pattern. This was a coursework for programming module and my first big project.
+    The end result and the source code can be found on the
+    <a href="https://github.com/grrinchas/squash">GitHub</a>. Just <code class="d-code">clone</code> or
+    <code class="d-code">fork</code> to get a copy, then build and run with <a href="http://gradle.org/">gradle</a>.
+</p>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+<p>
+When I started this project I knew only basics: java syntax, conditional statements, loops, methods
+and little bit about inheritance. But I had to start somewhere and came across with
+<a rel="nofollow" href="http://www.amazon.co.uk/gp/product/1484204166/ref=as_li_tl?ie=UTF8&camp=1634&creative=6738&creativeASIN=1484204166&linkCode=as2&tag=dennisgrinch-21"> Beginning Java 8 Games Development</a> book.
+Which gave me pretty good insight to JavaFX. How to setup game loop, timers, asset management etc. Unfortunately,
+I was not impressed by the end result. Had few classes with hundredths of lines.
+My lack of understanding about
+<a href="https://en.wikipedia.org/wiki/Object-oriented_programming">OOP principles</a>
+forced me to read <a rel="nofollow" href="http://www.amazon.co.uk/gp/product/0596007124/ref=as_li_tl?ie=UTF8&camp=1634&creative=6738&creativeASIN=0596007124&linkCode=as2&tag=dennisgrinch-21">Head First Design Patterns</a> book.
+</p>
+
+<p>
+I redesigned the project from ground up and ended up with more than 15 classes and interfaces.
+Which was good, had working game and code looked pretty clean. But then I started to think what if I want to extend it,
+for example, add different power ups or make bricks (tomatoes in my case) to move. This will be very hard to accomplish,
+because I will have to extend my classes deeply  and will end up with tight coupling. Lucky for me someone introduced
+me with <a href="https://en.wikipedia.org/wiki/Entity_component_system">ECS</a> pattern which is very popular in game development.
+After redesigning again, and by redesigning I mean copying all the project files to new folder,
+then modifying them, I realized that this is too laborious and has to be better solution to control all the versions.
+And this is where I realized importance of
+<a href="https://github.com">Git</a>. Of course to learn about it, had to read
+<a href="https://git-scm.com/book/en/v2">Pro Git</a>.
+</p>
+
+<h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
+
+<p>
+    To download source code go to <a href="https://github.com/grrinchas/squash">GitHub</a>
+    or run <code class="d-code">git clone https://github.com/grrinchas/squash</code> from your favorite command line tool.
+</p>
