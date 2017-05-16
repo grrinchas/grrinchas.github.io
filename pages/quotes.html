@@ -1,0 +1,17 @@
+---
+identity: 104
+layout: page
+title: Quotes
+description: All quotes used in this website
+---
+
+{% for post in site.posts %}
+    <blockquote class="blockquote">
+        <p>
+        {{ post.quote.quote }}
+        </p>
+        <footer>
+            <cite>- {{ post.quote.author }}</cite>
+        </footer>
+    </blockquote>
+{% endfor %}

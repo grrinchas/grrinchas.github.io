@@ -12,7 +12,7 @@ description: All the definitions found on this website.
         {% if def.post == post.identity %}
             {% for def_link in post.definitions %}
                 {% if def.identity == def_link %}
-                 <a href="{{ post.url }}#{{ def_link }} ">
+                 <a href="{{ post.url }}#{{ def_link }}">
                      <div class="env-header">
                      Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
                      </div>

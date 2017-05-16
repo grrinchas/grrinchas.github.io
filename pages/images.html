@@ -5,11 +5,16 @@ title: Images
 description: All the images found on this website.
 ---
 
-{% for member in site.data.images %}
-{% assign img = member %}
+{% for img in site.data.images %}
 <figure>
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    {% for post in site.posts %}
+    {% if post.images contains img.id %}
+    <a href="{{ post.url }}#{{ img.id }}">
+        {% assign img_id = img.id %}
+        <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+        {% endif %}
+        {% endfor %}
+    </a>
     <figcaption>
         <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
     </figcaption>

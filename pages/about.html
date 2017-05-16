@@ -22,12 +22,16 @@ headers:
     {% if page.identity == 103 %}
         {% assign TAGS = page %}
     {% endif %}
+    {% if page.identity == 104 %}
+        {% assign QUOTES = page %}
+    {% endif %}
 {% endfor %}
 
 
 {% assign DEF_COUNT = site.definitions | size %}
 {% assign POST_COUNT = site.posts | size %}
 {% assign TAG_COUNT = site.tags | size %}
+{% assign IMAGE_COUNT = site.data.images | size %}
 
 <p>
     Hey, my name is Dennis Grinch. I am CS student at University of Brighton.
@@ -42,8 +46,9 @@ There are many ways to search for information in this blog. Following links prov
 <ul>
     <li><a href="{{ POSTS.url }}">Posts [{{ POST_COUNT }}]</a> - every post on this website.</li>
     <li><a href="{{ TAGS.url }}">Tags [{{ TAG_COUNT }}]</a> - every tag used to tag posts.</li>
-    <li><a href="{{ DEFINITIONS.url }}">Definitions [{{ DEF_COUNT }}]</a> - every definition used in posts. Just
-        click on the definition header to open a post where it was defined. </li>
+    <li><a href="{{ IMAGES.url }}">Images [{{ IMAGE_COUNT }}]</a> - every image in every post.</li>
+    <li><a href="{{ QUOTES.url }}">Quotes [{{ POST_COUNT }}]</a> - every quote.</li>
+    <li><a href="{{ DEFINITIONS.url }}">Definitions [{{ DEF_COUNT }}]</a> - every definition used in posts.</li>
 </ul>
 
 <h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[0].name }}</h2>
