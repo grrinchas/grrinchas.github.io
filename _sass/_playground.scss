@@ -1,5 +1,5 @@
 
-.table table{
+.table table {
   width: 300px;
 }
 
@@ -9,4 +9,17 @@
 
 footer > blockquote p:first-child {
   padding-bottom: $l-h-baseline-double;
+}
+
+.information {
+  display: block;
+  width: 95%;
+  margin: 0 auto;
+
+}
+
+.information > figure {
+  display: inline-block;
+  max-width: 600px;
+  max-height: 600px;
 }

@@ -1,0 +1,33 @@
+---
+identity: 102
+layout: page
+title: Posts
+description: All the posts found on this website.
+---
+
+{% assign dates = site.posts | sort: 'date' | reverse | map: 'date' %}
+{% assign curr_date = dates[0] | date: "%B, %Y" %}
+{% assign string_date = curr_date %}
+
+{% for date in dates %}
+    {% assign next_date = date | date: "%B, %Y" %}
+    {% if curr_date != next_date %}
+        {% assign curr_date = next_date %}
+        {% assign string_date = string_date | append: "#" | append: next_date %}
+    {% endif %}
+{% endfor %}
+
+{% assign dates = string_date | split: "#" %}
+
+{% for date in dates %}
+    <h2>{{ date }}</h2>
+    <ul>
+        {% for post in site.posts %}
+            {% assign post_date = post.date | date: "%B, %Y" %}
+            {% if post_date == date %}
+                <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endfor %}
+

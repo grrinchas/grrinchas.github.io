@@ -1,0 +1,17 @@
+---
+identity: 100
+layout: page
+title: Images
+description: All the images found on this website.
+---
+
+{% for member in site.data.images %}
+{% assign img = member %}
+<figure>
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    <figcaption>
+        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+    </figcaption>
+</figure>
+{% endfor %}

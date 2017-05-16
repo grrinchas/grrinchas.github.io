@@ -5,6 +5,7 @@
 
 - id: IMG101
   alt: State diagram of DFA.
+  caption: State diagram of DFA.
   src: /resources/images/automata_2.svg
 
 - id: IMG102
