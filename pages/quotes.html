@@ -5,27 +5,15 @@ title: Quotes
 description: All quotes used in this website
 ---
 
-{% for post in site.posts %}
+{% for quote in site.data.quotes %}
     <blockquote class="blockquote">
         <p>
-        {{ post.quote.quote }}
+        {{ quote.text }}
         </p>
         <footer>
-            <cite>- {{ post.quote.author }}</cite>
+            <cite>- {{ quote.author }}</cite>
         </footer>
     </blockquote>
-{% endfor %}
-
-{% for page in site.pages %}
-    {% if page.layout == "tag" %}
-    <blockquote class="blockquote">
-        <p> {{ page.quote.quote }} </p>
-        <footer><cite>- {{ page.quote.author }}</cite></footer>
-    </blockquote>
-    {% endif %}
-{% endfor %}
-
-{% for tag in tags %}
 {% endfor %}
 
 

@@ -4,16 +4,11 @@ layout: post
 title: NFA in JAVA
 category: Tutorial
 comments: true
+description: Theory and implementation of NFA in JAVA.
+quote: QUOTE102
 tags:
     - java
     - automata-theory
-quote:
-    quote: The difference between stupidity and genius is that genius has its limits.
-    author: Albert Einstein
-description: Theory and implementation of NFA in JAVA.
-posts:
-    - POST100
-    - POST101
 headers:
     - id: H0
       name: NFA vs. DFA
@@ -29,95 +24,34 @@ headers:
       name: Implementing states
     - id: H6
       name: Implementing $$δ^*$$
-    - id: H7
-      name: Additional notes
-definitions:
-    - DEF106
-    - DEF107
-    - DEF108
-images:
-    - IMG103
-    - IMG104
-    - IMG105
-tables:
-    - TB101
-code:
-    - SC105
-    - SC106
 ---
 
-{% for post in site.posts %}
-    {% if post.identity == page.posts[0] %}
-        {% assign POST100 = post %}
-    {% endif %}
-    {% if post.identity == page.posts[1] %}
-        {% assign POST101 = post %}
-    {% endif %}
-{% endfor %}
-
+{% include variables.html %}
 
 {%  capture POST100_LINK_DEF100 %}
-<a href="{{ POST100.url }}#{{ POST100.definitions[0] }}">Definition {{ POST100.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[0].url }}#{{ sorted_definitions[0].identity }}">Definition {{ sorted_definitions[0].identity |
+    remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 {%  capture POST100_LINK_DEF102 %}
-<a href="{{ POST100.url }}#{{ POST100.definitions[2] }}">Definition {{ POST100.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture POST100_LINK_DEF104 %}
-<a href="{{ POST100.url }}#{{ POST100.definitions[4] }}">Definition {{ POST100.definitions[4] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-
-{%  capture POST100_LINK_DEF105 %}
-<a href="{{ POST100.url }}#{{ POST100.definitions[5] }}">Definition {{ POST100.definitions[5] | remove: "DEF" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[0].url  }}#{{ sorted_definitions[2].identity }}">Definition {{ sorted_definitions[2].identity |
+    remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 {%  capture POST100_LINK_IMG100 %}
-<a href="{{ POST100.url }}#{{ POST100.images[0] }}">Image {{ POST100.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[0].url }}#{{ sorted_images[0].id }}">Image {{ sorted_images[0].id | remove: "IMG" | split: "" |
+    join: "." }}</a>
 {% endcapture %}
-
-{%  capture POST101_LINK_SC101 %}
-<a href="{{ POST101.url }}#{{ POST101.code[1] }}">Source code {{ POST101.code[1] | remove: "SC" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_IMG103 %}
-<a href="#{{ page.images[0] }}">Image {{ page.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_IMG104 %}
-<a href="#{{ page.images[1] }}">Image {{ page.images[1] | remove: "IMG" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_IMG105 %}
-<a href="#{{ page.images[2] }}">Image {{ page.images[2] | remove: "IMG" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_DEF106 %}
-<a href="#{{ page.definitions[0] }}">Definition {{ page.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_DEF107 %}
-<a href="#{{ page.definitions[1] }}">Definition {{ page.definitions[1] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_DEF108 %}
-<a href="#{{ page.definitions[2] }}">Definition {{ page.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_TB101 %}
-<a href="#{{ page.tables[0] }}">Table {{ page.tables[0] | remove: "TB"  | split: "" | join: "." }}</a>
-{% endcapture %}
-
 
 <p>
-    In previous tutorial (see <a href="{{ POST100.url }}">{{ POST100.title }}</a>) we talked about DFA and implemented
-    one in JAVA (see <a href="{{ POST101.url }}">{{ POST101.title }}</a>). Here we will focus on
-    <strong>NFA (Nondeterministic Finite Automaton)</strong> or <strong>NFSM (Nondeterministic Finite State Machine)</strong>.
+    In previous tutorial (see {{ POST_URL[0] }}) we talked about DFA and implemented one in JAVA
+    (see {{ POST_URL[1] }}). Here we will focus on <strong>NFA (Nondeterministic Finite Automaton)</strong> or
+    <strong>NFSM (Nondeterministic Finite State Machine)</strong>.
 </p>
 
 <div class="note alert">
-    <strong>IMPORTANT:</strong> In general, when someone talks about NFA, he/she means a nondeterministic finite automaton
+    <strong>IMPORTANT:</strong> In general, when someone talks about NFA, he/she means a nondeterministic finite
+    automaton
     which may or may not have ε-transitions. While it is convenient to make no distinction between these two types
     of automaton, it makes, however, harder to understand them. Thus, I will make a clear distinction between NFA
     (don't have ε-transitions) and generalization of it - <strong>ε-NFA</strong> (may have ε-transition).
@@ -127,25 +61,15 @@ code:
 
 <p>
     Just by looking at the names of NFA and DFA, we can see the main difference between them. That is, DFA is a
-    <strong>deterministic</strong> while NFA is <strong>nondeterministic</strong>. <i>But what exactly means for automaton
-        to be deterministic?</i> From {{ POST100_LINK_IMG100 }} of DFA we see that given any state and any symbol there is only one
+    <strong>deterministic</strong> while NFA is <strong>nondeterministic</strong>. <i>But what exactly means for
+    automaton
+    to be deterministic?</i> From {{ POST100_LINK_IMG100 }} of DFA we see that given any state and any symbol there is
+    only one
     transition to the next state. Thus, next state is determined. While NFA has no such constraint. For example,
-    {{ LINK_IMG103 }} shows NFA which recognises language of $$\{aa, aab\}^*\{b\}$$.
+    {{ IMG_URL[3] }} shows NFA which recognises language of $$\{aa, aab\}^*\{b\}$$.
 </p>
 
-
-<figure>
-    {% for member in site.data.images %}
-        {% if member.id == page.images[0] %}
-            {% assign img = member %}
-        {% endif %}
-    {% endfor %}
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
-    <figcaption>
-        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
-    </figcaption>
-</figure>
+{{ IMG[3] }}
 
 <p>
     From image above we see that some states in NFA,
@@ -153,37 +77,31 @@ code:
 
 <ul>
     <li>Don't have transition for every symbol in the alphabet. For example, $$q_1$$ and $$q_2$$ don't
-    have transition for <code class="d-code">b</code>, while $$q_3$$ - for <code class="d-code">a</code>.</li>
+        have transition for <code class="d-code">b</code>, while $$q_3$$ - for <code class="d-code">a</code>.
+    </li>
     <li>Can have no transitions at all. For example, $$q_4$$ doesn't have any arrow pointing out.</li>
-    <li>Can have more than one transition for a given symbol. For example, if input symbol is  <code class="d-code">a</code>, then $$q_0$$ can
-    transition to $$q_1$$ and $$q_2$$.</li>
+    <li>Can have more than one transition for a given symbol. For example, if input symbol is <code
+            class="d-code">a</code>, then $$q_0$$ can
+        transition to $$q_1$$ and $$q_2$$.
+    </li>
 </ul>
 
 <p>
-    One of the advantage of NFAs over DFAs, are their simplicity. State diagrams of NFAs tend to have less nodes and edges.
-    For example {{ LINK_IMG105 }} shows equivalent DFA which recognises same
+    One of the advantage of NFAs over DFAs, are their simplicity. State diagrams of NFAs tend to have less nodes and
+    edges.
+    For example {{ IMG_URL[5] }} shows equivalent DFA which recognises same
     $$\{aa, aab\}^*\{b\}$$ language.
 </p>
 
-<figure>
-    {% for member in site.data.images %}
-        {% if member.id == page.images[2] %}
-            {% assign img = member %}
-        {% endif %}
-    {% endfor %}
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
-    <figcaption>
-        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
-    </figcaption>
-</figure>
+{{ IMG[5] }}
 
 <h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
 
 <p>
     First of all, given symbol from the alphabet, NFA can transition to zero, one, or many states.
     Thus, transition function output is not just one state as in DFA, but set of states. So, if a state doesn't have
-    a transition to other state for a given input, then an empty set is returned. On the other hand, if a state has one or more
+    a transition to other state for a given input, then an empty set is returned. On the other hand, if a state has one
+    or more
     transitions, then a set with all applicable states are returned. One way of thinking about NFA, is to imagine many
     parallel computations. For example, if NFA is in the start state $$q_0$$, then input symbol $$a$$ forces it to split
     itself into two machines computing simultaneously, one of which has $$q_1$$, other one - $$q_2$$ as current state.
@@ -191,60 +109,48 @@ code:
 </p>
 
 <p>
-    One way of representing NFA computation is a tree. For example, {{ LINK_IMG104 }} shows how NFA from {{ LINK_IMG103 }}
+    One way of representing NFA computation is a tree. For example, {{ IMG_URL[4] }} shows how NFA from {{ IMG_URL[3] }}
     accepts <code class="d-code">aaaab</code> string.
 </p>
 
-
-<figure>
-    {% for member in site.data.images %}
-        {% if member.id == page.images[1] %}
-            {% assign img = member %}
-        {% endif %}
-    {% endfor %}
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
-    <figcaption>
-        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
-    </figcaption>
-</figure>
+{{ IMG[4] }}
 
 <p>
-    First symbol of <code class="d-code">aaaab</code> is <code class="d-code">a</code>. From {{ LINK_IMG103 }} we see that,
-    given symbol <code class="d-code">a</code>, start state $$q_0$$ has two transitions: one to $$q_1$$, other - to $$q_2$$.
-    Both those transitions are represented as a first split in the tree. So, left and right branches stands for two parallel machines.
-    When NFA receives second symbol <code class="d-code">a</code>, then actually two machines receives it. First one transitions to
+    First symbol of <code class="d-code">aaaab</code> is <code class="d-code">a</code>. From {{ IMG_URL[3] }} we see
+    that,
+    given symbol <code class="d-code">a</code>, start state $$q_0$$ has two transitions: one to $$q_1$$, other - to
+    $$q_2$$.
+    Both those transitions are represented as a first split in the tree. So, left and right branches stands for two
+    parallel machines.
+    When NFA receives second symbol <code class="d-code">a</code>, then actually two machines receives it. First one
+    transitions to
     $$q_0$$, while another to $$q_3$$ state. After third input symbol, which again is <code class="d-code">a</code>,
     first machine splits into two, while second dies, because state $$q_3$$ doesn't have transition for symbol
     <code class="d-code">a</code>. After fourth symbol <code class="d-code">a</code> NFA is in two states: $$q_0$$ and
-    $$q_3$$. And after the last symbol <code class="d-code">b</code> one machine transitions from $$q_0$$ to $$q_4$$, another
-    - from $$q_3$$ to $$q_0$$. One of the final states $$q_4$$ is an accept state, thus NFA accepts string <code class="d-code">aaaab</code>.
+    $$q_3$$. And after the last symbol <code class="d-code">b</code> one machine transitions from $$q_0$$ to $$q_4$$,
+    another
+    - from $$q_3$$ to $$q_0$$. One of the final states $$q_4$$ is an accept state, thus NFA accepts string <code
+        class="d-code">aaaab</code>.
 </p>
 
 <h2><a name="{{ page.headers[2].id }}"></a>{{ page.headers[2].name }}</h2>
 
-{% for def in site.definitions %}
-    {% if def.identity == page.definitions[0] %}
-        <a name="{{ def.identity }}"></a>
-        <div class="env-header">
-            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
-        </div>
-        <div class="definition alert">
-            {{ def.content }}
-        </div>
-    {% endif %}
-{% endfor %}
+{{ DEF[6] }}
 
 <p>
-    The only difference between {{ POST100_LINK_DEF100 }} of DFA and {{ LINK_DEF106 }} of NFA is a transition function $$δ$$.
-    In the first case it is $$δ:Q × Σ → Q$$, while in later - $$δ:Q × Σ → P(Q)$$. In other words, DFA's transition outputs
-    only one state from $$Q$$, while NFA - one set of states from $$P(Q)$$. Notation of $$P(Q)$$ denotes <strong>power set of $$Q$$</strong>.
+    The only difference between {{ POST100_LINK_DEF100 }} of DFA and {{ DEF_URL[6] }} of NFA is a transition function
+    $$δ$$.
+    In the first case it is $$δ:Q × Σ → Q$$, while in later - $$δ:Q × Σ → P(Q)$$. In other words, DFA's transition
+    outputs
+    only one state from $$Q$$, while NFA - one set of states from $$P(Q)$$. Notation of $$P(Q)$$ denotes <strong>power
+    set of $$Q$$</strong>.
     In other words all subsets of $$Q$$. For example, let $$Q = \{a, b, c\}$$, then
 
     $$$P(Q) = \{\{∅\}, \{a\}, \{b\}, \{c\}, \{a, b\}, \{a, c\}, \{b, c\}, \{a, b, c\}\}$$$
 
-    Notice, $$∅$$ is included in the power set. Therefore, is perfectly valid for transition function to return an empty set.
-    For example (see {{ LINK_IMG103 }}), if the first argument is a state $$q_1$$ and the second is a symbol
+    Notice, $$∅$$ is included in the power set. Therefore, is perfectly valid for transition function to return an empty
+    set.
+    For example (see {{ IMG_URL[3] }}), if the first argument is a state $$q_1$$ and the second is a symbol
     <code class="d-code">b</code>, then transition function $$δ$$ is $$ δ(q_1, b) = ∅$$.
 
 </p>
@@ -252,25 +158,16 @@ code:
 <h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
 
 <p>
-For DFA we defined extended transition function in {{ POST100_LINK_DEF102 }}. The same thing we will do for NFA.
+    For DFA we defined extended transition function in {{ POST100_LINK_DEF102 }}. The same thing we will do for NFA.
 </p>
 
-{% for def in site.definitions %}
-    {% if def.identity == page.definitions[1] %}
-        <a name="{{ def.identity }}"></a>
-        <div class="env-header">
-            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
-        </div>
-        <div class="definition alert">
-            {{ def.content }}
-        </div>
-    {% endif %}
-{% endfor %}
+{{ DEF[7] }}
 
 <p>
-The first thing what we should notice, $$δ^*$$ is defined recursively. Note the difference between base case in
-    {{ POST100_LINK_DEF102 }} and {{ LINK_DEF107 }}. Former, given a state and empty string, returns same state.
-    While latter, returns set of states. And it does make sense, because at the end, NFA may end up in more than one state.
+    The first thing what we should notice, $$δ^*$$ is defined recursively. Note the difference between base case in
+    {{ POST100_LINK_DEF102 }} and {{ DEF_URL[7] }}. Former, given a state and empty string, returns same state.
+    While latter, returns set of states. And it does make sense, because at the end, NFA may end up in more than one
+    state.
 </p>
 
 <p>
@@ -280,23 +177,28 @@ The first thing what we should notice, $$δ^*$$ is defined recursively. Note the
 
     $$$ \begin {align}
     \bigcup S &= \bigcup \{\{a, b\}, \{d\}, \{b, c\}\}\\
-                 &= \{a, b\} ∪ \{d\} ∪ \{b, c\} \\
-                 &= \{a, b, c, d\}
+    &= \{a, b\} ∪ \{d\} ∪ \{b, c\} \\
+    &= \{a, b, c, d\}
     \end {align}
     $$$
 
-    So, infinitary union takes a set and applies a union operation $$∪$$ between all its elements. Note, set elements must be
+    So, infinitary union takes a set and applies a union operation $$∪$$ between all its elements. Note, set elements
+    must be
     set themselves, because union can be applied only between sets.
 </p>
 
 <p>
-    We know that recursive case of $$δ^*$$ returns a union of multiple sets. Each set is an output of transition function
-    $$δ(p, a)$$, where $$a$$ is the last symbol of a string $$ya$$, and $$p$$ is a member of set of states which extended transition
-    function $$δ^*(q, y)$$ returns, given a state $$q$$ and original string $$ya$$ without last character $$a$$. Yes, I know, it is
+    We know that recursive case of $$δ^*$$ returns a union of multiple sets. Each set is an output of transition
+    function
+    $$δ(p, a)$$, where $$a$$ is the last symbol of a string $$ya$$, and $$p$$ is a member of set of states which
+    extended transition
+    function $$δ^*(q, y)$$ returns, given a state $$q$$ and original string $$ya$$ without last character $$a$$. Yes, I
+    know, it is
     too confusing. The best way too understand how $$δ^*$$ function works is by using a specific example.
 </p>
 <p>
-    {{ LINK_IMG104 }} shows how NFA from {{ LINK_IMG103 }} accepts string <code class="d-code">aaaab</code>. We will do the same thing
+    {{ IMG_URL[4] }} shows how NFA from {{ IMG_URL[3] }} accepts string <code class="d-code">aaaab</code>. We will do
+    the same thing
     using $$δ^*$$ function. Meaning, we will trace $$δ^*$$ with start state $$q_0$$ and a string <code class="d-code">aaaab</code>
     as input. Thus,
 
@@ -315,8 +217,8 @@ The first thing what we should notice, $$δ^*$$ is defined recursively. Note the
 
     $$$ \begin{align}
     δ^*(q_0, a) &= \bigcup \{δ(p,a) \mid p ∈ \{q_0\}\} \\
-                &= δ(q_0, a) \\
-                &= \{q_1, q_2\} \\\\
+    &= δ(q_0, a) \\
+    &= \{q_1, q_2\} \\\\
 
     δ^*(q_0, aa) &= \bigcup \{δ(p,a) \mid p ∈ \{q_1, q_2\}\} \\
     &= δ(q_1,a) ∪ δ(q_2,a) \\
@@ -334,36 +236,27 @@ The first thing what we should notice, $$δ^*$$ is defined recursively. Note the
     &= \{q_0, q_3\} \\\\
 
     δ^*(q_0, aaaab) &= \bigcup \{δ(p,b) \mid \{q_0, q_3\} \} \\
-                &= δ(q_0,b) ∪ δ(q_3,b) \\
-                &= \{q_4\} ∪ \{q_0\} \\
-                &= \{q_4, q_0\}
+    &= δ(q_0,b) ∪ δ(q_3,b) \\
+    &= \{q_4\} ∪ \{q_0\} \\
+    &= \{q_4, q_0\}
 
     \end {align}
     $$$
 
     Notice, corresponding between set of resulting states after each substitution in $$δ^*$$ and each level of leaves in
-    {{ LINK_IMG104 }}.
+    {{ IMG_URL[4] }}.
 </p>
 
 <p>
-Equipped with power knowledge of extended transition function we can precisely define what means for NFA to <strong>accept</strong>
-a string.
+    Equipped with power knowledge of extended transition function we can precisely define what means for NFA to <strong>accept</strong>
+    a string.
 </p>
 
-{% for def in site.definitions %}
-    {% if def.identity == page.definitions[2] %}
-        <a name="{{ def.identity }}"></a>
-        <div class="env-header">
-            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
-        </div>
-        <div class="definition alert">
-            {{ def.content }}
-        </div>
-    {% endif %}
-{% endfor %}
+{{ DEF[8] }}
 
 <p>
-    This is just a fancy way of saying: <i>If an output of $$δ^*$$ has at least one accept state, then NFA accepts a string</i>.
+    This is just a fancy way of saying: <i>If an output of $$δ^*$$ has at least one accept state, then NFA accepts a
+    string</i>.
 
 </p>
 
@@ -388,9 +281,9 @@ a string.
     <li>We can keep track of the states that NFA could be in any given moment.</li>
 </ul>
 
-<p>Second approach is more intuitive than the first one. Also, it conforms with {{ LINK_DEF107 }}. But
-before we start, it would be good to check <a href="{{ POST101.url }}">{{ POST101.title }}</a>, because implementation
-    of NFA will be very similar. For guinea pig, we will use NFA from {{ LINK_IMG103 }}. Its formal definition is
+<p>Second approach is more intuitive than the first one. Also, it conforms with {{ DEF_URL[7] }}. But
+    before we start, it would be good to check {{ POST_URL[1] }}, because implementation
+    of NFA will be very similar. For guinea pig, we will use NFA from {{ IMG_URL[3] }}. Its formal definition is
 </p>
 <p>
     $$M = (Q, Σ, δ, q_0, F )$$, where
@@ -405,59 +298,11 @@ before we start, it would be good to check <a href="{{ POST101.url }}">{{ POST10
     <li>$$δ$$ is described as a <strong>transition table</strong></li>
 </ol>
 
-
-
-{% for tb in site.data.tables %}
-    {% if tb.id == page.tables[0] %}
-        <a name="{{ tb.id }}"></a>
-        <figure class="table">
-            <table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>$$a$$ </th>
-                    <th>$$b$$ </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th>$$q_0$$ </th>
-                    <td>$$\{q_1, q_2\}$$ </td>
-                    <td>$$\{q_4\}$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_1$$ </th>
-                    <td>$$\{q_0\}$$ </td>
-                    <td>$$∅$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_2$$ </th>
-                    <td>$$\{q_3\}$$ </td>
-                    <td>$$∅$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_3$$ </th>
-                    <td>$$∅$$ </td>
-                    <td>$$\{q_0\}$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_4$$ </th>
-                    <td>$$∅$$ </td>
-                    <td>$$∅$$ </td>
-                </tr>
-                </tbody>
-                <tbody></tbody>
-            </table>
-            <figcaption>
-                <strong>Table {{ tb.id | remove: "TB"  | split: "" | join: "." }}:</strong>
-                {{ tb.caption }}
-            </figcaption>
-        </figure>
-    {% endif %}
-{% endfor %}
+{{ TB[1] }}
 
 <div class="alert success">
-    <strong>NOTE:</strong> The difference between DFA and NFA transition tables. In latter entries are sets of states, while in former
+    <strong>NOTE:</strong> The difference between DFA and NFA transition tables. In latter entries are sets of states,
+    while in former
     just single states.
 </div>
 
@@ -468,70 +313,22 @@ before we start, it would be good to check <a href="{{ POST101.url }}">{{ POST10
     of NFA. In other words - $$Q$$.
 </p>
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[0] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-private enum States {
-
-  Q0(false), Q1(false), Q2(false), Q3(false), Q4(true);
-
-  final boolean accept;
-
-  States(boolean accept) {
-    this.accept = accept;
-  }
-
-  Set<States> a;
-  Set<States> b;
-
-  static {
-    Q0.a = new HashSet(Arrays.asList(Q1, Q2));
-    Q0.b = new HashSet(Arrays.asList(Q4));
-
-    Q1.a = new HashSet<>(Arrays.asList(Q0));
-    Q1.b = Collections.EMPTY_SET;
-
-    Q2.a = new HashSet<>(Arrays.asList(Q3));
-    Q2.b = Collections.EMPTY_SET;
-
-    Q3.a = Collections.EMPTY_SET;
-    Q3.b = new HashSet<>(Arrays.asList(Q0));
-
-    Q4.a = Collections.EMPTY_SET;
-    Q4.b = Collections.EMPTY_SET;
-  }
-
-  Set<States> transition(char ch) {
-
-    switch (ch) {
-      case 'a':
-        return this.a;
-      case 'b':
-        return this.b;
-      default:
-        return Collections.EMPTY_SET;
-    }
-  }
-}
-{% endhighlight %}
+{{ SC[5] }}
 
 <p>
-    First part of the code is nothing new. In Line 3 we create five states and pass <code class="d-code">boolean accept</code>
-    to the constructor, to indicate accepting and not accepting states $$F$$. Line 11 declares two instance variables. Which
-    will hold current state's next set of states for every input symbol. In <code class="d-code">static {...}</code> block
+    First part of the code is nothing new. In Line 3 we create five states and pass <code class="d-code">boolean
+    accept</code>
+    to the constructor, to indicate accepting and not accepting states $$F$$. Line 11 declares two instance variables.
+    Which
+    will hold current state's next set of states for every input symbol. In <code class="d-code">static {...}</code>
+    block
     we initialise those variables. Think of it as a transition table. In fact, there is a direct correspondence between
-    <code class="d-code">static {...}</code> block and {{ LINK_TB101 }}. And lastly,
+    <code class="d-code">static {...}</code> block and {{ TB_URL[1] }}. And lastly,
     <code class="d-code">Set&lt;States&gt; transition(char ch) {...}</code> method returns next set of states.
 </p>
 <p>
-    At this stage, in the DFA implementation we faced a problem: <i>What to do with all the symbols not in the alphabet?</i>
+    At this stage, in the DFA implementation we faced a problem: <i>What to do with all the symbols not in the
+    alphabet?</i>
     There were few choices:
 </p>
 
@@ -541,7 +338,8 @@ private enum States {
     <li>Change DFA itself by introducing a dead state.</li>
 </ul>
 <p>
-    That was for DFA. On the other hand, NFA doesn't have this problem. Because if a state doesn't have a transition for a given
+    That was for DFA. On the other hand, NFA doesn't have this problem. Because if a state doesn't have a transition for
+    a given
     symbol, then it returns an empty set, which is already in the codomain of $$δ$$ function.
     <i>But what about a case when NFA had to split itself?</i> In that case, all
     current states would return an empty set, from which is impossible to reach accepting state, thus any string with
@@ -555,63 +353,29 @@ private enum States {
     As I said before, we will implement extended transition function by tracking all the current states.
     To do this we have a few options. For example, we could use a tree where each node would
     represent a state, while edges - transitions. A start state would be a root node, while current states -
-    all the leafs in the tree. For example, {{ LINK_IMG104 }} shows a tree for <code class="d-code">aaaab</code> string.
+    all the leafs in the tree. For example, {{ IMG_URL[4] }} shows a tree for <code class="d-code">aaaab</code> string.
     This approach would enable use to keep track not just current states, but all the previous states as well.
     Another way to implement transition function is by using sets.
 </p>
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[1] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-public class NFA {
-
-  private enum States {
-  //...
-  }
-
-  // Accepts or rejects a string
-  public boolean accept(String string) {
-    Set<States> currStates = new HashSet<>();
-    currStates.add(States.Q0);
-
-    for (int i = 0; i < string.length(); i++)
-      currStates = union(currStates, string.charAt(i));
-
-    return currStates.stream().anyMatch(s -> s.accept);
-  }
-
-  // Helper method which returns set of next states
-  private Set<States> union(Set<States> currStates, char ch) {
-    Set<States> nextStates = new HashSet<>();
-
-    for (States cState: currStates)
-       nextStates.addAll(cState.transition(ch));
-
-    return nextStates;
-  }
-}
-{% endhighlight %}
+{{ SC[6] }}
 
 <p>
-So we have two methods:
-
+    So we have two methods:
 </p>
 
 <ul>
     <li>
-    <code class="d-code">public boolean accept(String string) {...}</code>.
-    Which is very similar to DFA's. Both have same signature as well as functionality. In the first few lines we
-    create set of current states. Initially it has only a start state <code class="d-code">States.Q0</code>. Then, by
-    looping through each character in the string, we reassign set of current states to the union of next states, which
-    becomes current states. It is like in the {{ LINK_DEF107 }} of transition function, except we use loop for iteration, instead of recursive calls.
-    The last line corresponds to the {{ LINK_DEF108 }} which checks if there is an accept state in the last set of states.
+        <code class="d-code">public boolean accept(String string) {...}</code>.
+        Which is very similar to DFA's. Both have same signature as well as functionality. In the first few lines we
+        create set of current states. Initially it has only a start state <code class="d-code">States.Q0</code>. Then,
+        by
+        looping through each character in the string, we reassign set of current states to the union of next states,
+        which
+        becomes current states. It is like in the {{ DEF_URL[7] }} of transition function, except we use loop for
+        iteration, instead of recursive calls.
+        The last line corresponds to the {{ DEF_URL[8] }} which checks if there is an accept state in the last set of
+        states.
     </li>
     <li>
         <code class="d-code">private Set&lt;States&gt; union(Set&lt;States&gt; currStates, char ch) {...}</code>.
@@ -619,12 +383,4 @@ So we have two methods:
     </li>
 </ul>
 
-<h2><a name="{{ page.headers[7].id }}"></a>{{ page.headers[7].name }}</h2>
-
-<p>
-    As I sad before, NFA computes in exponential time, while DFA in linear. Thus, I can't imagine any practical situation
-    where above NFA implementation would be more practical rather equivalent DFA.
-    However, my goal at the moment is not to be practical but to learn and have fun.
-</p>
-
-<p><a href="https://gist.github.com/grrinchas/7c7fc7de3863ca67debd156dd09b7bea">Download</a></p>
+<p>{{ URL[4] }}</p>

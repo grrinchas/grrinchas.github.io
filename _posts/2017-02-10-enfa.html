@@ -4,17 +4,11 @@ layout: post
 title:  ε-NFA in JAVA
 category: Tutorial
 comments: true
+description: Theory and implementation of ε-NFA in JAVA.
+quote: QUOTE103
 tags:
     - java
     - automata-theory
-quote:
-    quote: In the midst of chaos, there is also opportunity.
-    author: Sun Tzu
-description: Theory and implementation of ε-NFA in JAVA.
-posts:
-    - POST100
-    - POST101
-    - POST102
 headers:
     - id: H0
       name: What the heck are ε-transitions?
@@ -28,82 +22,33 @@ headers:
       name: Implementing states
     - id: H5
       name: Implementing $$δ^*$$
-tables:
-    - TB102
-images:
-    - IMG106
-    - IMG107
-definitions:
-    - DEF109
-    - DEF110
-    - DEF111
-    - DEF112
-code:
-    - SC107
-    - SC108
-    - SC109
 ---
 
-{% for post in site.posts %}
-    {% if post.identity == page.posts[0] %}
-        {% assign POST100 = post %}
-    {% endif %}
-    {% if post.identity == page.posts[1] %}
-        {% assign POST101 = post %}
-    {% endif %}
-    {% if post.identity == page.posts[2] %}
-        {% assign POST102 = post %}
-    {% endif %}
-{% endfor %}
+{% include variables.html %}
 
 {%  capture POST100_LINK_DEF102 %}
-<a href="{{ POST100.url }}#{{ POST100.definitions[2] }}">Definition {{ POST100.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture POST102_LINK_DEF107 %}
-<a href="{{ POST102.url }}#{{ POST102.definitions[1] }}">Definition {{ POST102.definitions[1] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture POST102_LINK_DEF108 %}
-<a href="{{ POST102.url }}#{{ POST102.definitions[2] }}">Definition {{ POST102.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture POST102_LINK_SC106 %}
-<a href="{{ POST102.url }}#{{ POST102.code[1] }}">Source code {{ POST102.code[1] | remove: "SC" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_IMG106 %}
-<a href="#{{ page.images[0] }}">Image {{ page.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_IMG107 %}
-<a href="#{{ page.images[1] }}">Image {{ page.images[1] | remove: "IMG" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[0].url }}#{{ sorted_definitions[2].identity }}">Definition {{ sorted_definitions[2].identity | remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 {%  capture POST102_LINK_DEF106 %}
-<a href="{{ POST102.url }}#{{ POST102.definitions[0] }}">Definition {{ POST102.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[2].url }}#{{ sorted_definitions[6].identity }}">Definition {{ sorted_definitions[6].identity | remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
-{%  capture LINK_DEF109 %}
-<a href="#{{ page.definitions[0] }}">Definition {{ page.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
+{%  capture POST102_LINK_DEF107 %}
+<a href="{{ sorted_posts[2].url }}#{{ sorted_definitions[7].identity }}">Definition {{ sorted_definitions[7].identity | remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
-
-{%  capture LINK_DEF110 %}
-<a href="#{{ page.definitions[1] }}">Definition {{ page.definitions[1] | remove: "DEF" | split: "" | join: "." }}</a>
+{%  capture POST102_LINK_DEF108 %}
+<a href="{{ sorted_posts[2].url }}#{{ sorted_definitions[8].identity }}">Definition {{ sorted_definitions[8].identity | remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
-{%  capture LINK_DEF111 %}
-<a href="#{{ page.definitions[2] }}">Definition {{ page.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
+{%  capture POST102_LINK_SC106 %}
+<a href="{{ sorted_posts[2].url }}#{{ sorted_source_code[6].identity }}">Source code {{ sorted_source_code[6].identity | remove: "SC" | split: "" | join: "." }}</a>
 {% endcapture %}
 
-{%  capture LINK_DEF112 %}
-<a href="#{{ page.definitions[3] }}">Definition {{ page.definitions[3] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
 
 <p>
-    In previous tutorials we talked about <a href="{{ POST101.url }}">{{ POST101.title }}</a> and
-     <a href="{{ POST102.url }}">{{ POST102.title }}</a>. Here we will focus on <strong>ε-NFA
+    In previous tutorials we talked about {{ POST_URL[1] }} and {{ POST_URL[2] }}. Here we will focus on <strong>ε-NFA
      (Nondeterministic Finite Automaton)</strong> which may or may not have ε(read as "epsilon")-transitions.
 </p>
 
@@ -124,45 +69,23 @@ code:
 <p>
     Similarly, ε-transition means a state's transition to the next state when input symbol is an empty string. In other words,
     a transition when there are no input symbol at all.
-    {{ LINK_IMG106 }} shows a state diagram of ε-NFA which recognises language of $$(ab ∪ a)^*$$.
+    {{ IMG_URL[6] }} shows a state diagram of ε-NFA which recognises language of $$(ab ∪ a)^*$$.
 </p>
 
-<figure>
-    {% for member in site.data.images %}
-        {% if member.id == page.images[0] %}
-            {% assign img = member %}
-        {% endif %}
-    {% endfor %}
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
-    <figcaption>
-        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
-    </figcaption>
-</figure>
+ {{ IMG[6] }}
 
 <div class="success alert">
-    <strong>NOTE:</strong> In {{ LINK_IMG106 }} the start state $$q_0$$ is also an accept state.
+    <strong>NOTE:</strong> In  {{ IMG_URL[6] }} the start state $$q_0$$ is also an accept state.
 </div>
 
 <p>We can see bunch of ε-transitions: from $$q_0$$ to $$q_1$$, then from $$q_1$$ to both $$q_2$$ and $$q_6$$ and so on.
     <i>How should we interpret all those transitions?</i> Let's say automaton's current state is $$q_0$$, then without
     any input it transitions to $$q_1$$, from there to $$q_2$$ and $$q_6$$. So actually, at the beginning of computation
-    automaton is in 4 states. Or we can think of it as 4 parallel machines computing simultaneously. {{ LINK_IMG107 }}
+    automaton is in 4 states. Or we can think of it as 4 parallel machines computing simultaneously. {{ IMG_URL[7] }}
     shows a computation tree for <code class="d-code">ab</code> string.
 </p>
 
-<figure>
-    {% for member in site.data.images %}
-        {% if member.id == page.images[1] %}
-            {% assign img = member %}
-        {% endif %}
-    {% endfor %}
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
-    <figcaption>
-        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
-    </figcaption>
-</figure>
+{{ IMG[7] }}
 
 <p>
     First of all, computation begins at the start state $$q_0$$ (root node). Notice, $$q_0$$ has ε-transition to $$q_1$$, thus
@@ -191,21 +114,11 @@ transitions leads to $$q_5$$ state, which is an accept state. Thus, ε-NFA accep
 
 <h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
 
+{{ DEF[9] }}
 
-{% for def in site.definitions %}
-    {% if def.identity == page.definitions[0] %}
-        <a name="{{ def.identity }}"></a>
-        <div class="env-header">
-            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
-        </div>
-        <div class="definition alert">
-            {{ def.content }}
-        </div>
-    {% endif %}
-{% endfor %}
 
 <p>
-    The main difference between {{ POST102_LINK_DEF106 }} and {{ LINK_DEF109 }} is the domain of transition function $$δ$$,
+    The main difference between {{ POST102_LINK_DEF106 }} and {{ DEF_URL[9] }} is the domain of transition function $$δ$$,
     more particularly - an alphabet $$Σ$$. Former doesn't include an empty string $$ε$$, while latter does.
 </p>
 
@@ -227,20 +140,11 @@ transitions leads to $$q_5$$ state, which is an accept state. Thus, ε-NFA accep
 </p>
 
 
-{% for def in site.definitions %}
-    {% if def.identity == page.definitions[2] %}
-        <a name="{{ def.identity }}"></a>
-        <div class="env-header">
-            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
-        </div>
-        <div class="definition alert">
-            {{ def.content }}
-        </div>
-    {% endif %}
-{% endfor %}
+{{ DEF[11] }}
+
 
 <p>
-    At first glance {{ LINK_DEF111 }} is not very intuitive. So, let's tackle this together. We take any set $$S$$ which
+    At first glance {{ DEF_URL[11] }} is not very intuitive. So, let's tackle this together. We take any set $$S$$ which
     is a subset of $$Q$$. Meaning, $$S$$ represents some states from all the states in the machine $$M$$.
     In addition, we are defining $$E(S)$$ in terms of set of states, rather just one state.
     <i>So, if I would want to implement ε-closure as a method, I would need to pass set of states to it, rather
@@ -249,17 +153,7 @@ transitions leads to $$q_5$$ state, which is an accept state. Thus, ε-NFA accep
     we are defining $$E(S)$$ in this very moment. But we do know definition of the <strong>subset</strong>
 </p>
 
-{% for def in site.definitions %}
-    {% if def.identity == page.definitions[3] %}
-        <a name="{{ def.identity }}"></a>
-        <div class="env-header">
-            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
-        </div>
-        <div class="definition alert">
-            {{ def.content }}
-        </div>
-    {% endif %}
-{% endfor %}
+{{ DEF[12] }}
 
 <p>
     This funny looking symbol $$\forall$$ stands for <i>"for all"</i>. So, one set is a subset of another if and only if,
@@ -270,7 +164,7 @@ transitions leads to $$q_5$$ state, which is an accept state. Thus, ε-NFA accep
 </p>
 
 <p class="bottomless">
-    If the base case in {{ LINK_DEF111 }} includes current states in $$F(S)$$, then the second part includes all the states which
+    If the base case in {{ DEF_URL[11] }} includes current states in $$F(S)$$, then the second part includes all the states which
     can be reached following ε-transitions. Let's look at specific example of $$E(S)$$ when $$S=\{q_0\}$$,
 </p>
 
@@ -286,7 +180,7 @@ $$$
 <p>
     Thus, if $$S = \{q_0\}$$, then $$F(S) = \{q_0, q_1, q_2, q_6\}$$. Notice, there are no ε-transitions from $$q_2$$
     or $$q_6$$, therefore $$δ(q_2 \text{ or } q_6, ε) = \emptyset$$. Empty set has no elements, thus it has no
-    implication in this case. Recursive part of {{ LINK_DEF111 }} is considered finished, when all
+    implication in this case. Recursive part of {{ DEF_URL[11] }} is considered finished, when all
     the elements (states) in $$F(S)$$ has been checked for ε-transitions.
 </p>
 
@@ -294,20 +188,10 @@ $$$
     Now, we are ready to define extended transition function.
 </p>
 
-{% for def in site.definitions %}
-    {% if def.identity == page.definitions[1] %}
-        <a name="{{ def.identity }}"></a>
-        <div class="env-header">
-            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
-        </div>
-        <div class="definition alert">
-            {{ def.content }}
-        </div>
-    {% endif %}
-{% endfor %}
+{{ DEF[10] }}
 
 <p>
-    The main difference between NFA's {{ POST102_LINK_DEF107 }} of $$δ^*$$ and {{ LINK_DEF110 }} is ε-closure inclusion in
+    The main difference between NFA's {{ POST102_LINK_DEF107 }} of $$δ^*$$ and {{ DEF_URL[10] }} is ε-closure inclusion in
     the latter. For example, the base case changed from $$δ^∗(q, ε) = \{q\}$$ to $$δ^∗(q, ε) = E(\{q\})$$. This has an
     effect of including all the ε-transitions of set of states at the end of input string. Similarly, in recursive case
     at each pass, $$δ^*$$ returns not just set of states given a symbol, but all the states which can be reached following
@@ -318,7 +202,7 @@ $$$
 
 <p>
     We have all the necessary information to implement ε-NFA in JAVA. So, as always we will define a specific automaton as
-    5-tuple and then will write code for it. {{ LINK_IMG106 }} shows an ε-NFA which recognises  $$(ab ∪ a)^*$$ language,
+    5-tuple and then will write code for it. {{ IMG_URL[6] }} shows an ε-NFA which recognises  $$(ab ∪ a)^*$$ language,
     its formal definition is
 </p>
 
@@ -335,149 +219,11 @@ $$$
     <li>$$δ$$ is described as a <strong>transition table</strong></li>
 </ol>
 
-{% for tb in site.data.tables %}
-    {% if tb.id == page.tables[0] %}
-        <a name="{{ tb.id }}"></a>
-        <figure class="table">
-            <table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>$$a$$ </th>
-                    <th>$$b$$ </th>
-                    <th>$$ε$$ </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th>$$q_0$$ </th>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\{q_1\}$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_1$$ </th>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\{q_2, q_6\}$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_2$$ </th>
-                    <td>$$\{q_3\}$$ </td>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\emptyset$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_3$$ </th>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\{q_4\}$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_4$$ </th>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\{q_5\}$$ </td>
-                    <td>$$\emptyset$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_5$$ </th>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\{q_1\}$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_6$$ </th>
-                    <td>$$\{q_7\}$$ </td>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\emptyset$$ </td>
-                </tr>
-                <tr>
-                    <th>$$q_6$$ </th>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\emptyset$$ </td>
-                    <td>$$\{q_1\}$$ </td>
-                </tr>
-                </tbody>
-                <tbody></tbody>
-            </table>
-            <figcaption>
-                <strong>Table {{ tb.id | remove: "TB"  | split: "" | join: "." }}:</strong>
-                {{ tb.caption }}
-            </figcaption>
-        </figure>
-    {% endif %}
-{% endfor %}
+{{ TB[2] }}
 
 <h2><a name="{{ page.headers[4].id }}"></a>{{ page.headers[4].name }}</h2>
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[0] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-private enum States {
-
-  Q0(true), Q1(false), Q2(false), Q3(false),
-  Q4(false), Q5(true), Q6(false), Q7(true);
-
-  final boolean accept;
-
-  Set<States> a;
-  Set<States> b;
-  Set<States> epsilon;
-
-  static {
-    Q0.a = Collections.EMPTY_SET;
-    Q0.b = Collections.EMPTY_SET;
-    Q0.epsilon = new HashSet<>(Arrays.asList(Q1));
-
-    Q1.a = Collections.EMPTY_SET;
-    Q1.b = Collections.EMPTY_SET;
-    Q1.epsilon = new HashSet<>(Arrays.asList(Q2, Q6));
-
-    Q2.a = new HashSet<>(Arrays.asList(Q3));
-    Q2.b = Collections.EMPTY_SET;
-    Q2.epsilon = Collections.EMPTY_SET;
-
-    Q3.a = Collections.EMPTY_SET;
-    Q3.b = Collections.EMPTY_SET;
-    Q3.epsilon = new HashSet<>(Arrays.asList(Q4));
-
-    Q4.a = Collections.EMPTY_SET;
-    Q4.b = new HashSet<>(Arrays.asList(Q5));
-    Q4.epsilon = Collections.EMPTY_SET;
-
-    Q5.a = Collections.EMPTY_SET;
-    Q5.b = Collections.EMPTY_SET;
-    Q5.epsilon = new HashSet<>(Arrays.asList(Q1));
-
-    Q6.a = new HashSet<>(Arrays.asList(Q7));
-    Q6.b = Collections.EMPTY_SET;
-    Q6.epsilon = Collections.EMPTY_SET;
-
-    Q7.a = Collections.EMPTY_SET;
-    Q7.b = Collections.EMPTY_SET;
-    Q7.epsilon = new HashSet<>(Arrays.asList(Q1));
-  }
-
-  States(boolean accept) {this.accept = accept;}
-
-  Set<States> transition(char ch) {
-
-    switch (ch) {
-      case 'a': return this.a;
-      case 'b': return this.b;
-      default: return Collections.EMPTY_SET;
-    }
-  }
-  //...
-}
-{% endhighlight %}
+{{ SC[7] }}
 
 <p>
     As always we create <code class="d-code">private enum States {...}</code> which represents all states in the automaton.
@@ -487,38 +233,14 @@ private enum States {
     <code class="d-code">Set&lt;States&gt; eclose() {...}</code> method.
 </p>
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[1] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-private enum States {
-
-  //...
-
-  Set<States> eClose() {
-    Set<States> states = new HashSet<>();
-    states.add(this);
-
-    for(States e: this.epsilon)
-      states.addAll(e.eClose());
-
-    return states;
-  }
-}
-{% endhighlight %}
+{{ SC[8] }}
 
 <p>
     As you can see, <code class="d-code">Set&lt;States&gt; eclose() {...}</code> method belongs to
     <code class="d-code">private enum States {...}</code>. Because JAVA is object oriented, it makes sense
     to ask a state for its ε-closure. First of all, we create an empty set of states which corresponds to $$E(S)$$, then we add
-    state itself to it, this action corresponds to the base case of {{ LINK_DEF111 }}. Later we loop trough each
-    state which can be reached along ε-transitions and add them all recursively, just like in recursive case of {{ LINK_DEF111 }}.
+    state itself to it, this action corresponds to the base case of {{ DEF_URL[11] }}. Later we loop trough each
+    state which can be reached along ε-transitions and add them all recursively, just like in recursive case of {{ DEF_URL[11] }}.
     The only difference, we don't call <code class="d-code">Set&lt;States&gt; transition(char ch) {...}</code> because
     we can access ε-transitions directly through <code class="d-code">Set&lt;States&gt; epsilon;</code> instance variable.
     The recursion is finished when all states in $$E(S)$$ has been checked.
@@ -526,41 +248,8 @@ private enum States {
 
 <h2><a name="{{ page.headers[5].id }}"></a>{{ page.headers[5].name }}</h2>
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[2] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
+{{ SC[9] }}
 
-{% highlight java linenos %}
-public class eNFA {
-
-  private enum States {...}
-
-  public boolean accept(String string) {
-    Set<States> currStates = new HashSet<>(States.Q0.eClose());
-
-    for (int i = 0; i < string.length(); i++)
-      currStates = union(currStates, string.charAt(i));
-
-    return currStates.stream().anyMatch(s -> s.accept);
-  }
-
-  // helper method which returns set of next states
-  private Set<States> union(Set<States> currStates, char ch) {
-    Set<States> nextStates = new HashSet<>();
-
-    for (States cState : currStates)
-      for(States s: cState.transition(ch))
-        nextStates.addAll(s.eClose());
-
-    return nextStates;
-  }
-}
-{% endhighlight %}
 
 <p>
     The first method <code class="d-code">public boolean accept(String string) {...}</code>
@@ -570,4 +259,4 @@ public class eNFA {
     their ε-closure as well.
 </p>
 
-<p><a href="https://gist.github.com/grrinchas/411dc3c15ce223c72ced4186d02a034f">Download</a></p>
+<p>{{ URL[5] }}</p>

@@ -2,7 +2,11 @@
 <blockquote id="footer-quote">
     <p>
         {% if page.quote %}
-        {{ page.quote["quote"] }}
+            {% for q in site.data.quotes %}
+                {% if page.quote == q.id %}
+                    {{ q.text }}
+                {% endif %}
+            {% endfor %}
         {% else %}
         {{ site.quote["quote"] }}
         {% endif %}
@@ -10,7 +14,12 @@
     <footer>
         <cite>
         {% if page.quote %}
-        - {{ page.quote["author"] }}
+            {% for q in site.data.quotes %}
+                {% if page.quote == q.id %}
+                   - {{ q.author }}
+                {% endif %}
+            {% endfor %}
+
         {% else %}
         - {{ site.quote["author"] }}
         {% endif %}

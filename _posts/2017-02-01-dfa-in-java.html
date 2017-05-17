@@ -4,13 +4,11 @@ layout: post
 title: DFA in JAVA
 category: Tutorial
 comments: true
+description: DFA (Deterministic Finite Automaton) implementation in JAVA
+quote: QUOTE101
 tags:
     - java
     - automata-theory
-quote:
-    quote: If one does not know to which port one is sailing, no wind is favorable.
-    author: Lucius Annaeus Seneca
-description: DFA (Deterministic Finite Automaton) implementation in JAVA
 headers:
     - id: H0
       name: DFA as 5-tuple
@@ -24,67 +22,35 @@ headers:
       name: Additional notes
     - id: H6
       name: Fixing transition method
-tables:
-    - id: TB100
-      caption: Transition table.
-code:
-    - SC100
-    - SC101
-    - SC102
-    - SC103
-    - SC104
-images:
-    - IMG102
-posts:
-    - POST100
 ---
 
-{% for post in site.posts %}
-    {% if post.identity == page.posts[0] %}
-        {% assign POST100 = post %}
-    {% endif %}
-{% endfor %}
+{% include variables.html %}
+
 
 {%  capture LINK_TASK_1 %}
 <a href="#task-1">Task 1</a>
 {% endcapture %}
 
 {%  capture POST100_LINK_IMG100 %}
-<a href="{{ POST100.url }}#{{ POST100.images[0] }}">Image {{ POST100.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[0].url }}#{{ sorted_images[0].id }}">Image {{ sorted_images[0].id | remove: "IMG" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 {%  capture POST100_LINK_DEF100 %}
-<a href="{{ POST100.url }}#{{ POST100.definitions[0] }}">Definition {{ POST100.definitions[0] | remove: "DEF" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[0].url }}#{{ sorted_definitions[0].identity }}">Definition {{ sorted_definitions[0].identity | remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 {%  capture POST100_LINK_DEF102 %}
-<a href="{{ POST100.url }}#{{ POST100.definitions[2] }}">Definition {{ POST100.definitions[2] | remove: "DEF" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_SC100 %}
-<a href="#{{ page.code[0] }}">Source code {{ page.code[0] | remove: "SC" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_SC101 %}
-<a href="#{{ page.code[1] }}">Source code {{ page.code[1] | remove: "SC" | split: "" | join: "." }}</a>
-{% endcapture %}
-
-{%  capture LINK_SC104 %}
-<a href="#{{ page.code[4] }}">Source code {{ page.code[4] | remove: "SC" | split: "" | join: "." }}</a>
+<a href="{{ sorted_posts[0].url }}#{{ sorted_definitions[2].identity }}">Definition {{ sorted_definitions[2].identity | remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
 
 {%  capture LINK_H0 %}
 <a href="#{{ page.headers[0].id }}">{{ page.headers[0].name }}</a>
 {% endcapture %}
 
-{%  capture LINK_IMG102 %}
-<a href="#{{ page.images[0] }}">Image {{ page.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
-{% endcapture %}
-
 <p>
     In this tutorial I will show you how to implement any deterministic finite automaton (DFA) in JAVA.
-    Before we start, would be good thing to refresh our knowledge about them (see
-    <a href="{{ POST100.url }}">{{ POST100.title }}</a>).
+    Before we start, would be good thing to refresh our knowledge about them
+    (see {{ POST_URL[0] }}).
 </p>
 
 <h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
@@ -109,64 +75,7 @@ While state diagrams are fun to look at, they are not as useful as {{ POST100_LI
     <li>$$δ$$ is described as a <strong>transition table</strong></li>
 </ol>
 
-<a name="{{ page.tables[0].id }}"></a>
-<figure class="table">
-
-    <table>
-        <thead>
-        <tr>
-            <th></th>
-            <th>$$:$$ </th>
-            <th>$$)$$ </th>
-            <th>$$($$ </th>
-            <th>$$\_$$ </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th>$$q_0$$ </th>
-            <td>$$q_1$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_0$$ </td>
-        </tr>
-        <tr>
-            <th>$$q_1$$ </th>
-            <td>$$q_4$$ </td>
-            <td>$$q_2$$ </td>
-            <td>$$q_2$$ </td>
-            <td>$$q_4$$ </td>
-        </tr>
-        <tr>
-            <th>$$q_2$$ </th>
-            <td>$$q_4$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_3$$ </td>
-        </tr>
-        <tr>
-            <th>$$q_3$$ </th>
-            <td>$$q_1$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_3$$ </td>
-        </tr>
-        <tr>
-            <th>$$q_4$$ </th>
-            <td>$$q_4$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_4$$ </td>
-            <td>$$q_4$$ </td>
-        </tr>
-        </tbody>
-        <tbody></tbody>
-    </table>
-    <figcaption>
-        <strong>Table {{ page.tables[0].id | remove: "TB"  | split: "" | join: "." }}:</strong>
-        {{ page.tables[0].caption }}
-    </figcaption>
-</figure>
-
+{{ TB[0] }}
 
 <h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
 
@@ -179,34 +88,10 @@ to differentiate accept and non accept states, we can introduce instance variabl
 <code class="d-code">final boolean accept;</code>  for each state.
 </p>
 
+{{ SC[0] }}
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[0] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
 
-{% highlight java linenos %}
-private enum States {
-
-  Q0(false), Q1(false), Q2(true), Q3(true), Q4(false);
-
-  final boolean accept;
-
-  // Constructor for sate.
-  // Every state is either accepting or not.
-  States(boolean accept) {
-    this.accept = accept;
-  }
-
-//...
-}
-{% endhighlight %}
-
-Nothing fancy going on in {{ LINK_SC100 }}. Line 1 declares enum. Notice, because it will be inside of
+Nothing fancy going on in {{ SC_URL[0] }}. Line 1 declares enum. Notice, because it will be inside of
 another class, enum has <code class="d-code">private</code> access modifier. Line 3 creates all four states and represents $$Q$$ from definition. $$F$$ is
 represented as an instance variable inside enum. We could create set consisting of all accept states as per definition. But
 remember, JAVA is object oriented, thus better treat states as objects, rather as data structures, in this case <i>sets</i>.
@@ -236,55 +121,7 @@ Similarly, given a character from the alphabet, we can ask a state to transit to
 Each variable will contain a reference to the state. I think, to show is much easier than to explain.
 </p>
 
-
-
-
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[1] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-private enum States {
-
-  Q0(false), Q1(false), Q2(true), Q3(true), Q4(false);
-
-  States eyes;
-  States smile;
-  States sad;
-  States space;
-
-  static {
-    Q0.eyes = Q1; Q0.smile = Q4; Q0.sad = Q4; Q0.space = Q0;
-    Q1.eyes = Q4; Q1.smile = Q2; Q1.sad = Q2; Q1.space = Q4;
-    Q2.eyes = Q4; Q2.smile = Q4; Q2.sad = Q4; Q2.space = Q3;
-    Q3.eyes = Q1; Q3.smile = Q4; Q3.sad = Q4; Q3.space = Q3;
-    Q4.eyes = Q4; Q4.smile = Q4; Q4.sad = Q4; Q4.space = Q4;
-}
-
-  States transition(char ch) {
-    switch (ch) {
-      case ':':
-        return this.eyes;
-      case ')':
-        return this.smile;
-      case '(':
-        return this.sad;
-      case '_':
-        return this.space;
-      default:
-        throw new RuntimeException("Symbol is " +
-           "not in the alphabet");
-  }
-}
-
-//...
-}
-{% endhighlight %}
+{{ SC[1] }}
 
 <p>
 First few lines are nothing new. On the Line 5, like I said, we are introducing some instance variables. There are four
@@ -319,7 +156,6 @@ character is passed, and based on that returns next state. We could have transit
 make no difference.
  </p>
 
-
 <h2><a name="{{ page.headers[5].id }}"></a>{{ page.headers[5].name }}</h2>
 
 At this moment you should notice one thing: transition method
@@ -345,47 +181,12 @@ To enforce $$Σ = \{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</
     <code class="d-code">States transition(Alphabet symbol) {...}</code>.
 </p>
 
-
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[3] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-private enum Alphabet {
-
-  EYES, SMILE, SAD, SPACE
-}
-
-private enum States {
-
-  //...
-
-  States transition(Alphabet symbol) {
-    switch (symbol) {
-      case EYES:
-        return this.eyes;
-      case SMILE:
-        return this.smile;
-      case SAD:
-        return this.sad;
-      case SPACE:
-        return this.space;
-      default:
-        return null;
-    }
-  }
-}
-{% endhighlight %}
+{{ SC[2] }}
 
 <p>
 Now, would be impossible to pass non exciting character to the transition method. While this approach would solve our problem,
 it would create new one: <i>what to do with other $$Unicode$$ characters which are not in the alphabet?</i> In the original
-    {{ LINK_SC101 }} we threw an exception in the transition method. Now we could to the same, only outside DFA. Or change
+    {{ SC_URL[1] }} we threw an exception in the transition method. Now we could to the same, only outside DFA. Or change
     strings to <code class="d-code">List&lt;Alphabet&gt;</code>. The first approach would solve no problem, while latter
     would be impractical, unless DFA would be confined in JAVA program and wouldn't interact with outside word.
 </p>
@@ -394,71 +195,22 @@ it would create new one: <i>what to do with other $$Unicode$$ characters which a
 
 <p>
 The main problem is an alphabet $$Σ$$. We want to change it from $$\{$$<code class="d-code">:</code>$$,$$<code class="d-code">)</code>$$,$$<code
-        class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\}$$ to $$Unicode$$. {{ LINK_IMG102 }} shows a state
+        class="d-code">(</code>$$,$$<code class="d-code">_</code>$$\}$$ to $$Unicode$$. {{ IMG_URL[2] }} shows a state
     diagram of a new DFA.
 </p>
 
-<figure>
-    {% for member in site.data.images %}
-        {% if member.id == page.images[0] %}
-            {% assign img = member %}
-        {% endif %}
-    {% endfor %}
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
-    <figcaption>
-        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
-    </figcaption>
-</figure>
+{{ IMG[2] }}
 
 <p>
 Notice, we removed all symbols from the arrows pointing to the state $$q_4$$. An empty arrow stands for
 a transition from a state $$q_i$$, where $$i ∈ \{0, 1, 2, 3\}$$, to $$q_4$$ if and only if there are no transition from
 $$q_i$$ to $$q_i$$, given a symbol from the $$Unicode$$. For example, if current state is $$q_0$$ then given
 <code class="d-code">:</code> DFA transitions to $$q_1$$, while given <code class="d-code">^</code> to $$q_4$$.
-    {{ LINK_SC104 }} shows new implementation of <code class="d-code">private enum States {...} </code>.
+    {{ SC_URL[3] }} shows new implementation of <code class="d-code">private enum States {...} </code>.
 
 </p>
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[4] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-private enum States {
-
-  //...
-
-  static {
-    Q0.eyes = Q1;  Q0.space = Q0;
-    Q1.smile = Q2; Q1.sad = Q2;
-    Q2.space = Q3;
-    Q3.eyes = Q1; Q3.space = Q3;
-  }
-
-  States transition(char ch) {
-    switch (ch) {
-      case ':':
-        return this.eyes == null? Q4 : this.eyes;
-      case ')':
-        return this.smile == null? Q4: this.smile;
-      case '(':
-        return this.sad == null? Q4: this.sad;
-      case '_':
-        return this.space == null? Q4: this.space;
-      default:
-        return Q4;
-    }
-  }
-
-  //...
-}
-{% endhighlight %}
+{{ SC[3] }}
 
 <p>
 So, we removed some of the assignments of states instance variables and changed transition method. Now, before returning
@@ -481,49 +233,16 @@ The only thing what left is to implement extended transition function $$δ^*$$ (
     which checks if automaton accepts string.
 </p>
 
-{% for code in site.data.source_code %}
-    {% if code.id == page.code[2] %}
-        <a name="{{ code.id }}"></a>
-        <div class="env-header">
-            Source code {{ code.id | remove: "SC"  | split: "" | join: "." }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% highlight java linenos %}
-public class DFA {
-
-  private enum States {
-    //...
-  }
-
-  public boolean accept(String string) {
-    States state = States.Q0;
-
-    for (int i = 0; i < string.length(); i++) {
-      state = state.transition(string.charAt(i));
-    }
-    return state.accept;
-  }
-}
-{% endhighlight %}
-
-
-
+{{ SC[4] }}
 
 <h2><a name="{{ page.headers[4].id }}"></a>{{ page.headers[4].name }}</h2>
 
 <p>
 Using enums we can implement any DFA. Unfortunately they are not very flexible. Meaning, that if we would like to introduce
 additional state or extra character, then we would need to modify enum itself, which violates
-<a href="https://en.wikipedia.org/wiki/Open/closed_principle">Open/Close principle</a>.
-For that we could use
-<a href="https://en.wikipedia.org/wiki/State_pattern">state pattern</a>. But if you are thinking about modification of DFA, then
+{{ URL[1] }}. For that we could use {{ URL [2] }}. But if you are thinking about modification of DFA, then
 probably your don't need DFA in the first place. Because by definition, DFA (Deterministic Finite Automaton) is
-<strong>finite</strong>,
-meaning it has finite set of states and <strong>deterministic</strong> - its next state is determined by input symbol.
-</p>
+<strong>finite</strong>, meaning it has finite set of states and <strong>deterministic</strong> - its next state is determined by input symbol.
 
-<p>
-<a href="https://gist.github.com/grrinchas/534614339f786c7528a588426f08d4ef">Download</a>
-    </p>
+</p>
+<p> {{ URL [3] }}</p>

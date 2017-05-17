@@ -1,43 +1,27 @@
 ---
-identity: 108
+identity: POST104
 layout: post
 title: Dog Shop
 category: Portfolio
 comments: true
+quote: QUOTE104
+description: Three tier web application written using Java EE and JavaFX.
 tags:
     - java
     - java-ee
-quote:
-    quote: Associate with people who are likely to improve you.
-    author: Seneca
-description: Three tier web application written using Java EE.
 headers:
     - id: H0
       name: Reflection
     - id: H1
-      name: What more needs to be done?
-    - id: H2
-      name: What would I do differently?
-images:
-    - IMG112
-posts:
-    - POST105
+      name: What else needs to be done?
 ---
 
-{% for post in site.posts %}
-{% if post.identity == page.posts[0] %}
-{% assign POST105 = post %}
-{% endif %}
-{% endfor %}
-
-{%  capture LINK_IMG112 %}
-<a href="#{{ page.images[0] }}">Image {{ page.images[0] | remove: "IMG" | split: "" | join: "." }}</a>
-{% endcapture %}
+{% include variables.html %}
 
 
 <p>
     Web application written using JavaEE and JavaFX technologies. There is three parts of it: <i>database</i>,
-    <i>server</i> and <i>clients</i>. It works similarly to <a href="http://www.argos.co.uk/">Argos</a> shopping system.
+    <i>server</i> and <i>clients</i>. It works similarly to {{ URL[32] }} shopping system.
     Using a <code class="d-code">customer terminal</code> customer searches for an item. Later he presents chosen item's
     ID and the quantity to the cashier. Using <code class="d-code">cashier terminal</code> cashier checks if
     an item is present in the warehouse and orders to pick it up. Customer on the <code class="d-code">screen terminal</code>
@@ -46,52 +30,34 @@ posts:
     API.
 </p>
 
-<figure>
-    {% for member in site.data.images %}
-    {% if member.id == page.images[0] %}
-    {% assign img = member %}
-    {% endif %}
-    {% endfor %}
-    <a name="{{ img.id }}"></a>
-    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
-    <figcaption>
-        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
-    </figcaption>
-</figure>
+{{ IMG[12] }}
 
 <p>
-    {{ LINK_IMG112 }} shows <code class="d-code">cashier terminal</code> after she clicked to order customer's items.
-    Project files can be found on the following GitHub repositories: <a href="https://github.com/grrinchas/dog-shop-1-0">Server</a> and
-     <a href="https://github.com/grrinchas/dog-shop-gradle-clients">Clients</a>.
+    {{ IMG_URL[12] }} shows <code class="d-code">cashier terminal</code> after she clicked to order customer's items.
+    Project files can be found on the following GitHub repositories: {{ URL[33] }} and {{ URL[34] }}.
 
 <h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
 
 <p>
     Writing distributed web application is not an easy task, especially if you do not have any experience.
-    That's way <strong>Dog Shop</strong> was even bigger challenge than a
-    <a href="{{ POST105.url }}">{{ POST105.title }}</a>.
+    That's way DogShop was even bigger challenge than a {{ POST_URL[5] }}
     Nevertheless, I managed to complete it in a reasonable time and learnt lots of new things. For example,
     I gained better understanding about software's three tier architecture and how different components
-    fit together, that is database, server and the clients. Learnt about
-    <a href="https://docs.oracle.com/javaee/7/tutorial/">Java EE</a> mainly its three major components:
+    fit together, that is database, server and the clients. Learnt about {{ URL[35] }} mainly its three major components:
 </p>
 <ul>
-    <li><a href="https://docs.oracle.com/javaee/7/tutorial/partentbeans.htm#BNBLR">Enterprise Java Beans</a> (EJB)
-         - for business logic.</li>
-    <li><a href="https://docs.oracle.com/javaee/7/tutorial/partpersist.htm#BNBPY">Java Persistence API</a> (JPA)
-         - for persistence.</li>
-    <li><a href="https://docs.oracle.com/javaee/7/tutorial/jsf-intro.htm">Java Server Faces</a> (JSF)
-        - for presentation.</li>
+    <li>{{ URL[36] }} - for business logic.</li>
+    <li>{{ URL[37] }} - for persistence.</li>
+    <li>{{ URL[38] }} - for presentation.</li>
 </ul>
 <p>
-    In addition, <i>dependency injection</i>, <i>RESTful</i> web services and <i>web sockets</i> are not a
-    foreign terms anymore.
+    In addition, {{ URL[39] }}, {{ URL[40] }} web services and {{ URL[41] }} are not a foreign terms anymore.
 </p>
 
 <h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
 
 <p>
-Many things. <strong>Dog Shop</strong> is far away from being in production. First of all, it doesn't
+Many things. DogShop is far away from being in production. First of all, it doesn't
 have code for dealing with exceptions. Second, testing has to be more throughout,
 at the moment only basic functionality has been tested. Third, code especially on client's side has to be refactored
     and documentation added. Lastly, RESTful API needs improvement as well.

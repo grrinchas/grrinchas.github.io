@@ -1,0 +1,21 @@
+---
+identity: SC108
+post: POST103
+language: java
+lines: 14
+---
+
+private enum States {
+
+  //...
+
+  Set<States> eClose() {
+    Set<States> states = new HashSet<>();
+    states.add(this);
+
+    for(States e: this.epsilon)
+      states.addAll(e.eClose());
+
+    return states;
+  }
+}

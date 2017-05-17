@@ -1,0 +1,22 @@
+---
+identity: SC104
+post: POST101
+language: java
+lines: 15
+---
+
+public class DFA {
+
+  private enum States {
+    //...
+  }
+
+  public boolean accept(String string) {
+    States state = States.Q0;
+
+    for (int i = 0; i < string.length(); i++) {
+      state = state.transition(string.charAt(i));
+    }
+    return state.accept;
+  }
+}
