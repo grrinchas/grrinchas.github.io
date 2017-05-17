@@ -1,0 +1,23 @@
+---
+identity: PG106
+layout: page
+title: Source Code
+description: All source code found on this website.
+---
+
+{% capture newLine %}
+{% endcapture %}
+{% for code in site.source-code %}
+    {% for post in site.posts %}
+        {% if code.post == post.identity %}
+            <div class="env-header">
+                <a style="color: inherit" href="{{ post.url }}#{{ code.identity }}">Source code {{ code.identity | remove: "SC"  | split: "" | join: "." }} </a>
+            </div>
+            {% if code.language == "java" %}
+               {% highlight java linenos %}
+                 {{ code.content | prepend: newLine }}
+              {% endhighlight %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}

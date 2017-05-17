@@ -10,29 +10,40 @@ headers:
 ---
 
 {% for page in site.pages %}
-    {% if page.identity == 100 %}
+    {% if page.identity == "PG100" %}
         {% assign IMAGES = page %}
     {% endif %}
-    {% if page.identity == 101 %}
+    {% if page.identity == "PG101" %}
         {% assign DEFINITIONS = page %}
     {% endif %}
-    {% if page.identity == 102 %}
+    {% if page.identity == "PG102" %}
         {% assign POSTS = page %}
     {% endif %}
-    {% if page.identity == 103 %}
+    {% if page.identity == "PG103" %}
         {% assign TAGS = page %}
     {% endif %}
-    {% if page.identity == 104 %}
+    {% if page.identity == "PG104" %}
         {% assign QUOTES = page %}
     {% endif %}
+    {% if page.identity == "PG105" %}
+        {% assign TABLES = page %}
+    {% endif %}
+    {% if page.identity == "PG106" %}
+        {% assign CODE = page %}
+    {% endif %}
+    {% if page.identity == "PG107" %}
+        {% assign LINK = page %}
+    {% endif %}
 {% endfor %}
-
 
 {% assign DEF_COUNT = site.definitions | size %}
 {% assign POST_COUNT = site.posts | size %}
 {% assign TAG_COUNT = site.tags | size %}
 {% assign IMAGE_COUNT = site.data.images | size %}
 {% assign QUOTE_COUNT = site.data.quotes | size %}
+{% assign TABLE_COUNT = site.tables | size %}
+{% assign CODE_COUNT = site.source-code | size %}
+{% assign LINK_COUNT = site.data.links | size %}
 
 <p>
     Hey, my name is Dennis Grinch. I am CS student at University of Brighton.
@@ -50,6 +61,9 @@ There are many ways to search for information in this blog. Following links prov
     <li><a href="{{ IMAGES.url }}">Images [{{ IMAGE_COUNT }}]</a> - every image in every post.</li>
     <li><a href="{{ QUOTES.url }}">Quotes [{{ QUOTE_COUNT }}]</a> - every quote.</li>
     <li><a href="{{ DEFINITIONS.url }}">Definitions [{{ DEF_COUNT }}]</a> - every definition used in posts.</li>
+    <li><a href="{{ CODE.url }}">Source code [{{ CODE_COUNT }}]</a> - every source code mentioned in any post.</li>
+    <li><a href="{{ TABLES.url }}">Tables [{{ TABLE_COUNT }}]</a> - every table defined in any post.</li>
+    <li><a href="{{ LINK.url }}">External links [{{ LINK_COUNT }}]</a> - every external url.</li>
 </ul>
 
 <h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[0].name }}</h2>
