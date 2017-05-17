@@ -58,3 +58,8 @@
   caption: Aliquam - Jekyll Theme.
   src: /resources/images/aliquam.jpg
 
+- id: IMG112
+  alt: Cashier terminal, showing order confirmation.
+  caption: Cashier terminal, showing order confirmation.
+  src: /resources/images/dog-shop-confirmation.jpg
+

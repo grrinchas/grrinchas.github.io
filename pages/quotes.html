@@ -15,3 +15,17 @@ description: All quotes used in this website
         </footer>
     </blockquote>
 {% endfor %}
+
+{% for page in site.pages %}
+    {% if pag.tag == "tag" %}
+    <blockquote class="blockquote">
+        <p> {{ page.quote.quote }} </p>
+        <footer><cite>- {{ page.quote.author }}</cite></footer>
+    </blockquote>
+    {% endif %}
+{% endfor %}
+
+{% for tag in tags %}
+{% endfor %}
+
+
