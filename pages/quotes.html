@@ -17,7 +17,7 @@ description: All quotes used in this website
 {% endfor %}
 
 {% for page in site.pages %}
-    {% if pag.tag == "tag" %}
+    {% if page.layout == "tag" %}
     <blockquote class="blockquote">
         <p> {{ page.quote.quote }} </p>
         <footer><cite>- {{ page.quote.author }}</cite></footer>
