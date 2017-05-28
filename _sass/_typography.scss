@@ -178,6 +178,7 @@ sup,
 }
 
 //----------------------------SMALLER
+.theorem,
 .definition,
 .d-code,
 article > .blockquote,
@@ -220,6 +221,7 @@ figcaption,
   line-height: $l-h-code;
 }
 
+.theorem,
 .definition {
 
   line-height: $l-h-default * 0.9;

@@ -1,8 +1,0 @@
-- id: TB100
-  caption: Transition table of DFA.
-
-- id: TB101
-  caption: Transition table of NFA.
-
-- id: TB102
-  caption: Transition table of ε-NFA.

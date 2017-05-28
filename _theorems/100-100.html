@@ -1,0 +1,33 @@
+---
+identity: THE100
+post: POST108
+title: Every nondeterministic finite automaton has an equivalent deterministic finite automaton.
+---
+
+<p>
+    Every nondeterministic finite automaton has an equivalent deterministic finite automaton.
+</p>
+
+<p>
+    $$PROOF:$$
+</p>
+
+<p>
+    Let $$N = (Q, Σ, δ, q_0, F)$$ be NFA recognising some language $$A$$. We will construct a DFA
+    $$M = (Q^\prime, Σ, δ^\prime, q_0^\prime, F^\prime)$$ recognising $$A$$.
+</p>
+
+<ol>
+    <li>$$Q^\prime = P(Q)$$</li>
+    <li>
+        $$δ^\prime(R, a) = \bigcup_{q\in R} E(δ(q,a)) $$
+    </li>
+    <li>
+        $$q_0^\prime  = E(\{q_0\})$$
+    </li>
+    <li>
+        $$F^\prime = \{R \in Q^\prime | R \text{ contains an accept state of } N\}$$
+    </li>
+</ol>
+
+We have now completed the construction of the DFA $$M$$ that simulates the ε-NFA $$N$$.

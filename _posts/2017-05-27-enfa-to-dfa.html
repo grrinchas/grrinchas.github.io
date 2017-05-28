@@ -1,0 +1,287 @@
+---
+identity: POST108
+layout: post
+title:  Converting ε-NFA to DFA
+category: Tutorial
+comments: true
+description: Theory and algorithm for converting ε-NFA to DFA.
+quote: QUOTE108
+tags:
+    - java
+headers:
+    - id: H0
+      name: Two forms of nondeterminism
+    - id: H1
+      name: Proof of equivalence between ε-NFAs and DFAs
+    - id: H2
+      name: An example of converting ε-NFA to DFA
+    - id: H3
+      name: Constructing DFA from ε-NFA using transition table
+---
+
+{% include variables.html %}
+
+{%  capture POST102_LINK_IMG103 %}
+<a href="{{ sorted_posts[2].url }}#{{ sorted_images[3].id }}">Image {{ sorted_images[3].id | remove: "IMG" | split: "" |
+    join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST100_LINK_DEF100 %}
+<a href="{{ sorted_posts[0].url }}#{{ sorted_definitions[0].identity }}">Definition {{ sorted_definitions[0].identity | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST102_LINK_DEF106 %}
+<a href="{{ sorted_posts[2].url }}#{{ sorted_definitions[6].identity }}">Definition {{ sorted_definitions[6].identity | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+{%  capture POST103_LINK_DEF111 %}
+<a href="{{ sorted_posts[3].url }}#{{ sorted_definitions[11].identity }}">Definition {{ sorted_definitions[11].identity | remove: "DEF" | split: "" | join: "." }}</a>
+{% endcapture %}
+
+<p>
+    From last post {{ POST_URL[3] }} we saw some nice properties of the ε-NFA.
+    Mainly involving their design simplicity. Unfortunately, ε-NFA can be much more slower
+    compared to the equivalent DFA. In this post we will discuss few different ways of converting ε-NFA to DFA. In
+    other words we will remove nondeterminism from ε-NFA.
+</p>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+<p>
+    We have observed nondeterminism in two slightly different forms. The most apparent is when given
+    a state $$q$$ and an input symbol $$a$$ there are more than one transition from $$q$$ on input $$a$$. This
+    form is clearly visible in {{ POST102_LINK_IMG103 }}. Another, slightly different form involves
+    ε-transitions. A state $$q_0$$ which has ε-transition to a state $$q_1$$ may or may not follow it, thus
+    its next state is not determined.
+</p>
+
+<p>
+    The good news is that both forms of nondeterminism can be eliminated and obtained machine will be deterministic. But
+    before getting our hands dirty and starting to convert ε-NFA into DFA, let's proof that this is indeed possible.
+    That is, proof that <strong>every nondeterministic finite automaton has an equivalent deterministic
+    finite automaton</strong>. This will give us better idea how to come up with an algorithm for converting ε-NFA into DFA.
+</p>
+
+<h2><a name="{{ page.headers[1].id }}"></a>{{ page.headers[1].name }}</h2>
+
+<p>
+    We will prove equivalence between ε-NFA and DFA using {{ URL[42] }}. That is given some
+    arbitrary chosen ε-NFA or NFA we will construct DFA from it. First let's consider easier case - NFA.
+    Let $$N = (Q, Σ, δ, q_0, F)$$ be NFA recognising some language $$A$$. We will construct a DFA
+    $$M = (Q^\prime, Σ, δ^\prime, q_0^\prime, F^\prime)$$ recognising $$A$$
+    (see {{ POST102_LINK_DEF106 }} and {{ POST100_LINK_DEF100 }}).
+</p>
+
+<p>
+   First we need to find out what states $$Q^\prime$$ $$M$$ will have. We can use the fact, that given a symbol $$a$$,
+   NFA can transition from state $$q$$ to set of states $$D$$. If we treat $$D$$ as a single state in $$M$$, we will
+   have a transition function from $$q$$ to $$D$$ on input $$a$$. In other words, $$M$$ states
+   constructed from $$N$$ will be all the subsets of $$N$$ states, thus $$Q^\prime = P(Q)$$. Notice that theoretically,
+   DFA have $$2^k$$ more states than NFA with $$k$$ states which is enormous increase, but in practice
+   not all states are reachable.
+</p>
+
+<p>
+    Next, let's find out what transition function $$δ^\prime$$ will be. We know that a state $$R$$ of $$M$$ is a set of
+    states, where each state $$q$$ in $$R$$ is a member of $$N$$ states $$Q$$. So, passing $$R$$ and a symbol $$a$$ from
+    alphabet $$Σ$$ to the $$δ^\prime$$, is the same as passing each $$q$$ in $$R$$ with symbol $$a$$ to the
+    transition function $$δ$$ of $$N$$. The result will be the union of all returned subsets. More formally,
+
+$$$
+    δ^\prime(R, a) = \bigcup_{q\in R} δ(q,a)
+$$$
+    In other words, above equation says that a transition function $$δ^\prime(R, a)$$ takes one
+    state $$R$$ from set of states $$Q^\prime$$ and one symbol $$a$$ from the alphabet $$Σ$$ and outputs
+    a set of states. That set is a union between all the subsets of $$P(Q)$$ which we would get, if
+    we would pass all the states $$q$$ in $$R$$ and symbol $$a$$ to the transition
+    function $$δ$$. Don't worry if this is still unclear, we will go through concrete example very soon.
+</p>
+
+<p>
+    At the moment we constructed states $$Q^\prime$$ of $$M$$ and a transition function $$δ^\prime$$ but we still
+    need to find out a start state $$q_0^\prime$$ and accept states $$F^\prime$$. Given a fact that NFA can
+    have only one start state, $$q_0^\prime$$ should be equal to $$q_0$$. Unfortunately, this is not
+    the case because only a member of $$Q^\prime$$ can be a start state and $$q_0 \notin Q^\prime$$.
+    But $$\{q_0\} \in Q^\prime$$, thus $$q_0^\prime =\{q_0\}$$.
+</p>
+
+<p>
+    Lastly, we need to find out accept states $$F^\prime$$ of $$M$$. We say that NFA accepts string if
+    resulting set of states has an accept state. Similarly, we can reasoning about state $$R \in Q^\prime$$.
+    If it contains an accept state of $$N$$, then $$R$$ is accepting state as well. More formally,
+
+    $$$
+        F^\prime = \{R \in Q^\prime | R \text{ contains an accept state of } N\}
+    $$$
+</p>
+
+<div class="success alert">
+    <strong>NOTE:</strong> An alphabet $$Σ$$ is the same for both NFA and DFA, thus we don't need to consider it.
+</div>
+
+<p>
+    And we are done. By showing that DFA can be constructed from arbitrary chosen NFA, we proved that they are
+    equivalent, meaning they recognise the same language. At this point you should see that construction
+    of DFA from NFA is based on removing nondeterminism from NFA. Similarly, we will prove that any ε-NFA has
+    equivalent DFA. The steps involved converting are all the same with an exception for a transition function $$δ^\prime$$
+    and a start state $$q_0^\prime$$.
+</p>
+
+<p>
+    As you may guessed, the main reason of this exception is a second form of nondeterminism, that is ε-transitions of
+    ε-NFA. To be able construct DFA we have to take consideration of ε-transitions as well.
+    Remember, ε-closure from {{ POST103_LINK_DEF111 }}. It is defined as set of states $$E(R)$$ which can be reached
+    from members of $$R$$ by following only along ε-arrows, including members of $$R$$ themselves. Thus, $$δ^\prime$$
+    of $$M$$ will be set of states which can be reached given state $$R$$ and a symbol $$a$$ followed by their
+    ε-transitions. More formally,
+
+    $$$
+    δ^\prime(R, a) = \bigcup_{q\in R} E(δ(q,a))
+    $$$
+</p>
+
+<p>
+    Additionally, we need to ε-close the start state of $$M$$ to include all the states which can be reached from
+    start state following ε-arrows, $$q_0^\prime  = E(\{q_0\})$$.
+
+    We have now completed the construction of the DFA $$M$$ that simulates the ε-NFA $$N$$. {{ THE_URL[0] }} shows
+    summarised version of the proof.
+</p>
+
+{{ THE[0] }}
+
+
+<h2><a name="{{ page.headers[2].id }}"></a>{{ page.headers[2].name }}</h2>
+<p>
+    Let's get our hands dirty and convert ε-NFA in {{ IMG_URL[13] }} to DFA.
+</p>
+
+{{ IMG[13] }}
+
+<ul>
+
+    <li>
+    First we need to find all the states of DFA. We can use the fact that states of DFA $$Q^\prime$$
+    will be all the subsets of NFA states $$Q$$. Therefore,
+    $$$ \begin{align}
+    Q^\prime &= P(Q) \\
+             &= P(\{q_0, q_1, q_2\}) \\
+             &=\{\emptyset, \{q_0\},\{q_1\},\{q_2\}, \{q_0, q_1\},\{q_0, q_2\},\{q_1, q_2\}, \{q_0, q_1, q_2\}\}
+    \end {align}
+    $$$
+</li>
+<li>
+    The start state will be all the states which can be reached from NFA start state $$q_0$$ following zero or
+    more ε-transitions, including itself. From {{ IMG_URL[13] }} we see that $$q_0$$ has only one ε-transition
+    to $$q_2$$, therefore DFA start state $$q_0^\prime$$ will be
+
+    $$$
+    q_0^\prime  = E(\{q_0\}) = \{q_0, q_2\}
+    $$$
+</li>
+<li>
+    The new accept states $$F^\prime$$ will be those containing at least one NFA's accept state. There is only one accept state
+    $$q_0$$, thus any state in $$Q^\prime$$ containing $$q_0$$ will be an accept state.
+
+    $$$
+    F^\prime =\{\{q_0\},\{q_0, q_1\},\{q_0, q_2\},\{q_0, q_1, q_2\}\}
+    $$$
+</li>
+<li>
+    The only thing what is left is to find DFA transition function $$δ^\prime$$. To do that, we need to
+    find all transitions from each state in $$Q^\prime$$ given symbols $$a$$ and $$b$$. For example, given symbol $$a$$
+    state $$\{q_1, q_2\}$$ will transition to state $$\{q_0, q_1, q_2\}$$.
+    More formally,
+
+    $$$\begin{align}
+         δ^\prime(\{q_1, q_2\}, a) &= \bigcup_{q\in \{q_1, q_2\}} E(δ(q,a)) \\
+                        &=E(δ(q_1,a)) \cup E(δ(q_2,a)) \\
+                        &=E(\{q_1, q_2\}) \cup E(\{q_0\}) \\
+                        &=\{q_1, q_2\} \cup \{q_0, q_2\} \\
+                        &=\{q_0, q_1, q_2\}
+    \end{align}
+    $$$
+
+    All the rest transitions can be found similarly.
+</li>
+</ul>
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[3].name }}</h2>
+
+
+<p>
+    Unfortunately, finding all the transitions manually using above method is too verbose, especially
+    if DFA has lots of states. Better approach is to use transition table of NFA.
+</p>
+
+{{ TB[3] }}
+
+<p>
+    Using {{ TB_URL[3] }} we can build DFA much more faster. We start with the start state of DFA $$\{q_0, q_2\}$$.
+</p>
+
+{{ IMG[14] }}
+
+<p>
+    Now for each symbol in the alphabet we will find transition from $$\{q_0, q_2\}$$ to other two states. We will do this
+    by combining ε-closed transitions from {{ TB_URL[3] }} for each state in $$\{q_0, q_2\}$$. For example,
+    first state $$q_0$$ has $$\emptyset$$ for $$E(δ(q_0, a))$$ and $$q_2$$ has $$\{q_0, q_2\}$$, thus by combining them both,
+    we get $$\emptyset \cup \{q_0, q_2\} = \{q_0, q_2\}$$. State $$\{q_0, q_2\}$$ is already defined, so we just add an
+    arrow with label $$a$$ to itself. Similarly, we find transition for symbol $$b$$, $$\emptyset \cup \{q_1\} = \{q_1\}$$.
+    State $$\{q_1\}$$ is not in our diagram, thus we create new one and add transition from state $$\{q_0, q_2\}$$
+    with label $$b$$ to our new state {{ IMG_URL[15] }}.
+</p>
+
+{{ IMG[15] }}
+
+<p>
+    Next step is to repeat all the previous steps for each newly created state, in our case $$\{q_1\}$$. Once again by
+    inspecting {{ TB_URL[3] }} we find that state $$\{q_1\}$$ will transition to state $$\{q_1, q_2\}$$ on symbol $$a$$
+    and to $$\{2\}$$ on symbol $$b$$. {{ IMG_URL[16] }} illustrates it more clearly.
+</p>
+
+{{ IMG[16] }}
+
+<p>
+    Previous transitions introduced two new states $$\{q_1, q_2\}$$ and $$\{q_2\}$$, thus we need to find
+    transitions for these to states as well. We already know that on symbol $$a$$ state $$\{q_1, q_2\}$$ will
+    transition to $$\{q_0, q_1, q_2\}$$ and on symbol $$b$$ to state $$\{q_2\}$$.
+</p>
+
+{{ IMG[17] }}
+
+<div class="note alert">
+    <strong>NOTE:</strong> While constructing DFA don't forget about accept states. At the moment we have two of them
+    start state $$\{q_0, q_2\}$$ and $$\{q_0, q_1, q_2\}$$.
+</div>
+
+<p>
+    Let's do the same thing for state $$\{q_2\}$$. On symbol $$a$$ it goes to start state $$\{q_0, q_2\}$$ and on
+    symbol $$b$$ to $$\emptyset$$. You may wonder <i>how empty set can be valid state?</i> Remember that
+    $$\emptyset$$ was included in the set of DFA states $$Q^\prime$$, hence it is perfectly valid state.
+</p>
+
+{{ IMG[18] }}
+
+<p>
+    Once again we have to find transitions for $$\emptyset$$ and $$\{q_0, q_1, q_2\}$$. State $$\emptyset$$ doesn't
+    contain any state of ε-NFA, thus no matter what symbol is given it will transition to $$\emptyset$$ in other
+    words to itself. State $$\{q_0, q_1, q_2\}$$ transitions to the state $$\{q_1, q_2\}$$ on symbol $$b$$ and to itself
+    on symbol $$a$$.
+</p>
+
+{{ IMG[19] }}
+
+<p>
+    Last transitions did not introduced any new state, therefore DFA construction is complete. Notice that new
+    automaton has less states than expected. Missing states are $$\{q_0\}$$ and $$\{q_0, q_1\}$$. Hence, constructing
+    DFA using this method may result in less state than using {{ THE_URL[0] }}.
+</p>
+
+<div class="success alert">
+    <strong>NOTE:</strong> DFA construction is considered complete, if every state in DFA has transition for each symbol
+    in the alphabet.
+</div>
+
+
+

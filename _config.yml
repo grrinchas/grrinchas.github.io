@@ -54,6 +54,7 @@ math: true
 
 collections:
   - definitions
+  - theorems
   - tables
   - source-code
 

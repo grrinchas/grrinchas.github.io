@@ -76,3 +76,45 @@
   src: /resources/images/dog-shop-confirmation.jpg
   post: POST104
 
+- id: IMG113
+  alt: ε-NFA to be converted to DFA.
+  caption: ε-NFA to be converted to DFA.
+  src: /resources/images/automata_7.svg
+  post: POST108
+
+- id: IMG114
+  alt: Initial DFA with only start state.
+  caption: Initial DFA with only start state.
+  src: /resources/images/automata_8_1.svg
+  post: POST108
+
+- id: IMG115
+  alt: DFA after adding transitions from start state $$\{q_0, q_2\}$$.
+  caption: DFA after adding transitions from start state $$\{q_0, q_2\}$$.
+  src: /resources/images/automata_8_2.svg
+  post: POST108
+
+- id: IMG116
+  alt: DFA after adding transitions from state $$\{q_1\}$$.
+  caption: DFA after adding transitions from state $$\{q_1\}$$.
+  src: /resources/images/automata_8_3.svg
+  post: POST108
+
+- id: IMG117
+  alt: DFA after adding transitions from state $$\{q_1, q_2\}$$.
+  caption: DFA after adding transitions from state $$\{q_1, q_2\}$$.
+  src: /resources/images/automata_8_4.svg
+  post: POST108
+
+- id: IMG118
+  alt: DFA after adding transitions from state $$\{q_2\}$$.
+  caption: DFA after adding transitions from state $$\{q_2\}$$.
+  src: /resources/images/automata_8_5.svg
+  post: POST108
+
+- id: IMG119
+  alt: Final DFA.
+  caption: Final DFA.
+  src: /resources/images/automata_8_6.svg
+  post: POST108
+

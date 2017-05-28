@@ -1,0 +1,45 @@
+---
+identity: TB103
+post: POST108
+title: Transition table of ε-NFA.
+---
+
+<table>
+    <thead>
+    <tr>
+        <th>$$q$$</th>
+        <th>$$δ(q, a)$$</th>
+        <th>$$δ(q, b)$$</th>
+        <th>$$δ(q, ε)$$</th>
+        <th>$$E(δ(q, a))$$</th>
+        <th>$$E(δ(q, b))$$</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>$$q_0$$ </th>
+        <td>$$\emptyset$$ </td>
+        <td>$$\{q_1\}$$ </td>
+        <td>$$\{q_2\}$$ </td>
+        <td>$$\emptyset$$ </td>
+        <td>$$\{q_1\}$$ </td>
+    </tr>
+    <tr>
+        <th>$$q_1$$ </th>
+        <td>$$\{q_1, q_2\}$$ </td>
+        <td>$$\{q_2\}$$</td>
+        <td>$$\emptyset$$ </td>
+        <td>$$\{q_1, q_2\}$$</td>
+        <td>$$\{q_2\}$$</td>
+    </tr>
+    <tr>
+        <th>$$q_2$$ </th>
+        <td>$$\{q_0\}$$ </td>
+        <td>$$\emptyset$$ </td>
+        <td>$$\emptyset$$ </td>
+        <td>$$\{q_0, q_2\}$$</td>
+        <td>$$\emptyset$$ </td>
+    </tr>
+    </tbody>
+    <tbody></tbody>
+</table>

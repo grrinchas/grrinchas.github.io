@@ -3,6 +3,7 @@
 {% assign sorted_images = site.data.images | sort: "id" %}
 {% assign sorted_links = site.data.links | sort: "id" %}
 {% assign sorted_definitions = site.definitions | sort: "identity" %}
+{% assign sorted_theorems = site.theorems | sort: "identity" %}
 {% assign sorted_tables = site.tables | sort: "identity" %}
 {% assign sorted_source_code = site.source-code | sort: "identity" %}
 
@@ -69,6 +70,17 @@
 {% assign DEF_URL = def_url_string | replace_first: "::", "" | split: "::" %}
 
 
+
+{% for the in sorted_theorems %}
+    {% capture the_url %}
+        <a href="#{{ the.identity }}">Theorem {{ the.identity | remove: "THE" | split: "" | join: "." }}</a>
+    {% endcapture %}
+    {% assign the_url_string = the_url_string | append: "::" | append: the_url %}
+{% endfor %}
+{% assign THE_URL = the_url_string | replace_first: "::", "" | split: "::" %}
+
+
+
 {% for def in sorted_definitions %}
     {% capture def_def %}
         <a name="{{ def.identity }}"></a>
@@ -82,6 +94,21 @@
     {% assign def_def_string = def_def_string | append: "::" | append: def_def %}
 {% endfor %}
 {% assign DEF = def_def_string | replace_first: "::", "" | split: "::" %}
+
+
+{% for the in sorted_theorems %}
+    {% capture the_the %}
+        <a name="{{ the.identity }}"></a>
+        <div class="env-header theorem-header">
+            Theorem {{ the.identity | remove: "THE"  | split: "" | join: "." }}
+        </div>
+        <div class="theorem alert">
+            {{ the.content }}
+        </div>
+    {% endcapture %}
+    {% assign the_the_string = the_the_string | append: "::" | append: the_the %}
+{% endfor %}
+{% assign THE = the_the_string | replace_first: "::", "" | split: "::" %}
 
 
 {% for img in sorted_images %}

@@ -1,30 +1,30 @@
 - id: LINK100
   href: https://en.wikipedia.org/wiki/Kleene_star
-  name: Wikipedia Kleene Star
+  name: Kleene Star (Wikipedia)
 
 - id: LINK101
   href: https://en.wikipedia.org/wiki/Open/closed_principle
-  name: Wikipedia Open/Close principle
+  name: Open/Close principle (Wikipedia)
 
 - id: LINK102
   href: https://en.wikipedia.org/wiki/State_pattern
-  name: Wikipedia State pattern
+  name: State pattern (Wikipedia)
 
 - id: LINK103
   href: https://gist.github.com/grrinchas/534614339f786c7528a588426f08d4ef
-  name: Download
+  name: Download (GitHub)
 
 - id: LINK104
   href: https://gist.github.com/grrinchas/7c7fc7de3863ca67debd156dd09b7bea
-  name: Download
+  name: Download (GitHub)
 
 - id: LINK105
   href: https://gist.github.com/grrinchas/411dc3c15ce223c72ced4186d02a034f
-  name: Download
+  name: Download (GitHub)
 
 - id: LINK106
   href: http://docs.oracle.com/javase/8/javase-clienttechnologies.htm
-  name: JavaFX
+  name: JavaFX (Oracle Docs)
 
 - id: LINK107
   href: http://www.gamedev.net/page/resources/_/technical/game-programming/understanding-component-entity-systems-r3013
@@ -32,7 +32,7 @@
 
 - id: LINK108
   href: https://github.com/grrinchas/squash
-  name: GitHub Squash
+  name: Squash (GitHub)
 
 - id: LINK109
   href: http://gradle.org/
@@ -45,7 +45,7 @@
 
 - id: LINK111
   href: https://en.wikipedia.org/wiki/Object-oriented_programming
-  name: Wikipedia OOP principles
+  name: OOP principles (Wikipedia)
 
 - id: LINK112
   href: http://www.amazon.co.uk/gp/product/0596007124/ref=as_li_tl?ie=UTF8&camp=1634&creative=6738&creativeASIN=0596007124&linkCode=as2&tag=dennisgrinch-21
@@ -62,15 +62,15 @@
 
 - id: LINK115
   href: http://grrinchas.github.io/learning-journal/index.html
-  name: Learning Journal Main
+  name: Main (Learning Journal)
 
 - id: LINK116
   href: http://grrinchas.github.io/learning-journal/contact_me.html
-  name: Learning Journal Contact
+  name: Contact (Learning Journal)
 
 - id: LINK117
   href: http://grrinchas.github.io/learning-journal/guide.html
-  name: Learning Journal Guide
+  name: Guide (Learning Journal)
 
 - id: LINK118
   href: http://www.amazon.co.uk/gp/product/1118008189/ref=as_li_tl?ie=UTF8&camp=1634&creative=6738&creativeASIN=1118008189&linkCode=as2&tag=dennisgrinch-21
@@ -98,7 +98,7 @@
 
 - id: LINK23
   href: http://grrinchas.github.io/learning-journal/
-  name: GitHub Learning Journal
+  name: Learning Journal (GitHub)
 
 - id: LINK24
   href: https://jekyllrb.com/
@@ -106,7 +106,7 @@
 
 - id: LINK25
   href: https://github.com/grrinchas/aliquam
-  name: GitHub Aliquam
+  name: Aliquam (GitHub)
 
 - id: LINK26
   href: https://wordpress.com/
@@ -138,37 +138,41 @@
 
 - id: LINK33
   href: https://github.com/grrinchas/dog-shop-1-0
-  name: GitHub DogShop Server
+  name: DogShop Server (GitHub)
 
 - id: LINK34
   href: https://github.com/grrinchas/dog-shop-gradle-clients
-  name: GitHub DogShop Clients
+  name: DogShop Clients
 
 - id: LINK35
   href: https://docs.oracle.com/javaee/7/tutorial/
-  name: Oracle Docs Java EE
+  name: Java EE (Oracle Docs)
 
 - id: LINK36
   href: https://docs.oracle.com/javaee/7/tutorial/partentbeans.htm#BNBLR
-  name: Oracle Docs Java EJB
+  name: EJB (Oracle Docs)
 
 - id: LINK37
   href: https://docs.oracle.com/javaee/7/tutorial/partpersist.htm#BNBPY
-  name: Oracle Docs Java JPA
+  name: JPA (Oracle Docs)
 
 - id: LINK38
   href: https://docs.oracle.com/javaee/7/tutorial/jsf-intro.htm
-  name: Oracle Docs Java JSF
+  name: JSF (Oracle Docs)
 
 - id: LINK39
   href: https://docs.oracle.com/javaee/7/tutorial/cdi-basic.htm
-  name: Dependency Injection
+  name: CDI (Oracle Docs)
 
 - id: LINK40
   href: https://en.wikipedia.org/wiki/Representational_state_transfer
-  name: Wikipedia RESTful
+  name: RESTful (Wikipedia)
 
 - id: LINK41
   href: https://en.wikipedia.org/wiki/WebSocket
-  name: Wikipedia WebSocket
+  name: WebSocket (Wikipedia)
+
+- id: LINK42
+  href: https://en.wikipedia.org/wiki/Constructive_proof
+  name: Constructive Proof (Wikipedia)
 
