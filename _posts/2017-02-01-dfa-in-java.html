@@ -1,10 +1,10 @@
 ---
 identity: POST101
 layout: post
-title: DFA in JAVA
+title: DFA in Java
 category: Tutorial
 comments: true
-description: DFA (Deterministic Finite Automaton) implementation in JAVA
+description: DFA (Deterministic Finite Automaton) implementation in Java.
 quote: QUOTE101
 tags:
     - java
@@ -48,7 +48,7 @@ headers:
 {% endcapture %}
 
 <p>
-    In this tutorial I will show you how to implement any deterministic finite automaton (DFA) in JAVA.
+    In this tutorial I will show you how to implement any deterministic finite automaton (DFA) in Java.
     Before we start, would be good thing to refresh our knowledge about them
     (see {{ POST_URL[0] }}).
 </p>
@@ -83,7 +83,7 @@ While state diagrams are fun to look at, they are not as useful as {{ POST100_LI
 Given all this information, we can start coding. We see that automaton
 has 4states: $$q_0$$, $$q_1$$, $$q_2$$, $$q_3$$, $$q_4$$. All of them are known in advance. Thus, we can create
 <code class="d-code"> private enum States {...}</code>
-to represent them. Nice thing about JAVA enum, is that you can define methods and instance variables in them. For example,
+to represent them. Nice thing about Java enum, is that you can define methods and instance variables in them. For example,
 to differentiate accept and non accept states, we can introduce instance variable
 <code class="d-code">final boolean accept;</code>  for each state.
 </p>
@@ -94,7 +94,7 @@ to differentiate accept and non accept states, we can introduce instance variabl
 Nothing fancy going on in {{ SC_URL[0] }}. Line 1 declares enum. Notice, because it will be inside of
 another class, enum has <code class="d-code">private</code> access modifier. Line 3 creates all four states and represents $$Q$$ from definition. $$F$$ is
 represented as an instance variable inside enum. We could create set consisting of all accept states as per definition. But
-remember, JAVA is object oriented, thus better treat states as objects, rather as data structures, in this case <i>sets</i>.
+remember, Java is object oriented, thus better treat states as objects, rather as data structures, in this case <i>sets</i>.
 Lastly, on Line 9 we are passing <code class="d-code">boolean</code> value to the constructor. Line 13 indicates that this
 class is not finished.
 
@@ -188,7 +188,7 @@ Now, would be impossible to pass non exciting character to the transition method
 it would create new one: <i>what to do with other $$Unicode$$ characters which are not in the alphabet?</i> In the original
     {{ SC_URL[1] }} we threw an exception in the transition method. Now we could to the same, only outside DFA. Or change
     strings to <code class="d-code">List&lt;Alphabet&gt;</code>. The first approach would solve no problem, while latter
-    would be impractical, unless DFA would be confined in JAVA program and wouldn't interact with outside word.
+    would be impractical, unless DFA would be confined in Java program and wouldn't interact with outside word.
 </p>
 
 <h3>By changing DFA itself</h3>

@@ -1,10 +1,10 @@
 ---
 identity: POST103
 layout: post
-title:  ε-NFA in JAVA
+title:  ε-NFA in Java
 category: Tutorial
 comments: true
-description: Theory and implementation of ε-NFA in JAVA.
+description: Theory and implementation of ε-NFA in Java.
 quote: QUOTE103
 tags:
     - java
@@ -201,7 +201,7 @@ $$$
 <h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
 
 <p>
-    We have all the necessary information to implement ε-NFA in JAVA. So, as always we will define a specific automaton as
+    We have all the necessary information to implement ε-NFA in Java. So, as always we will define a specific automaton as
     5-tuple and then will write code for it. {{ IMG_URL[6] }} shows an ε-NFA which recognises  $$(ab ∪ a)^*$$ language,
     its formal definition is
 </p>
@@ -237,7 +237,7 @@ $$$
 
 <p>
     As you can see, <code class="d-code">Set&lt;States&gt; eclose() {...}</code> method belongs to
-    <code class="d-code">private enum States {...}</code>. Because JAVA is object oriented, it makes sense
+    <code class="d-code">private enum States {...}</code>. Because Java is object oriented, it makes sense
     to ask a state for its ε-closure. First of all, we create an empty set of states which corresponds to $$E(S)$$, then we add
     state itself to it, this action corresponds to the base case of {{ DEF_URL[11] }}. Later we loop trough each
     state which can be reached along ε-transitions and add them all recursively, just like in recursive case of {{ DEF_URL[11] }}.

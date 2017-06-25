@@ -7,7 +7,7 @@ comments: true
 description: Theory and algorithm for converting ε-NFA to DFA.
 quote: QUOTE108
 tags:
-    - java
+    - automata-theory
 headers:
     - id: H0
       name: Two forms of nondeterminism
@@ -17,6 +17,8 @@ headers:
       name: An example of converting ε-NFA to DFA
     - id: H3
       name: Constructing DFA from ε-NFA using transition table
+    - id: H4
+      name: Implementation
 ---
 
 {% include variables.html %}
@@ -37,6 +39,11 @@ headers:
 {%  capture POST103_LINK_DEF111 %}
 <a href="{{ sorted_posts[3].url }}#{{ sorted_definitions[11].identity }}">Definition {{ sorted_definitions[11].identity | remove: "DEF" | split: "" | join: "." }}</a>
 {% endcapture %}
+
+{%  capture POST110_LINK %}
+<a href="{{ sorted_posts[10].url }}">{{ sorted_posts[10].title }}</a>
+{% endcapture %}
+
 
 <p>
     From last post {{ POST_URL[3] }} we saw some nice properties of the ε-NFA.
@@ -206,7 +213,7 @@ $$$
 </li>
 </ul>
 
-<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[3].name }}</h2>
+<h2><a name="{{ page.headers[3].id }}"></a>{{ page.headers[3].name }}</h2>
 
 
 <p>
@@ -283,5 +290,9 @@ $$$
     in the alphabet.
 </div>
 
+<h2><a name="{{ page.headers[4].id }}"></a>{{ page.headers[4].name }}</h2>
 
+<p>
+    For implementation of both algorithms in Java see {{ POST110_LINK }}.
+</p>
 

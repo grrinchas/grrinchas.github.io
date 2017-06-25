@@ -1,0 +1,153 @@
+---
+identity: POST109
+layout: post
+title:  Haskell notes
+category: Tutorial
+comments: true
+description: Some notes on Haskell functions.
+quote: QUOTE115
+tags:
+    - Haskell
+headers:
+    - id: H0
+      name: Function composition
+---
+
+{% include variables.html %}
+
+<h2><a name="{{ page.headers[0].id }}"></a>{{ page.headers[0].name }}</h2>
+
+{% highlight haskell linenos %}
+(.) :: (b -> c) -> (a -> b) -> a -> c -- type declaration
+f . g = \x -> f (g x)                 -- definition
+{% endhighlight %}
+
+<p>
+    From the snippet above we can see that three type parameters are involved in the type declaration
+    of the operator <code class="d-code">.</code> That is <code class="d-code">a</code>,
+    <code class="d-code">b</code> and <code class="d-code">c</code>. We also see that
+    <code class="d-code">.</code> takes three parameters: a function <code class="d-code">b -> c</code> let's call it
+    <code class="d-code">f</code>, function <code class="d-code">a -> b</code> let's call it
+    <code class="d-code">g</code> and last parameter <code class="d-code">a</code>. The best way too understand how
+    <code class="d-code">.</code> works is to understand relationship between type parameters and parameters
+    of <code class="d-code">.</code>
+</p>
+
+<ul>
+    <li><code class="d-code">.</code> return type <code class="d-code">c</code> is the same as
+        <code class="d-code">f</code>. There are no other ways to get type of <code class="d-code">c</code>, thus
+        the last thing what definition of operator <code class="d-code">.</code> has to do is to apply function
+        <code class="d-code">f</code>.
+    </li>
+    <li>
+        <code class="d-code">g</code> return type <code class="d-code">b</code> is te same as
+        <code class="d-code">f</code> first parameter. Thus we can apply <code class="d-code">f</code>
+        to the result of <code class="d-code">g</code>.
+    </li>
+    <li>
+        <code class="d-code">.</code> last parameter's <code class="d-code">a</code> type is the same as function's
+        <code class="d-code">g</code>. Thus, we can apply <code class="d-code">g</code> to the value of type
+        <code class="d-code">a</code>.
+    </li>
+</ul>
+
+<p>
+    Based on relationships above we can say that operator <code class="d-code">.</code> takes three parameters and
+    first parameter will be applied to the result of applying second parameter to the third one. Therefore we can
+    write definition of <code class="d-code">.</code> as <code class="d-code">(.) f g a = f (g a)</code>. If
+    we partially apply, we will get a function which takes one parameter
+    <code class="d-code">(.) f g = \a -> f (g a)</code> or in infix notation
+    <code class="d-code"> f . g = \a -> f (g a)</code> which is original definition of <code class="d-code">.</code>
+</p>
+
+<p>
+    Definition of <code class="d-code">f . g</code> is <code class="d-code">\a -> f (g a)</code>. Therefor every time
+    haskell's evaluator sees <code class="d-code">f . g</code> it will change it to
+    <code class="d-code">\a -> f (g a)</code>. Knowing that, we can use function composition instead of lambda functions
+    with one parameter. For example,
+</p>
+
+{% highlight haskell linenos %}
+ghci> :t \x -> succ (succ x)
+\x -> succ (succ x) :: Enum a => a -> a
+ghci> :t succ . succ
+succ . succ :: Enum a => a -> a
+{% endhighlight %}
+
+<p>
+    As you can see the types of <code class="d-code">\x -> succ (succ x)</code> and <code class="d-code">succ . succ</code>
+    are identical. Both take and return value of type <code class="d-code">a</code>. If we fully apply both
+    functions, then we should get same result,
+</p>
+
+{% highlight haskell linenos %}
+ghci> (\x -> succ (succ x)) 5
+7
+ghci> (succ . succ) 5
+7
+{% endhighlight %}
+
+<p>
+    <code class="d-code">.</code> is right-associative, so we can compose many functions at a time. And the expression
+    such as <code class="d-code">f (g (z (w x )))</code> is equivalent to <code class="d-code">(f . g . z. w ) x</code>.
+    For example,
+</p>
+
+{% highlight haskell linenos %}
+ghci> (map (*9) . replicate 4 . succ) 2
+[27,27,27, 27]
+{% endhighlight %}
+
+<p>
+    So, we apply composed function <code class="d-code">map (*3) . replicate 4 . succ</code> to the value
+    of <code class="d-code">2</code>. First function <code class="d-code">succ</code> increases
+    <code class="d-code">2</code> by one and it becomes <code class="d-code">3</code>, then function
+    <code class="d-code">replicate 4</code> is applied to the <code class="d-code">3</code> which replicates
+    <code class="d-code">3</code> four times. Lastly, we multiply each member in the list
+    <code class="d-code">[3,3,3,3]</code> by 9, resulting  <code class="d-code">[27,27,27,27]</code>.
+</p>
+<p>
+    Notice, that in the last example functions <code class="d-code">map</code> and <code class="d-code">replicate</code>
+    were partially applied before composing. For example, originally function <code class="d-code">replicate</code>
+    takes two parameters: first one tells how many times to
+    replicate and the second - what to replicate. By partially applying <code class="d-code">replicate</code> to
+    the value of <code class="d-code">4</code> we create a function which takes any value (in our case
+    <code class="d-code">3</code>) and replicates it 4 times.
+</p>
+<p>
+    It doesn't mean that all the functions with multiple parameters has to be partially applied before composing them.
+</p>
+
+{% highlight haskell linenos %}
+ghci> :t filter . (&&)
+filter . (&&) :: Bool -> [Bool] -> [Bool]
+{% endhighlight %}
+
+<p>
+    Both functions <code class="d-code">filter</code> which has type of <code class="d-code">(a -> Bool) -> [a] -> [a]</code>
+    and <code class="d-code">&&</code> with type of <code class="d-code">Bool -> Bool -> Bool</code> take two parameters.
+    By composing them, we get a function with two parameters  <code class="d-code">Bool</code> and
+    <code class="d-code">[Bool]</code>. Let's see it in the action,
+</p>
+
+{% highlight haskell linenos %}
+ghci> (filter . (&&)) True [True, False, True, True, False]
+[True,True,True]
+ghci> (filter . (&&)) False [True, False, True, True, False]
+[]
+{% endhighlight %}
+
+<p>
+    It seems that the function <code class="d-code">&&</code> is partially applied to <code class="d-code">True</code>
+    in the first case and <code class="d-code">False</code> in the second case, which gives us functions
+    <code class="d-code">(&&) True </code> and <code class="d-code">(&&) False</code> respectively. Both of them has type of
+    <code class="d-code">Bool -> Bool </code> which is the same as first type of <code class="d-code">filter</code>
+    parameter. We can rewrite previous example without composition:
+</p>
+
+{% highlight haskell linenos %}
+ghci> filter (True &&) [True, False, True, True, False]
+[True,True,True]
+ghci> (\x -> filter (x &&)) False [True, False, True, True, False]
+[]
+{% endhighlight %}

@@ -142,7 +142,6 @@
 {% assign TB = tb_tb_string | replace_first: "::", "" | split: "::" %}
 
 
-
 {% capture newLine %}
 {% endcapture %}
 {% for code in sorted_source_code %}
@@ -152,7 +151,7 @@
     Source code {{ code.identity | remove: "SC"  | split: "" | join: "." }}
     </div>
     {% if code.language == "java" %}
-       {% highlight java linenos %}
+      {% highlight java linenos %}
          {{ code.content | prepend: newLine }}
       {% endhighlight %}
     {% endif %}
@@ -160,3 +159,5 @@
 {% assign sc_sc_string = sc_sc_string | append: ":-:" | append: sc_sc %}
 {% endfor %}
 {% assign SC = sc_sc_string | remove_first: ":-:" | remove_last: newLine | split: ":-:" %}
+
+
