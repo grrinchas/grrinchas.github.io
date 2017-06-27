@@ -1,4 +1,8 @@
 
+#wrapper {
+  min-width: $media-query-max;
+}
+
 .table table {
   width: 300px;
 }
