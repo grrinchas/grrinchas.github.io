@@ -10,7 +10,7 @@ layout: default
     </header>
     {{ page.content }}
     <footer>
-        {% if page.comments %}
+        {% if page.comments and jekyll.environment == 'production' %}
         {% include disqus.html %}
         {% endif %}
     </footer>

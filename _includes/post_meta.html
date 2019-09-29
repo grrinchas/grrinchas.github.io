@@ -4,7 +4,7 @@
             {{ page.date | date: "%d %B, %Y" }}
         </time>
         <span class="tag-sep"> | </span>
-        {% if page.comments %}
+        {% if page.comments and jekyll.environment == 'production' %}
         <a class="comment_count" href="{{ site.baseurl }}{{ page.url }}#disqus_thread"
            data-disqus-identifier="{{ page.id }}"></a>
         <span class="tag-sep"> | </span>

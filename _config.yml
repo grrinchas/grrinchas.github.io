@@ -30,9 +30,6 @@ baseurl:
 # Change this to your google analytics ID
 google_analytics: UA-78379987-1
 
-# Contact form pupublic key
-contact_PK: ef1dcbc3b8a3c2deda24a2efe9a5f65f
-
 ##########################################
 #          Optional variables
 ##########################################

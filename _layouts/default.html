@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include head.html %}
-<body style="background: url('{{ site.baseurl }}/resources/images/main_front.jpg') no-repeat fixed;
-                            background-size: cover">
+<body style="background: url('{{ site.baseurl }}/resources/images/main_front.jpg') no-repeat fixed; background-size: cover">
 <div id="wrapper">
     {% include header.html %}
     <main id="start">
@@ -15,7 +14,7 @@
         {% include footer.html %}
     </footer>
 </div>
-{% if site.disqus %}
+{% if site.disqus and jekyll.environment == 'production' %}
 <script id="dsq-count-scr" src="//{{ site.disqus }}.disqus.com/count.js" async></script>
 {% endif %}
 </body>
