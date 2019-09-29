@@ -5,8 +5,6 @@
 figcaption,
 .paginator ul,
 #main-nav,
-#footer-quote p:before,
-#footer-quote,
 article {
   margin: 0 auto;
 }
@@ -92,10 +90,6 @@ article ol li:before {
   padding: $l-h-baseline;
 }
 
-//---------------------------BASELINE-DOUBLE
-#footer-quote {
-  padding: $l-h-baseline-double;
-}
 
 //---------------------------MISC
 .alert code {
@@ -216,7 +210,6 @@ h1, h4 {
 }
 
 //---------------------------BASELINE
-#footer-quote p:before,
 article > h2,
 article > h3,
 .post-meta,

@@ -6,13 +6,6 @@
 # Set this for Copyright in the footer
 owner: Dennis Grinch
 
-# Optional quote in the footer
-# To disable set enable to false
-quote:
-  enable: true
-  quote: A problem is nothing more than a wrong perspective.
-  author: Dennis Grinch
-
 # Set this to your main site title. If page doesn't have its own title,
 # then this title will be used.
 title: Dennis Grinch Blog - Programming tutorials for beginners
@@ -67,10 +60,9 @@ include:
 
 sass:
   sass_dir: _sass
-sass:
-    style: compressed
+  style: compressed
 
-gems:
+plugins:
   - jekyll-paginate
   - jekyll-sitemap # add /sitemap.xml file
 

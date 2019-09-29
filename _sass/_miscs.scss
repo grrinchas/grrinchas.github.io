@@ -61,8 +61,7 @@ abbr {
                                 CONTENT
 /*************************************************************************/
 .fancy-nav:before,
-.fancy-nav:after,
-#footer-quote p:before {
+.fancy-nav:after {
   content: "";
 }
 
@@ -102,10 +101,4 @@ body {
   background-size: cover;
 }
 
-#footer-quote p:before {
-  background: url("/resources/images/quotes.svg") no-repeat;
-}
 
-#footer-quote p:before {
-  background-size: $l-h-baseline-half * 5;
-}

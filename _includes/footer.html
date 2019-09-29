@@ -1,32 +1,3 @@
-{% if site.quote["enable"] %}
-<blockquote id="footer-quote">
-    <p>
-        {% if page.quote %}
-            {% for q in site.data.quotes %}
-                {% if page.quote == q.id %}
-                    {{ q.text }}
-                {% endif %}
-            {% endfor %}
-        {% else %}
-        {{ site.quote["quote"] }}
-        {% endif %}
-    </p>
-    <footer>
-        <cite>
-        {% if page.quote %}
-            {% for q in site.data.quotes %}
-                {% if page.quote == q.id %}
-                   - {{ q.author }}
-                {% endif %}
-            {% endfor %}
-
-        {% else %}
-        - {{ site.quote["author"] }}
-        {% endif %}
-    </cite>
-    </footer>
-</blockquote>
-{% endif %}
 <div id="footer-main">
     <small>
         &copy; 2016 {{ site.owner }}. ALL RIGHTS RESERVED.
