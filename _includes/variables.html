@@ -1,0 +1,163 @@
+
+{% assign sorted_posts = site.posts | sort: "identity" %}
+{% assign sorted_images = site.data.images | sort: "id" %}
+{% assign sorted_links = site.data.links | sort: "id" %}
+{% assign sorted_definitions = site.definitions | sort: "identity" %}
+{% assign sorted_theorems = site.theorems | sort: "identity" %}
+{% assign sorted_tables = site.tables | sort: "identity" %}
+{% assign sorted_source_code = site.source-code | sort: "identity" %}
+
+
+
+{% for post in sorted_posts %}
+    {% capture post_url %}
+        <a href="{{ post.url }}">{{ post.title }}</a>
+    {% endcapture %}
+    {% assign post_url_string = post_url_string | append: "::" | append: post_url %}
+{% endfor %}
+{% assign POST_URL = post_url_string | replace_first: "::", "" | split: "::" %}
+
+
+{% for img in sorted_images %}
+    {% capture img_url %}
+        <a href="#{{ img.id }}">Image {{ img.id | remove: "IMG" | split: "" | join: "." }}</a>
+    {% endcapture %}
+    {% assign image_url_string = image_url_string | append: "::" | append: img_url %}
+{% endfor %}
+{% assign IMG_URL = image_url_string | replace_first: "::", "" | split: "::" %}
+
+
+
+{% for sc in sorted_source_code %}
+    {% capture sc_url %}
+        <a href="#{{ sc.identity }}">Source code {{ sc.identity | remove: "SC" | split: "" | join: "." }}</a>
+    {% endcapture %}
+    {% assign sc_url_string = sc_url_string | append: "::" | append: sc_url %}
+{% endfor %}
+{% assign SC_URL = sc_url_string | replace_first: "::", "" | split: "::" %}
+
+
+
+{% for link in sorted_links %}
+    {% capture url %}
+         {% if link.nofollow %}
+            <a ref="nofollow" href="{{ link.href }}">{{ link.name }}</a>
+         {% else %}
+            <a href="{{ link.href }}">{{ link.name }}</a>
+         {% endif %}
+    {% endcapture %}
+    {% assign url_string = url_string | append: "::" | append: url %}
+    {% endfor %}
+{% assign URL = url_string | replace_first: "::", "" | split: "::" %}
+
+
+
+{% for tb in sorted_tables %}
+    {% capture tb_url %}
+         <a href="#{{ tb.identity }}">Table {{ tb.identity | remove: "TB"  | split: "" | join: "." }}</a>
+    {% endcapture %}
+    {% assign tb_url_string = tb_url_string | append: "::" | append: tb_url %}
+{% endfor %}
+{% assign TB_URL = tb_url_string | replace_first: "::", "" | split: "::" %}
+
+
+{% for def in sorted_definitions %}
+    {% capture def_url %}
+        <a href="#{{ def.identity }}">Definition {{ def.identity | remove: "DEF" | split: "" | join: "." }}</a>
+    {% endcapture %}
+    {% assign def_url_string = def_url_string | append: "::" | append: def_url %}
+{% endfor %}
+{% assign DEF_URL = def_url_string | replace_first: "::", "" | split: "::" %}
+
+
+
+{% for the in sorted_theorems %}
+    {% capture the_url %}
+        <a href="#{{ the.identity }}">Theorem {{ the.identity | remove: "THE" | split: "" | join: "." }}</a>
+    {% endcapture %}
+    {% assign the_url_string = the_url_string | append: "::" | append: the_url %}
+{% endfor %}
+{% assign THE_URL = the_url_string | replace_first: "::", "" | split: "::" %}
+
+
+
+{% for def in sorted_definitions %}
+    {% capture def_def %}
+        <a name="{{ def.identity }}"></a>
+        <div class="env-header">
+            Definition {{ def.identity | remove: "DEF"  | split: "" | join: "." }}
+        </div>
+        <div class="definition alert">
+            {{ def.content }}
+        </div>
+    {% endcapture %}
+    {% assign def_def_string = def_def_string | append: "::" | append: def_def %}
+{% endfor %}
+{% assign DEF = def_def_string | replace_first: "::", "" | split: "::" %}
+
+
+{% for the in sorted_theorems %}
+    {% capture the_the %}
+        <a name="{{ the.identity }}"></a>
+        <div class="env-header theorem-header">
+            Theorem {{ the.identity | remove: "THE"  | split: "" | join: "." }}
+        </div>
+        <div class="theorem alert">
+            {{ the.content }}
+        </div>
+    {% endcapture %}
+    {% assign the_the_string = the_the_string | append: "::" | append: the_the %}
+{% endfor %}
+{% assign THE = the_the_string | replace_first: "::", "" | split: "::" %}
+
+
+{% for img in sorted_images %}
+{% capture img_img %}
+<figure>
+    <a name="{{ img.id }}"></a>
+    <img src="{{ img.src }}" alt="{{ img.alt }}"/>
+    <figcaption>
+        <strong>Image {{ img.id | remove: "IMG" | split: "" | join: "." }}:</strong> {{ img.caption }}
+    </figcaption>
+</figure>
+{% endcapture %}
+{% assign img_img_string = img_img_string | append: "::" | append: img_img %}
+{% endfor %}
+{% assign IMG = img_img_string | replace_first: "::", "" | split: "::" %}
+
+
+
+{% for tb in sorted_tables %}
+    {% capture tb_tb %}
+        <a name="{{ tb.identity }}"></a>
+        <figure class="table">
+            {{ tb.content }}
+            <figcaption>
+                <strong>Table {{ tb.identity | remove: "TB"  | split: "" | join: "." }}:</strong> {{ tb.title }}
+            </figcaption>
+        </figure>
+    {% endcapture %}
+    {% assign tb_tb_string = tb_tb_string | append: "::" | append: tb_tb %}
+{% endfor %}
+{% assign TB = tb_tb_string | replace_first: "::", "" | split: "::" %}
+
+
+{% capture newLine %}
+{% endcapture %}
+{% for code in sorted_source_code %}
+{% capture sc_sc %}
+    <a name="{{ code.identity }}"></a>
+    <div class="env-header">
+    Source code {{ code.identity | remove: "SC"  | split: "" | join: "." }}
+    </div>
+    {% if code.language == "java" %}
+      {% highlight java linenos %}
+         {{ code.content | prepend: newLine }}
+      {% endhighlight %}
+    {% endif %}
+{% endcapture %}
+{% assign sc_sc_string = sc_sc_string | append: ":-:" | append: sc_sc %}
+{% endfor %}
+{% assign SC = sc_sc_string | remove_first: ":-:" | remove_last: newLine | split: ":-:" %}
+
+

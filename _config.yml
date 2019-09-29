@@ -1,46 +1,82 @@
-# Site settings
-title: Programming tutorials for beginners
-description:    "Minimal Jekyll theme for storytellers"
-url:            "https://grrinchas.github.io"
+
+##########################################
+#     Change these variables !important
+##########################################
+
+# Set this for Copyright in the footer
+owner: Dennis Grinch
+
+# Optional quote in the footer
+# To disable set enable to false
+quote:
+  enable: true
+  quote: A problem is nothing more than a wrong perspective.
+  author: Dennis Grinch
+
+# Set this to your main site title. If page doesn't have its own title,
+# then this title will be used.
+title: Dennis Grinch Blog - Programming tutorials for beginners
+
+
+# Following needed for disqus integration
+# Set your 'disqus' account name
+disqus: grrinchas
+
+# Uncomment if deployed locally
+# url: https://localhost:4000
+
+# Set your host if deployed not locally
+# For example "https://yourGitHub.github.io"
+url: https://grrinchas.github.io
+
+# Change this to your base URL starting with forward slash if site is in gh-pages branch
+# For example /branchName
+# NOTE! only change if site is NOT in master's branch
 baseurl:
 
-disqus: grrinchas
+# Change this to your google analytics ID
 google_analytics: UA-78379987-1
+
+# Contact form pupublic key
 contact_PK: ef1dcbc3b8a3c2deda24a2efe9a5f65f
-math: true
 
-# Author
-author:
-  name:         Dennis Grinch
-  url:          https://chester.how
-  email:        dg4675dg@gmail.com
+##########################################
+#          Optional variables
+##########################################
 
-# Build settings
-markdown: kramdown
-include:
-  - _pages
+# Set maximum posts per page
+paginate: 5
 
-# Assets
-sass:
-  sass_dir:     _sass
-  style:        compressed
-
-# Gems
-plugins:
-  - jekyll-feed
-  - jekyll-paginate
-  - jekyll-seo-tag
-  # - jemoji #Uncomment this to allow emoji in your post
-
-# Permalinks
+# Set permalink
 permalink: /:categories/:title
-paginate: 10
 
-# Excludes
-exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]
+math: true
 
 collections:
   - definitions
   - theorems
   - tables
   - source-code
+
+##########################################
+#          Do not change these variables
+##########################################
+
+include:
+  - _pages
+
+sass:
+  sass_dir: _sass
+sass:
+    style: compressed
+
+gems:
+  - jekyll-paginate
+  - jekyll-sitemap # add /sitemap.xml file
+
+paginate_path: /_pages/page:num
+
+highlighter: rouge
+markdown: kramdown
+kramdown:
+  input: GFM

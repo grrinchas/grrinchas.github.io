@@ -21,6 +21,7 @@ headers:
       name: Implementation
 ---
 
+{% include variables.html %}
 
 {%  capture POST102_LINK_IMG103 %}
 <a href="{{ sorted_posts[2].url }}#{{ sorted_images[3].id }}">Image {{ sorted_images[3].id | remove: "IMG" | split: "" |

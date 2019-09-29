@@ -1,0 +1,21 @@
+---
+identity: SC100
+post: POST101
+language: java
+lines: 13
+---
+
+private enum States {
+
+  Q0(false), Q1(false), Q2(true), Q3(true), Q4(false);
+
+  final boolean accept;
+
+  // Constructor for sate.
+  // Every state is either accepting or not.
+  States(boolean accept) {
+    this.accept = accept;
+  }
+
+//...
+}

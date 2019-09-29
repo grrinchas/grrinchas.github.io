@@ -1,0 +1,14 @@
+---
+identity: PG107
+layout: page
+title: Links
+description: All external links found on this website.
+---
+
+{% assign sorted_links = site.data.links | sort: "name" %}
+
+<ul>
+    {% for link in sorted_links %}
+    <li><a href="{{ link.href }}">{{ link.name }}</a></li>
+    {% endfor %}
+</ul>

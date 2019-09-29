@@ -1,0 +1,19 @@
+---
+identity: PG104
+layout: page
+title: Quotes
+description: All quotes used in this website
+---
+
+{% for quote in site.data.quotes %}
+    <blockquote class="blockquote">
+        <p>
+        {{ quote.text }}
+        </p>
+        <footer>
+            <cite>- {{ quote.author }}</cite>
+        </footer>
+    </blockquote>
+{% endfor %}
+
+

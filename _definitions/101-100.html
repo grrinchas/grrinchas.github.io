@@ -1,0 +1,25 @@
+---
+identity: DEF101
+post: POST100
+title: State Diagram
+synonyms:
+    - Transition Diagram
+---
+
+<p>
+    A <strong>state diagram</strong> for DFA $$M = (Q, Σ, δ, q_0, F)$$ is graph defined as follows:
+</p>
+
+<ul>
+    <li>For each state $$q$$ in $$Q$$ there is a node.</li>
+    <li>For each state $$q$$ in $$Q$$ and each input symbol $$a$$ in $$Σ$$, let $$δ(q,a) = p$$.
+        Then the state diagram has an arc (arrow) from node $$q$$ to node $$p$$, labeled $$a$$.
+        If there are several input symbols that cause transitions from $$q$$ to $$p$$, then the state diagram can have
+        one arc,
+        labeled by the list of these symbols.
+    </li>
+    <li>There is an arrow into the start state $$q_0$$ which does not originate at any node.</li>
+    <li>Nodes corresponding to accepting states (those in $$F$$) are marked by double circle. States not in $$F$$ have a
+        single circle.
+    </li>
+</ul>

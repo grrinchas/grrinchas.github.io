@@ -1,0 +1,25 @@
+---
+identity: DEF110
+post: POST103
+title: Extended Transition Function for ε-NFA
+synonyms:
+---
+
+<p class="bottomless">
+    Let $$M = (Q, Σ, δ, q_0, F)$$ be a nondeterministic finite automaton (ε-NFA). We define the <strong>extended transition
+        function</strong>
+</p>
+
+$$$δ^* : Q × Σ^* → P(Q)$$$
+
+<p>
+    as follows:
+</p>
+
+<ol class="bottomless">
+    <li> For every $$q ∈ Q$$, $$δ^∗(q, ε) = E(\{q\})$$</li>
+    <li>For every $$q ∈ Q$$, every $$y ∈ Σ^*$$, and every $$a ∈ Σ$$,</li>
+</ol>
+<p>
+    $$$δ^∗(q, ya ) = E(\bigcup \{δ(p,a) \mid p ∈ δ^∗(q, y)\})$$$
+</p>

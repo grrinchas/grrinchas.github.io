@@ -1,0 +1,25 @@
+---
+identity: DEF102
+post: POST100
+title: Extended Transition Function for DFA
+synonyms:
+---
+
+<p class="bottomless">
+    Let $$M = (Q, Σ, δ, q_0, F)$$ be a deterministic finite automaton (DFA). We define the <strong>extended transition
+        function</strong>
+</p>
+
+$$$δ^* : Q × Σ^* → Q$$$
+
+<p>
+    as follows:
+</p>
+
+<ol class="bottomless">
+    <li> For every $$q ∈ Q$$, $$δ^∗(q, ε) = q$$</li>
+    <li>For every $$q ∈ Q$$, every $$y ∈ Σ^*$$, and every $$a ∈ Σ$$,</li>
+</ol>
+<p>
+    $$$δ^∗(q, ya ) = δ(δ^∗(q, y), a )$$$
+</p>
