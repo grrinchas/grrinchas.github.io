@@ -36,6 +36,23 @@ img,
   display: block;
 }
 
+//---------------------------FLEX
+
+main,
+#wrapper {
+  display: flex;
+}
+
+#wrapper {
+  flex-direction: column;
+}
+
+//---------------------------GROW
+main {
+  flex-grow: 1;
+  justify-content: center;
+}
+
 //---------------------------NONE
 
 .sep {
@@ -46,6 +63,13 @@ img,
 /*************************************************************************
                                 HEIGHT
 /*************************************************************************/
+
+//---------------------------100%
+html,
+body,
+#wrapper{
+  height: 100%;
+}
 
 .fancy-nav:before,
 .fancy-nav:after {
